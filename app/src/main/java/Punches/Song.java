@@ -11,10 +11,10 @@ import java.io.Serializable;
  */
 public class Song implements Serializable
 {
-  private List<Part> parts;             // 
-  private String title;                 //
-  private TimeSignature signature;      //
-  private int bpm;                      //
+  private List<Part> parts;             // the parts that the song is comprised of
+  private String title;                 // the song's title
+  private TimeSignature signature;      // the song's time signature
+  private int bpm;                      // the song's tempo
 
   /**
    * Contructs a default Song

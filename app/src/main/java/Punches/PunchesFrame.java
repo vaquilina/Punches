@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JSeparator;
@@ -23,7 +24,7 @@ import net.miginfocom.swing.MigLayout;
 
 /**
  * @author Vince Aquilina
- * @version Sun 30 Jan 2022 12:09:59 AM 
+ * @version Sun 30 Jan 2022 10:02:48 PM
  *
  * The main JFrame containing the app.
  */
@@ -69,7 +70,7 @@ public class PunchesFrame extends JFrame
     toolbarIcons.put("Add Part", new ImageIcon(PunchesFrame.class.getResource("/icons/add.png")));
     toolbarIcons.put("About", new ImageIcon(PunchesFrame.class.getResource("/icons/help.png")));
 
-    MigLayout toolbarLayout = new MigLayout();
+    MigLayout toolbarLayout = new MigLayout("insets 0");
     JPanel toolbar = new JPanel(toolbarLayout);
     toolbar.setSize(this.getWidth(), 18);
 
@@ -154,9 +155,25 @@ public class PunchesFrame extends JFrame
     toolbar.add(lblBpm);
     toolbar.add(txtBpm, "w 30!, h 24!");
     toolbar.add(new JSeparator(JSeparator.VERTICAL), "h 24!");
-    toolbar.add(toolbarButtons.get("About"), "w 24!, h 24!"); 
+    toolbar.add(toolbarButtons.get("About"), "w 24!, h 24!, wrap"); 
     // TODO: launch about dialog (my credits, icon credits, lib credits, adobe logo donate button)
 
-    this.add(toolbar);
+    /*
+     * Song panel
+     */
+    SongPanel panSong = new SongPanel(new Song());
+    panSong.setLayout(new MigLayout("Insets 10"));
+
+    DraggablePart testPart = new DraggablePart(new Part("test", 4, "test notes"));
+
+    panSong.add(testPart);
+
+    JScrollPane scroller = new JScrollPane(panSong, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+    panSong.setBackground(new Color(0xFFFFFF));
+
+    // add panels to JFrame
+    this.add(toolbar, "span");
+    this.add(scroller, "grow, w 100%, h 100%");
   }
 }
