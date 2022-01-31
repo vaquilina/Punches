@@ -8,16 +8,16 @@ import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-
 /**
  * @author Vince Aquilina
- * @version Sun 30 Jan 2022 10:01:25 PM
+ * @version Mon 31 Jan 2022 05:35:03 PM
  *
  * A component with drag and drop capabilities.
  *
  * Adapted from tutorial @ 
  *  https://www.codeproject.com/articles/116088/draggable-components-in-java-swing
  *
+ * TODO: implement grid, so drag is for reordering instead of free movement
  */
 public class DraggableComponent extends JComponent
 {
@@ -111,25 +111,25 @@ public class DraggableComponent extends JComponent
     }
   }
 
-  /**
-   * Get the value of draggingCursor
-   *
-   * @return the value of draggingCursor
-   */
-  public Cursor getDraggingCursor()
-  {
-    return draggingCursor;
-  }
+  ///**
+  // * Get the value of draggingCursor
+  // *
+  // * @return the value of draggingCursor
+  // */
+  //public Cursor getDraggingCursor()
+  //{
+  //  return draggingCursor;
+  //}
 
-  /**
-   * Set the value of draggingCursor
-   *
-   * @param draggingCursor - the new value of draggingCursor
-   */
-  public void setDraggingCursor(Cursor draggingCursor)
-  {
-    this.draggingCursor = draggingCursor;
-  }
+  ///**
+  // * Set the value of draggingCursor
+  // *
+  // * @param draggingCursor - the new value of draggingCursor
+  // */
+  //public void setDraggingCursor(Cursor draggingCursor)
+  //{
+  //  this.draggingCursor = draggingCursor;
+  //}
 
   /**
    * Get the value of overbearing
@@ -158,7 +158,7 @@ public class DraggableComponent extends JComponent
     super.paintComponent(g);
     if (isOpaque()) {
       g.setColor(getBackground());
-      g.fillRect(0, 0, getWidth(), getHeight());
+      g.fillRect(0, 0, getParent().getWidth(), 200);
     }
   }
 }

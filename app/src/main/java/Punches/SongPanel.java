@@ -1,10 +1,10 @@
 package Punches;
 
 import javax.swing.JPanel;
-
+import net.miginfocom.swing.MigLayout;
 /**
  * @author Vince Aquilina
- * @version Sun 30 Jan 2022 10:02:36 PM
+ * @version Mon 31 Jan 2022 05:56:52 PM
  *
  * A JPanel designed to contain the parts of a Song.
  */
@@ -20,7 +20,7 @@ public class SongPanel extends JPanel
   public SongPanel(Song song)
   {
     loadedSong = song;
-    setLayout(null);  // allows for a "free" layout
+    setLayout(new MigLayout("Insets 10"));
   }
 
   /**

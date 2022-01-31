@@ -1,28 +1,31 @@
 package Punches;
 
-import java.awt.image.ImageObserver;
 import java.awt.Image;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import javax.swing.ImageIcon;
+import javax.swing.JSplitPane;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.BorderFactory;
 import net.miginfocom.swing.MigLayout;
 
 /**
  * @author Vince Aquilina
- * @version Sun 30 Jan 2022 10:00:30 PM
+ * @version Mon 31 Jan 2022 05:55:22 PM
  *
  * A Part component that can be dragged to reorder in the SongPanel.
  *
  * Adapted from tutorial @ 
  *  https://www.codeproject.com/articles/116088/draggable-components-in-java-swing
  */
-public class DraggablePart extends DraggableComponent implements ImageObserver 
+public class DraggablePart extends DraggableComponent
 {
   protected Image sheetImage;                                 // sheet music snippet associated with the loaded Part
-  private Dimension size;                                     // size of part component
   private Part part;                                          // Part data for this component
   private PartNotePane notePane;                              // pane in which Part notes are contained
+  private JPanel musicPanel;                                  // panel in which sheet music/tab snippets are displayed
 
   /**
    * Constructs the component with the given Part data
@@ -32,11 +35,23 @@ public class DraggablePart extends DraggableComponent implements ImageObserver
   public DraggablePart(Part part)
   {
     this.part = part;
-    size = new Dimension(100, 100);
+    setLayout(new MigLayout("Insets 5"));
+    setBackground(new Color(0xDDDDDD));
+    setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+
+    musicPanel = new JPanel(new MigLayout("Insets 0"));
     notePane = new PartNotePane();
-    this.add(notePane);
-    setLayout(new MigLayout());
-    setBackground(new Color(0xEEEEEE));
+    ImageIcon fistIcon = new ImageIcon(DraggablePart.class.getResource("/icons/punch.png"));
+    JButton btnPunches = new JButton(fistIcon);
+    btnPunches.setBorderPainted(false);
+    btnPunches.setFocusPainted(false);
+    btnPunches.setContentAreaFilled(false);
+    // TODO: visually indicate button press
+    // TODO: prevent cursor from changing to move cursor when hovering over button
+
+    JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, musicPanel, notePane);
+    this.add(split, "pad 0 15 0 0, growx, h 100%, w 100%");
+    this.add(btnPunches, "h 100%");
   }
 
   /**
@@ -52,27 +67,6 @@ public class DraggablePart extends DraggableComponent implements ImageObserver
 
     g2d.setColor(getBackground());
     g2d.fillRect(0, 0, getWidth(), getHeight());
-  }
-
-  /**
-   * Checks if the image is fully loaded
-   *
-   * @param img - target image
-   * @param infoflags - is equal to ALLBITS when image is loaded
-   * @param x - x coordinate
-   * @param y - y coordinate
-   * @param w - width
-   * @param h - height
-   * @return TRUE if image can generate events, otherwise FALSE
-   */
-  @Override
-  public boolean imageUpdate(Image img, int infoflags, int x, int y, int w, int h)
-  {
-    if (infoflags == ALLBITS) {
-      repaint();
-      return false;
-    }
-    return true;
   }
 
   /**

@@ -24,7 +24,7 @@ import net.miginfocom.swing.MigLayout;
 
 /**
  * @author Vince Aquilina
- * @version Sun 30 Jan 2022 10:02:48 PM
+ * @version Mon 31 Jan 2022 05:55:31 PM
  *
  * The main JFrame containing the app.
  */
@@ -70,8 +70,7 @@ public class PunchesFrame extends JFrame
     toolbarIcons.put("Add Part", new ImageIcon(PunchesFrame.class.getResource("/icons/add.png")));
     toolbarIcons.put("About", new ImageIcon(PunchesFrame.class.getResource("/icons/help.png")));
 
-    MigLayout toolbarLayout = new MigLayout("insets 0");
-    JPanel toolbar = new JPanel(toolbarLayout);
+    JPanel toolbar = new JPanel(new MigLayout("Insets 0"));
     toolbar.setSize(this.getWidth(), 18);
 
     Map<String, JButton> toolbarButtons = new LinkedHashMap<>();
@@ -162,11 +161,21 @@ public class PunchesFrame extends JFrame
      * Song panel
      */
     SongPanel panSong = new SongPanel(new Song());
-    panSong.setLayout(new MigLayout("Insets 10"));
+    panSong.setLayout(new MigLayout("Insets 5, flowy"));
 
-    DraggablePart testPart = new DraggablePart(new Part("test", 4, "test notes"));
+    DraggablePart testPart1 = new DraggablePart(new Part());
+    DraggablePart testPart2 = new DraggablePart(new Part());
+    DraggablePart testPart3 = new DraggablePart(new Part());
 
-    panSong.add(testPart);
+    testPart1.setOverbearing(true);
+    testPart2.setOverbearing(true);
+    testPart3.setOverbearing(true);
+
+    String partConstraints = "w 99%, h 200!, grow"; 
+
+    panSong.add(testPart1, partConstraints);
+    panSong.add(testPart2, partConstraints);
+    panSong.add(testPart3, partConstraints);
 
     JScrollPane scroller = new JScrollPane(panSong, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
