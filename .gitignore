@@ -1,11 +1,16 @@
+!.gitignore
+
 # Ignore Gradle project-specific cache directory
 .gradle
 
 # Ignore Gradle build output directory
 build
 
-# Ignore dotfiles
-.*
+### Java ###
+*.class
 
-# but not this one
-!.gitignore
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Cache of project
+.gradletasknamecache
