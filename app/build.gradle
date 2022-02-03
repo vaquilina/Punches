@@ -29,6 +29,9 @@ dependencies {
 
     // GUI layout manager with extended funtionality
     implementation group: 'com.miglayout', name: 'miglayout-swing', version: '11.0'
+
+    // SoftSmithy swing lib
+    implementation 'org.softsmithy.lib:softsmithy-lib-swing-customizer:2.1.1'
 }
 
 application {
