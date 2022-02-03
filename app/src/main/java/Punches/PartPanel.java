@@ -13,14 +13,12 @@ import net.miginfocom.swing.MigLayout;
 
 /**
  * @author Vince Aquilina
- * @version Mon 31 Jan 2022 05:55:22 PM
+ * @version Thu 03 Feb 2022 12:04:17 AM
  *
  * A Part component that can be dragged to reorder in the SongPanel.
  *
- * Adapted from tutorial @ 
- *  https://www.codeproject.com/articles/116088/draggable-components-in-java-swing
  */
-public class DraggablePart extends DraggableComponent
+public class PartPanel extends JPanel
 {
   protected Image sheetImage;                                 // sheet music snippet associated with the loaded Part
   private Part part;                                          // Part data for this component
@@ -32,22 +30,23 @@ public class DraggablePart extends DraggableComponent
    *
    * @param part - the Part object assigned to the component
    */
-  public DraggablePart(Part part)
+  public PartPanel(Part part)
   {
     this.part = part;
     setLayout(new MigLayout("Insets 5"));
     setBackground(new Color(0xDDDDDD));
     setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+  // TODO make JSplitPane usable & buttons pressable
+  // TODO add delete part button
 
     musicPanel = new JPanel(new MigLayout("Insets 0"));
     notePane = new PartNotePane();
-    ImageIcon fistIcon = new ImageIcon(DraggablePart.class.getResource("/icons/punch.png"));
+    ImageIcon fistIcon = new ImageIcon(PartPanel.class.getResource("/icons/punch.png"));
     JButton btnPunches = new JButton(fistIcon);
     btnPunches.setBorderPainted(false);
     btnPunches.setFocusPainted(false);
     btnPunches.setContentAreaFilled(false);
     // TODO: visually indicate button press
-    // TODO: prevent cursor from changing to move cursor when hovering over button
 
     JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, musicPanel, notePane);
     this.add(split, "pad 0 15 0 0, growx, h 100%, w 100%");

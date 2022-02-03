@@ -222,8 +222,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
     this.setBounds(getX(), getY(), getWidth(), 800); // adjust initial window height
     addComponentListener(this); // listen for resize events
 
-    // TODO: Modify Part class and wrap one in place of the JLabel
-    JCustomizer simpleCustomizer = new JCustomizer(new JLabel("test part"));
-    panSong.addCustomizer(simpleCustomizer, new RelativeTableConstraints(0, 0, 1, 1, simpleCustomizer, itl));
+    JCustomizer testPart = new JCustomizer(new PartPanel(new Part()));
+    panSong.addCustomizer(testPart, new RelativeTableConstraints(0, 0, 1, 1, testPart, itl));
   }
 }
