@@ -3,6 +3,7 @@ package Punches;
 import java.util.Map;
 import java.util.LinkedHashMap; // maintains order of keys
 import java.util.Vector;
+
 import javax.swing.UIManager;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,25 +15,62 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JSeparator;
 import javax.swing.ImageIcon;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.FocusListener;
 import java.awt.event.FocusEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.ComponentEvent;
 //import java.awt.datatransfer.Clipboard;
+
 import net.miginfocom.swing.MigLayout;
+import org.softsmithy.lib.swing.customizer.JCustomizer;
+import org.softsmithy.lib.swing.customizer.layout.InfiniteTableLayout;
+import org.softsmithy.lib.swing.customizer.layout.RelativeTableConstraints;
 
 /**
  * @author Vince Aquilina
- * @version Mon 31 Jan 2022 05:55:31 PM
+ * @version Wed 02 Feb 2022 11:02:56 PM
  *
  * The main JFrame containing the app.
  */
-public class PunchesFrame extends JFrame
+public class PunchesFrame extends JFrame implements ComponentListener
 {
   //TODO: implement clipboard
   //private Clipboard internalClipboard;      // for yank/put Part
   //private Clipboard externalClipboard;      // for yank/put text or image
+  SongPanel panSong;
+  InfiniteTableLayout itl;
+
+  @Override
+  public void componentHidden(ComponentEvent e) {};
+  @Override
+  public void componentShown(ComponentEvent e) {};
+  @Override
+  public void componentMoved(ComponentEvent e) {};
+
+  /**
+   * Dynamically resizes Part cells when frame is resized
+   *
+   * @param e the resize event
+   */
+  @Override
+  public void componentResized(ComponentEvent e) {
+    int cellWidth = (int) (getContentPane().getSize().getWidth() - ((Integer)(UIManager.get("ScrollBar.width"))).intValue());
+    cellWidth -= panSong.getInsets().left + panSong.getInsets().right;
+    cellWidth -= getInsets().left + getInsets().right;
+
+    itl = new InfiniteTableLayout(cellWidth - 1, 200, panSong);
+    panSong.setCustomizerLayout(itl);
+    panSong.validate();
+
+    JCustomizer[] cells = panSong.getCustomizers();
+    for (JCustomizer cell : cells) {
+      panSong.addCustomizer(cell, new RelativeTableConstraints(0, 0, 1, 1, cell, itl));
+    }
+  };
 
   /**
    * @param title - the window title
@@ -50,7 +88,7 @@ public class PunchesFrame extends JFrame
       System.out.println("error setting look and feel");
       ex.printStackTrace();
     }
-    this.setLayout(new MigLayout());
+    this.setLayout(new MigLayout("Insets 5"));
 
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -71,7 +109,6 @@ public class PunchesFrame extends JFrame
     toolbarIcons.put("About", new ImageIcon(PunchesFrame.class.getResource("/icons/help.png")));
 
     JPanel toolbar = new JPanel(new MigLayout("Insets 0"));
-    toolbar.setSize(this.getWidth(), 18);
 
     Map<String, JButton> toolbarButtons = new LinkedHashMap<>();
     for (Map.Entry<String, ImageIcon> entry : toolbarIcons.entrySet()) {
@@ -125,7 +162,7 @@ public class PunchesFrame extends JFrame
     JComboBox<ImageIcon> cmbValueOfABeat = new JComboBox<>(musicNoteIcons);
     cmbValueOfABeat.setSelectedIndex(2); // defaults to quarter note
     DefaultListCellRenderer listRenderer = new DefaultListCellRenderer();
-    listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER); // center-aligns items
+    listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER);
     cmbValueOfABeat.setRenderer(listRenderer);
     // TODO: assign to beatsPerBar property on selection
 
@@ -158,31 +195,35 @@ public class PunchesFrame extends JFrame
     // TODO: launch about dialog (my credits, icon credits, lib credits, adobe logo donate button)
 
     /*
-     * Song panel
+     * Song Panel
      */
-    SongPanel panSong = new SongPanel(new Song());
-    panSong.setLayout(new MigLayout("Insets 5, flowy"));
-
-    DraggablePart testPart1 = new DraggablePart(new Part());
-    DraggablePart testPart2 = new DraggablePart(new Part());
-    DraggablePart testPart3 = new DraggablePart(new Part());
-
-    testPart1.setOverbearing(true);
-    testPart2.setOverbearing(true);
-    testPart3.setOverbearing(true);
-
-    String partConstraints = "w 99%, h 200!, grow"; 
-
-    panSong.add(testPart1, partConstraints);
-    panSong.add(testPart2, partConstraints);
-    panSong.add(testPart3, partConstraints);
-
+    panSong = new SongPanel(new Song());
+    panSong.setBackground(new Color(0xFFFFFF));
     JScrollPane scroller = new JScrollPane(panSong, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-    panSong.setBackground(new Color(0xFFFFFF));
+    /*
+     * initialize layout
+     */
+    getContentPane().add(toolbar, "span");
+    getContentPane().add(scroller, "grow, w 100%, h 100%");
+    pack();    // necessary in order to get size of frame
 
-    // add panels to JFrame
-    this.add(toolbar, "span");
-    this.add(scroller, "grow, w 100%, h 100%");
+    /*
+     * Song Panel (cont'd)
+     */
+    int cellWidth = (int) (getContentPane().getSize().getWidth() - ((Integer)(UIManager.get("ScrollBar.width"))).intValue());
+    cellWidth -= panSong.getInsets().left + panSong.getInsets().right;
+    cellWidth -= getInsets().left + getInsets().right;
+
+    // TODO: Attribute softsmithy
+    itl = new InfiniteTableLayout(cellWidth - 1, 200, panSong);
+    panSong.setCustomizerLayout(itl);
+
+    this.setBounds(getX(), getY(), getWidth(), 800); // adjust initial window height
+    addComponentListener(this); // listen for resize events
+
+    // TODO: Modify Part class and wrap one in place of the JLabel
+    JCustomizer simpleCustomizer = new JCustomizer(new JLabel("test part"));
+    panSong.addCustomizer(simpleCustomizer, new RelativeTableConstraints(0, 0, 1, 1, simpleCustomizer, itl));
   }
 }

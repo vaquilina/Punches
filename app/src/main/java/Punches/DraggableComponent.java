@@ -70,6 +70,29 @@ public class DraggableComponent extends JComponent
           repaint();
         }
       }
+
+      @Override
+      public void mouseReleased(MouseEvent e)
+      {
+        //int anchorX = anchorPoint.x;
+        int anchorY = anchorPoint.y;
+
+        //Point parentOnScreen = getParent().getLocationOnScreen();
+        Point mouseOnScreen = e.getLocationOnScreen();
+        Point currentPosition = handle.getLocationOnScreen();
+
+        Point position;
+        if ((mouseOnScreen.y > anchorY + 200)) {
+          position = new Point(currentPosition.x, currentPosition.y + 400);
+        }
+        else if ((mouseOnScreen.y < anchorY - 200)) {
+          position = new Point(currentPosition.x, currentPosition.y - 400);
+        }
+        else {
+          position = new Point(0, 0);
+        }
+        setLocation(position);
+      }
     });
   }
 

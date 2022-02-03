@@ -1,14 +1,14 @@
 package Punches;
 
-import javax.swing.JPanel;
-import net.miginfocom.swing.MigLayout;
+//import net.miginfocom.swing.MigLayout;
+import org.softsmithy.lib.swing.customizer.JCustomizerPane;
 /**
  * @author Vince Aquilina
- * @version Mon 31 Jan 2022 05:56:52 PM
+ * @version Tue 01 Feb 2022 03:36:26 PM
  *
  * A JPanel designed to contain the parts of a Song.
  */
-public class SongPanel extends JPanel
+public class SongPanel extends JCustomizerPane
 {
   public Song loadedSong;       // the currently loaded song
 
@@ -20,7 +20,6 @@ public class SongPanel extends JPanel
   public SongPanel(Song song)
   {
     loadedSong = song;
-    setLayout(new MigLayout("Insets 10"));
   }
 
   /**

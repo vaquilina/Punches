@@ -1,11 +1,9 @@
 package Punches;
 
 import javax.swing.JFrame;
-import net.miginfocom.swing.MigLayout;
-
 /**
  * @author Vince Aquilina
- * @version Sun 30 Jan 2022 03:43:31 PM
+ * @version Tue 01 Feb 2022 05:25:45 PM
  *
  * Punches launch app.
  */
@@ -19,10 +17,10 @@ public class App
   {
     PunchesFrame app = new PunchesFrame("PUNCHES");
 
-    // start maximized; set initial size for windowed mode
-    app.setSize(2000, 1000);
-    app.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
+    //app.setSize(2000, 1000);
+    //app.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 
+    app.setLocationRelativeTo(null);
     app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     app.setVisible(true);
   }
