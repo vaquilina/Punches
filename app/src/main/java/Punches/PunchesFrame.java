@@ -23,6 +23,8 @@ import java.awt.event.FocusListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 //import java.awt.datatransfer.Clipboard;
 
 import net.miginfocom.swing.MigLayout;
@@ -32,7 +34,7 @@ import org.softsmithy.lib.swing.customizer.layout.RelativeTableConstraints;
 
 /**
  * @author Vince Aquilina
- * @version Wed 02 Feb 2022 11:02:56 PM
+ * @version Thu 03 Feb 2022 08:57:30 PM
  *
  * The main JFrame containing the app.
  */
@@ -41,8 +43,12 @@ public class PunchesFrame extends JFrame implements ComponentListener
   //TODO: implement clipboard
   //private Clipboard internalClipboard;      // for yank/put Part
   //private Clipboard externalClipboard;      // for yank/put text or image
-  SongPanel panSong;
-  InfiniteTableLayout itl;
+  private SongPanel panSong;
+  private InfiniteTableLayout itl;
+
+  // Colors
+  Color panelGray = new Color(0xDDDDDD);
+  Color apricot = new Color(0xFFCCB3);
 
   @Override
   public void componentHidden(ComponentEvent e) {};
@@ -62,7 +68,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
     cellWidth -= panSong.getInsets().left + panSong.getInsets().right;
     cellWidth -= getInsets().left + getInsets().right;
 
-    itl = new InfiniteTableLayout(cellWidth - 1, 200, panSong);
+    itl = new InfiniteTableLayout(cellWidth - 10, 200, panSong);
     panSong.setCustomizerLayout(itl);
     panSong.validate();
 
@@ -216,13 +222,42 @@ public class PunchesFrame extends JFrame implements ComponentListener
     cellWidth -= getInsets().left + getInsets().right;
 
     // TODO: Attribute softsmithy
-    itl = new InfiniteTableLayout(cellWidth - 1, 200, panSong);
+    itl = new InfiniteTableLayout(cellWidth - 10, 200, panSong);
     panSong.setCustomizerLayout(itl);
 
     this.setBounds(getX(), getY(), getWidth(), 800); // adjust initial window height
     addComponentListener(this); // listen for resize events
 
     JCustomizer testPart = new JCustomizer(new PartPanel(new Part()));
+    makeEditable(testPart);
+
     panSong.addCustomizer(testPart, new RelativeTableConstraints(0, 0, 1, 1, testPart, itl));
+  }
+
+  /**
+   * Adds for "double-click to edit" functionality to PartPanels
+   *
+   * @param customizer - the JCustomizer wrapper object for the PartPanel
+   */
+  public void makeEditable(JCustomizer customizer)
+  {
+    customizer.addActionListener(new ActionListener() {
+      boolean editing;
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        if (!editing) {
+          customizer.getComponent().setBackground(apricot);
+          customizer.setComponentZOrder(customizer.getComponent(1), 0);
+          customizer.getStateManager().setStateNormal();
+          editing = true;
+        }
+        else {
+          customizer.getComponent().setBackground(panelGray);
+          customizer.setComponentZOrder(customizer.getComponent(1), 0);
+          customizer.getStateManager().setStateMove();
+          editing = false;
+        }
+      }
+    });
   }
 }

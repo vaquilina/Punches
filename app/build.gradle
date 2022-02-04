@@ -32,6 +32,9 @@ dependencies {
 
     // SoftSmithy swing lib
     implementation 'org.softsmithy.lib:softsmithy-lib-swing-customizer:2.1.1'
+
+    // TXTMark markdown renderer
+    implementation 'com.github.rjeschke:txtmark:0.13'
 }
 
 application {

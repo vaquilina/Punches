@@ -13,7 +13,7 @@ import net.miginfocom.swing.MigLayout;
 
 /**
  * @author Vince Aquilina
- * @version Thu 03 Feb 2022 12:04:17 AM
+ * @version Thu 03 Feb 2022 08:57:16 PM
  *
  * A Part component that can be dragged to reorder in the SongPanel.
  *
@@ -36,13 +36,14 @@ public class PartPanel extends JPanel
     setLayout(new MigLayout("Insets 5"));
     setBackground(new Color(0xDDDDDD));
     setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-  // TODO make JSplitPane usable & buttons pressable
   // TODO add delete part button
 
     musicPanel = new JPanel(new MigLayout("Insets 0"));
     notePane = new PartNotePane();
     ImageIcon fistIcon = new ImageIcon(PartPanel.class.getResource("/icons/punch.png"));
+    ImageIcon fistPressedIcon = new ImageIcon(PartPanel.class.getResource("/icons/punch-pressed.png"));
     JButton btnPunches = new JButton(fistIcon);
+    btnPunches.setPressedIcon(fistPressedIcon);
     btnPunches.setBorderPainted(false);
     btnPunches.setFocusPainted(false);
     btnPunches.setContentAreaFilled(false);
