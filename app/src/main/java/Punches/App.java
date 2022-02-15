@@ -6,6 +6,9 @@ import javax.swing.JFrame;
  * @version Tue 01 Feb 2022 05:25:45 PM
  *
  * Punches launch app.
+ *
+ * TODO: swap out existing placeholder music note icons
+ *      with vectors (attribute rawpixel.com
  */
 
 /**

@@ -64,7 +64,8 @@ public class PunchesFrame extends JFrame implements ComponentListener
    */
   @Override
   public void componentResized(ComponentEvent e) {
-    int cellWidth = (int) (getContentPane().getSize().getWidth() - ((Integer)(UIManager.get("ScrollBar.width"))).intValue());
+    int cellWidth = (int) (getContentPane().getSize().getWidth() - 
+        ((Integer)(UIManager.get("ScrollBar.width"))).intValue());
     cellWidth -= panSong.getInsets().left + panSong.getInsets().right;
     cellWidth -= getInsets().left + getInsets().right;
 
@@ -74,7 +75,8 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
     JCustomizer[] cells = panSong.getCustomizers();
     for (JCustomizer cell : cells) {
-      panSong.addCustomizer(cell, new RelativeTableConstraints(0, 0, 1, 1, cell, itl));
+      panSong.addCustomizer(cell, 
+          new RelativeTableConstraints(0, 0, 1, 1, cell, itl));
     }
   };
 
@@ -102,17 +104,29 @@ public class PunchesFrame extends JFrame implements ComponentListener
      * TODO: link to source (http://www.famfamfam.com/) on about dialog
      */
     Map<String, ImageIcon> toolbarIcons = new LinkedHashMap<>();
-    toolbarIcons.put("New Song", new ImageIcon(PunchesFrame.class.getResource("/icons/page_add.png")));
-    toolbarIcons.put("Load Song", new ImageIcon(PunchesFrame.class.getResource("/icons/folder.png")));
-    toolbarIcons.put("Save Song", new ImageIcon(PunchesFrame.class.getResource("/icons/disk.png")));
-    toolbarIcons.put("Export to PDF directly", new ImageIcon(PunchesFrame.class.getResource("/icons/page_white_acrobat.png")));
-    toolbarIcons.put("Cut Selection", new ImageIcon(PunchesFrame.class.getResource("/icons/cut.png")));
-    toolbarIcons.put("Copy Selection", new ImageIcon(PunchesFrame.class.getResource("/icons/page_copy.png")));
-    toolbarIcons.put("Paste Selection", new ImageIcon(PunchesFrame.class.getResource("/icons/page_paste.png")));
-    toolbarIcons.put("Undo Last Action", new ImageIcon(PunchesFrame.class.getResource("/icons/arrow_undo.png")));
-    toolbarIcons.put("Redo Last Action", new ImageIcon(PunchesFrame.class.getResource("/icons/arrow_redo.png")));
-    toolbarIcons.put("Add Part", new ImageIcon(PunchesFrame.class.getResource("/icons/add.png")));
-    toolbarIcons.put("About", new ImageIcon(PunchesFrame.class.getResource("/icons/help.png")));
+    toolbarIcons.put("New Song" ,
+        new ImageIcon(PunchesFrame.class.getResource("/icons/page_add.png")));
+    toolbarIcons.put("Load Song" ,
+        new ImageIcon(PunchesFrame.class.getResource("/icons/folder.png")));
+    toolbarIcons.put("Save Song" ,
+        new ImageIcon(PunchesFrame.class.getResource("/icons/disk.png")));
+    toolbarIcons.put("Export to PDF directly" ,
+        new ImageIcon(PunchesFrame.class.getResource(
+                         "/icons/page_white_acrobat.png")));
+    toolbarIcons.put("Cut Selection",
+        new ImageIcon(PunchesFrame.class.getResource("/icons/cut.png")));
+    toolbarIcons.put("Copy Selection",
+        new ImageIcon(PunchesFrame.class.getResource("/icons/page_copy.png")));
+    toolbarIcons.put("Paste Selection",
+        new ImageIcon(PunchesFrame.class.getResource("/icons/page_paste.png")));
+    toolbarIcons.put("Undo Last Action",
+        new ImageIcon(PunchesFrame.class.getResource("/icons/arrow_undo.png")));
+    toolbarIcons.put("Redo Last Action",
+        new ImageIcon(PunchesFrame.class.getResource("/icons/arrow_redo.png")));
+    toolbarIcons.put("Add Part",
+        new ImageIcon(PunchesFrame.class.getResource("/icons/add.png")));
+    toolbarIcons.put("About",
+        new ImageIcon(PunchesFrame.class.getResource("/icons/help.png")));
 
     JPanel toolbar = new JPanel(new MigLayout("Insets 0"));
 
@@ -147,15 +161,27 @@ public class PunchesFrame extends JFrame implements ComponentListener
         }
       }
     });
-    // TODO: listen for enter key & focus lost, assign text to songTitle property
+    // TODO: listen for enter key/focus lost, assign text to songTitle property
 
     Map<String, ImageIcon> musicNotes = new LinkedHashMap<>();
-    musicNotes.put("whole", new ImageIcon(PunchesFrame.class.getResource("/icons/music-note-1_16px.png")));
-    musicNotes.put("half", new ImageIcon(PunchesFrame.class.getResource("/icons/music-note-2_16px.png")));
-    musicNotes.put("quarter", new ImageIcon(PunchesFrame.class.getResource("/icons/music-note-4_16px.png")));
-    musicNotes.put("eighth", new ImageIcon(PunchesFrame.class.getResource("/icons/music-note-8_16px.png")));
-    musicNotes.put("sixteenth", new ImageIcon(PunchesFrame.class.getResource("/icons/music-note-16_16px.png")));
-    musicNotes.put("thirty-second", new ImageIcon(PunchesFrame.class.getResource("/icons/music-note-32_16px.png")));
+    musicNotes.put("whole", 
+        new ImageIcon(PunchesFrame.class.getResource(
+            "/icons/music-note-1_16px.png")));
+    musicNotes.put("half",
+        new ImageIcon(PunchesFrame.class.getResource(
+            "/icons/music-note-2_16px.png")));
+    musicNotes.put("quarter",
+        new ImageIcon(PunchesFrame.class.getResource(
+            "/icons/music-note-4_16px.png")));
+    musicNotes.put("eighth",
+        new ImageIcon(PunchesFrame.class.getResource(
+            "/icons/music-note-8_16px.png")));
+    musicNotes.put("sixteenth",
+        new ImageIcon(PunchesFrame.class.getResource(
+            "/icons/music-note-16_16px.png")));
+    musicNotes.put("thirty-second",
+        new ImageIcon(PunchesFrame.class.getResource(
+            "/icons/music-note-32_16px.png")));
     Vector<ImageIcon> musicNoteIcons = new Vector<>(musicNotes.values());
 
     JLabel lblTimeSignature = new JLabel("time signature:");
@@ -198,14 +224,18 @@ public class PunchesFrame extends JFrame implements ComponentListener
     toolbar.add(txtBpm, "w 30!, h 24!");
     toolbar.add(new JSeparator(JSeparator.VERTICAL), "h 24!");
     toolbar.add(toolbarButtons.get("About"), "w 24!, h 24!, wrap"); 
-    // TODO: launch about dialog (my credits, icon credits, lib credits, adobe logo donate button)
+    /* TODO: launch about dialog (my credits, icon credits, lib credits,
+             adobe logo donate button) */
 
     /*
      * Song Panel
      */
     panSong = new SongPanel(new Song());
     panSong.setBackground(new Color(0xFFFFFF));
-    JScrollPane scroller = new JScrollPane(panSong, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    JScrollPane scroller = new JScrollPane(
+        panSong,
+        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+        JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
     /*
      * initialize layout
@@ -217,7 +247,8 @@ public class PunchesFrame extends JFrame implements ComponentListener
     /*
      * Song Panel (cont'd)
      */
-    int cellWidth = (int) (getContentPane().getSize().getWidth() - ((Integer)(UIManager.get("ScrollBar.width"))).intValue());
+    int cellWidth = (int) (getContentPane().getSize().getWidth() - 
+        ((Integer)(UIManager.get("ScrollBar.width"))).intValue());
     cellWidth -= panSong.getInsets().left + panSong.getInsets().right;
     cellWidth -= getInsets().left + getInsets().right;
 
@@ -225,13 +256,15 @@ public class PunchesFrame extends JFrame implements ComponentListener
     itl = new InfiniteTableLayout(cellWidth - 10, 200, panSong);
     panSong.setCustomizerLayout(itl);
 
-    this.setBounds(getX(), getY(), getWidth(), 800); // adjust initial window height
+    // adjust initial window height
+    this.setBounds(getX(), getY(), getWidth(), 800); 
     addComponentListener(this); // listen for resize events
 
     JCustomizer testPart = new JCustomizer(new PartPanel(new Part()));
     makeEditable(testPart);
 
-    panSong.addCustomizer(testPart, new RelativeTableConstraints(0, 0, 1, 1, testPart, itl));
+    panSong.addCustomizer(testPart, 
+        new RelativeTableConstraints(0, 0, 1, 1, testPart, itl));
   }
 
   /**

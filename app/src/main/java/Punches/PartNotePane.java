@@ -32,7 +32,8 @@ public class PartNotePane extends JTextPane
       @Override
       public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-          if (e.getModifiersEx() != KeyEvent.SHIFT_DOWN_MASK && getContentType() == "text/plain") {
+          if (e.getModifiersEx() != 
+              KeyEvent.SHIFT_DOWN_MASK && getContentType() == "text/plain") {
             renderMarkdown(getText());
           }
           else if (getContentType() != "text/html") {

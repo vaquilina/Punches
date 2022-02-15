@@ -20,10 +20,10 @@ import net.miginfocom.swing.MigLayout;
  */
 public class PartPanel extends JPanel
 {
-  protected Image sheetImage;                                 // sheet music snippet associated with the loaded Part
-  private Part part;                                          // Part data for this component
-  private PartNotePane notePane;                              // pane in which Part notes are contained
-  private JPanel musicPanel;                                  // panel in which sheet music/tab snippets are displayed
+  protected Image sheetImage;           // sheet music snippet
+  private Part part;                    // Part data for this component
+  private PartNotePane notePane;        // notes pane
+  private JPanel musicPanel;            // panel for sheet music/tab snippets
 
   /**
    * Constructs the component with the given Part data
@@ -40,8 +40,10 @@ public class PartPanel extends JPanel
 
     musicPanel = new JPanel(new MigLayout("Insets 0"));
     notePane = new PartNotePane();
-    ImageIcon fistIcon = new ImageIcon(PartPanel.class.getResource("/icons/punch.png"));
-    ImageIcon fistPressedIcon = new ImageIcon(PartPanel.class.getResource("/icons/punch-pressed.png"));
+    ImageIcon fistIcon = new ImageIcon(
+        PartPanel.class.getResource("/icons/punch.png"));
+    ImageIcon fistPressedIcon = new ImageIcon(
+        PartPanel.class.getResource("/icons/punch-pressed.png"));
     JButton btnPunches = new JButton(fistIcon);
     btnPunches.setPressedIcon(fistPressedIcon);
     btnPunches.setBorderPainted(false);
@@ -49,7 +51,8 @@ public class PartPanel extends JPanel
     btnPunches.setContentAreaFilled(false);
     // TODO: visually indicate button press
 
-    JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, musicPanel, notePane);
+    JSplitPane split = new JSplitPane(
+        JSplitPane.HORIZONTAL_SPLIT, musicPanel, notePane);
     this.add(split, "pad 0 15 0 0, growx, h 100%, w 100%");
     this.add(btnPunches, "h 100%");
   }
