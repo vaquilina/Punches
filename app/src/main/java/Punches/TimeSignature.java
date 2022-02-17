@@ -2,7 +2,7 @@ package Punches;
 
 /**
  * @author Vince Aquilina
- * @version Tue 15 Feb 2022
+ * @version Thu 17 Feb 2022
  *
  * A type representing a Song's time signature,
  * made up of a numerator and a denominator.
@@ -10,7 +10,7 @@ package Punches;
 public class TimeSignature
 {
   private int beatsPerBar;
-  private int valueOfABeat;
+  private BeatValue valueOfABeat;
 
   /**
    * Constructs a TimeSignature with given values
@@ -18,7 +18,7 @@ public class TimeSignature
    * @param beatsPerBar - the number of beats per bar
    * @param valueOfABeat - the value of one beat
    */
-  public TimeSignature(int beatsPerBar, int valueOfABeat)
+  public TimeSignature(int beatsPerBar, BeatValue valueOfABeat)
   {
     this.beatsPerBar = beatsPerBar;
     this.valueOfABeat = valueOfABeat;
@@ -39,7 +39,7 @@ public class TimeSignature
    *
    * @param valueOfABeat - the value of one beat
    */
-  public void setValueOfABeat(int valueOfABeat)
+  public void setValueOfABeat(BeatValue valueOfABeat)
   {
     this.valueOfABeat = valueOfABeat;
   }
@@ -59,7 +59,7 @@ public class TimeSignature
    *
    * @return the value of one beat
    */
-  public int getValueOfABeat()
+  public BeatValue getValueOfABeat()
   {
     return valueOfABeat;
   }
@@ -72,6 +72,27 @@ public class TimeSignature
   @Override
   public String toString()
   {
-    return beatsPerBar + "/" + valueOfABeat;
+    String beatValue = "";
+    switch(valueOfABeat) {
+      case WHOLE:
+        beatValue = "1";
+        break;
+      case HALF:
+        beatValue = "2";
+        break;
+      case QUARTER:
+        beatValue = "4";
+        break;
+      case EIGHTH:
+        beatValue = "8";
+        break;
+      case SIXTEENTH:
+        beatValue = "16";
+        break;
+      case THIRTY_SECOND:
+        beatValue = "32";
+    }
+
+    return beatsPerBar + "/" + beatValue;
   }
 }

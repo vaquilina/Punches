@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * @author Vince Aquilina
- * @version Tue 15 Feb 2022
+ * @version Thu 17 Feb 2022
  *
  * A class representing the outline of a song, made up of Parts and metadata.
  */
@@ -23,7 +23,7 @@ public class Song implements Serializable
   public Song()
   {
     title = "";
-    signature = new TimeSignature(4, 4);
+    signature = new TimeSignature(4, BeatValue.QUARTER);
     bpm = 120;
     parts = new ArrayList<Part>();
   }

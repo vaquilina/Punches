@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Disabled;
 
 class TimeSignatureTest
 {
-  private final TimeSignature sig = new TimeSignature(4, 4);
+  private final TimeSignature sig = new TimeSignature(4, BeatValue.QUARTER);
 
   @Test
   void timeSignatureShouldBeCreated()
   {
     assertEquals(4, sig.getBeatsPerBar());
-    assertEquals(4, sig.getValueOfABeat());
+    assertEquals(BeatValue.QUARTER, sig.getValueOfABeat());
   }
 
   @Test

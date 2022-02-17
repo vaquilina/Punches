@@ -25,7 +25,7 @@ class SongTest
   {
     List<Part> parts = new ArrayList<Part>();
     parts.add(new Part());
-    TimeSignature signature = new TimeSignature(6, 8);
+    TimeSignature signature = new TimeSignature(6, BeatValue.EIGHTH);
     String title = "15 Step";
     int bpm = 80;
 
@@ -43,7 +43,7 @@ class SongTest
     song.setParts(new ArrayList<Part>());
     song.addNewPart();
 
-    assertEquals(1, song.getParts().size());
+    assertFalse(song.getParts().isEmpty());
   }
 
   @Test
