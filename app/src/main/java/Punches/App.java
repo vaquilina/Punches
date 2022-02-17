@@ -8,7 +8,7 @@ import javax.swing.JFrame;
  * Punches launch app.
  *
  * TODO: swap out existing placeholder music note icons
- *      with vectors (attribute rawpixel.com
+ *      with vectors (attribute rawpixel.com)
  */
 
 /**

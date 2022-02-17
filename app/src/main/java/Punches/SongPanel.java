@@ -7,6 +7,8 @@ import org.softsmithy.lib.swing.customizer.JCustomizerPane;
  * @version Tue 01 Feb 2022 03:36:26 PM
  *
  * A JPanel designed to contain the parts of a Song.
+ *
+ * TODO: write tests
  */
 public class SongPanel extends JCustomizerPane
 {
