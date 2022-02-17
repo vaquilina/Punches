@@ -22,7 +22,7 @@ public class Part
     lengthInBars = 4;
     this.notes = "";
     sheetSnippet = null;
-    tabSnippet = new String[] { null };
+    tabSnippet = null;
   }
 
   /**
@@ -37,6 +37,8 @@ public class Part
     this.name = name;
     this.lengthInBars = lengthInBars;
     this.notes = notes;
+    sheetSnippet = null;
+    tabSnippet = null;
   }
 
   /**
@@ -53,6 +55,7 @@ public class Part
     this.lengthInBars = lengthInBars;
     this.notes = notes;
     this.sheetSnippet = sheetSnippet;
+    tabSnippet = null;
   }
 
   /**
@@ -69,6 +72,7 @@ public class Part
     this.lengthInBars = lengthInBars;
     this.notes = notes;
     this.tabSnippet = tabSnippet;
+    sheetSnippet = null;
   }
 
   /**

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.ArrayList;
 
 class SongTest
@@ -22,16 +23,18 @@ class SongTest
   @Test
   void customSongShouldBeCreated()
   {
-    song.setParts(new ArrayList<Part>());
-    song.addNewPart();
-    song.setSignature(new TimeSignature(6, 8));
-    song.setTitle("15 Step");
-    song.setBpm(80);
+    List<Part> parts = new ArrayList<Part>();
+    parts.add(new Part());
+    TimeSignature signature = new TimeSignature(6, 8);
+    String title = "15 Step";
+    int bpm = 80;
 
-    assertFalse(song.getParts().isEmpty());
-    assertEquals("6/8", song.getSignature().toString());
-    assertEquals("15 Step", song.getTitle());
-    assertEquals(80, song.getBpm());
+    Song newSong = new Song(parts, title, signature, bpm);
+
+    assertFalse(newSong.getParts().isEmpty());
+    assertEquals("6/8", newSong.getSignature().toString());
+    assertEquals("15 Step", newSong.getTitle());
+    assertEquals(80, newSong.getBpm());
   }
 
   @Test
