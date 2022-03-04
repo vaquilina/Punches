@@ -11,14 +11,19 @@ import javax.swing.JButton;
 import javax.swing.BorderFactory;
 import net.miginfocom.swing.MigLayout;
 
+import org.softsmithy.lib.swing.customizer.JCustomizer;
+
+// TODO track cell size
+//import org.softsmithy.lib.swing.customizer.layout.RelativeTableConstraints; 
+
 /**
  * @author Vince Aquilina
- * @version Thu 03 Feb 2022 08:57:16 PM
+ * @version 03/03/22
  *
  * A Part component that can be dragged to reorder in the SongPanel.
  *
  */
-public class PartPanel extends JPanel
+public class PartPanel extends JCustomizer
 {
   protected Image sheetImage;           // sheet music snippet
   private Part part;                    // Part data for this component
@@ -75,7 +80,7 @@ public class PartPanel extends JPanel
   /**
    * Get the part assigned to this component
    *
-   * @return the value of part
+   * @return the part assigned to this component
    */
   public Part getPart()
   {

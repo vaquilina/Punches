@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * @author Vince Aquilina
- * @version Thu 17 Feb 2022
+ * @version 03/03/22
  *
  * A class representing the outline of a song, made up of Parts and metadata.
  */
@@ -61,6 +61,14 @@ public class Song implements Serializable
   public void addPart(Part part)
   {
     parts.add(part);
+  }
+
+  /**
+   * Clears the list of Parts
+   */
+  public void clearParts()
+  {
+    parts.clear();
   }
 
   /**
@@ -141,5 +149,22 @@ public class Song implements Serializable
   public int getBpm()
   {
     return bpm;
+  }
+
+  /**
+   * Produces a String representation of the Song
+   *
+   * @return a String representation of the Song
+   */
+  @Override
+  public String toString()
+  {
+    String songString = 
+      "Title:\t" + this.title + "\n" +
+      "# of parts:\t" + this.parts.size() + "\n" +
+      "Tempo:\t" + this.bpm + "\n" +
+      "Time signature:\t" + this.signature;
+
+    return songString;
   }
 }

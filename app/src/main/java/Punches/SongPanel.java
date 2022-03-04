@@ -1,10 +1,9 @@
 package Punches;
 
-//import net.miginfocom.swing.MigLayout;
 import org.softsmithy.lib.swing.customizer.JCustomizerPane;
 /**
  * @author Vince Aquilina
- * @version Tue 01 Feb 2022 03:36:26 PM
+ * @version 03/03/22
  *
  * A JPanel designed to contain the parts of a Song.
  *

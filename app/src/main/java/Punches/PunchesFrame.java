@@ -34,11 +34,11 @@ import org.softsmithy.lib.swing.customizer.layout.RelativeTableConstraints;
 
 /**
  * @author Vince Aquilina
- * @version Thu 03 Feb 2022 08:57:30 PM
+ * @version 03/03/22
  *
  * The main JFrame containing the app.
  *
- * TODO: write tests
+ * TODO: Write tests
  */
 public class PunchesFrame extends JFrame implements ComponentListener
 {
@@ -46,7 +46,9 @@ public class PunchesFrame extends JFrame implements ComponentListener
   //private Clipboard internalClipboard;      // for yank/put Part
   //private Clipboard externalClipboard;      // for yank/put text or image
   private SongPanel panSong;
+  JCustomizer[] cells;
   private InfiniteTableLayout itl;
+  private boolean unsavedChanges;
 
   // Colors
   Color panelGray = new Color(0xDDDDDD);
@@ -75,11 +77,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
     panSong.setCustomizerLayout(itl);
     panSong.validate();
 
-    JCustomizer[] cells = panSong.getCustomizers();
-    for (JCustomizer cell : cells) {
-      panSong.addCustomizer(cell, 
-          new RelativeTableConstraints(0, 0, 1, 1, cell, itl));
-    }
+    populateParts(); // TODO retain part sizes
   };
 
   /**
@@ -90,6 +88,8 @@ public class PunchesFrame extends JFrame implements ComponentListener
   public PunchesFrame(String title)
   {
     super(title);
+
+    unsavedChanges = false;
 
     try {
       UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -105,6 +105,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
     /* Toolbar
      * TODO: link to source (http://www.famfamfam.com/) on about dialog
      */
+
     Map<String, ImageIcon> toolbarIcons = new LinkedHashMap<>();
     toolbarIcons.put("New Song" ,
         new ImageIcon(PunchesFrame.class.getResource("/icons/page_add.png")));
@@ -129,6 +130,8 @@ public class PunchesFrame extends JFrame implements ComponentListener
         new ImageIcon(PunchesFrame.class.getResource("/icons/add.png")));
     toolbarIcons.put("About",
         new ImageIcon(PunchesFrame.class.getResource("/icons/help.png")));
+    toolbarIcons.put("Quit",
+        new ImageIcon(PunchesFrame.class.getResource("/icons/door_out.png")));
 
     JPanel toolbar = new JPanel(new MigLayout("Insets 0"));
 
@@ -198,7 +201,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
     DefaultListCellRenderer listRenderer = new DefaultListCellRenderer();
     listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER);
     cmbValueOfABeat.setRenderer(listRenderer);
-    // TODO: assign to beatsPerBar property on selection
+    // TODO: assign to valueOfBeat property on selection
 
     JLabel lblBpm = new JLabel("bpm:");
     JTextField txtBpm = new JTextField("120", 3);
@@ -225,9 +228,95 @@ public class PunchesFrame extends JFrame implements ComponentListener
     toolbar.add(lblBpm);
     toolbar.add(txtBpm, "w 30!, h 24!");
     toolbar.add(new JSeparator(JSeparator.VERTICAL), "h 24!");
-    toolbar.add(toolbarButtons.get("About"), "w 24!, h 24!, wrap"); 
+    toolbar.add(toolbarButtons.get("About"), "w 24!, h 24!"); 
     /* TODO: launch about dialog (my credits, icon credits, lib credits,
              adobe logo donate button) */
+    toolbar.add(toolbarButtons.get("Quit"), "w 24!, h 24!, wrap");
+
+    toolbarButtons.get("New Song").addActionListener(
+        new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            createSong();
+          }
+        });
+    toolbarButtons.get("Load Song").addActionListener(
+        new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            // TODO loadSong();
+          }
+        });
+    toolbarButtons.get("Save Song").addActionListener(
+        new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            //TODO saveSong();
+          }
+        });
+    toolbarButtons.get("Export to PDF directly").addActionListener(
+        new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            // TODO exportToPDF();
+          }
+        });
+    toolbarButtons.get("Cut Selection").addActionListener(
+        new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            // TODO cutSelection();
+          }
+        });
+    toolbarButtons.get("Copy Selection").addActionListener(
+        new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            // TODO copySelection();
+          }
+        });
+    toolbarButtons.get("Paste Selection").addActionListener(
+        new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            // TODO pasteSelection;
+          }
+        });
+    toolbarButtons.get("Undo Last Action").addActionListener(
+        new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            // TODO undo();
+          }
+        });
+    toolbarButtons.get("Redo Last Action").addActionListener(
+        new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            // TODO redo();
+          }
+        });
+    toolbarButtons.get("Add Part").addActionListener(
+        new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            // TODO addPart();
+          }
+        });
+    toolbarButtons.get("About").addActionListener(
+        new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            // TODO launchAboutDialog();
+          }
+        });
+    toolbarButtons.get("Quit").addActionListener(
+        new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            cleanExit();
+          }
+        });
 
     /*
      * Song Panel
@@ -261,16 +350,10 @@ public class PunchesFrame extends JFrame implements ComponentListener
     // adjust initial window height
     this.setBounds(getX(), getY(), getWidth(), 800); 
     addComponentListener(this); // listen for resize events
-
-    JCustomizer testPart = new JCustomizer(new PartPanel(new Part()));
-    makeEditable(testPart);
-
-    panSong.addCustomizer(testPart, 
-        new RelativeTableConstraints(0, 0, 1, 1, testPart, itl));
   }
 
   /**
-   * Adds for "double-click to edit" functionality to PartPanels
+   * Adds or removes for "double-click to edit" functionality to PartPanels
    *
    * @param customizer - the JCustomizer wrapper object for the PartPanel
    */
@@ -294,5 +377,55 @@ public class PunchesFrame extends JFrame implements ComponentListener
         }
       }
     });
+  }
+
+  /**
+   * Provides a clean exit when quit button is clicked
+   */
+  private void cleanExit()
+  {
+    // TODO: check for unsaved changes, running threads; prompt
+    System.exit(0);
+  }
+
+  /**
+   * Check for unsaved changes
+   *
+   * TODO implement function
+   *
+   * @return TRUE if there are unsaved changes; otherwise FALSE
+   */
+  public boolean hasUnsavedChanges()
+  {
+    return false;
+  }
+
+  /**
+   * Create a new Song
+   */
+  public void createSong()
+  {
+    if (!hasUnsavedChanges()) {
+      panSong.setSong(new Song());
+      populateParts();
+    }
+    else {
+      // TODO prompt();
+    }
+  }
+
+  /**
+   * Populate Song panel
+   */
+  public void populateParts()
+  {
+    cells = panSong.getCustomizers();
+
+    for (JCustomizer cell : cells) {
+      panSong.addCustomizer(cell, 
+          new RelativeTableConstraints(0, 0, 1, 1, cell, itl));
+      // TODO track part sizes
+    }
+    panSong.validate();
   }
 }
