@@ -8,27 +8,33 @@ import javax.swing.ImageIcon;
 import javax.swing.JSplitPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.border.EtchedBorder;
+import javax.swing.JLabel;
 import javax.swing.BorderFactory;
 import net.miginfocom.swing.MigLayout;
 
-import org.softsmithy.lib.swing.customizer.JCustomizer;
-
-// TODO track cell size
-//import org.softsmithy.lib.swing.customizer.layout.RelativeTableConstraints; 
-
 /**
  * @author Vince Aquilina
- * @version 03/03/22
+ * @version 03/05/22
  *
- * A Part component that can be dragged to reorder in the SongPanel.
+ * A Part component that represents a cell in the SongPanel.
  *
  */
-public class PartPanel extends JCustomizer
+public class PartPanel extends JPanel
 {
   protected Image sheetImage;           // sheet music snippet
   private Part part;                    // Part data for this component
   private PartNotePane notePane;        // notes pane
   private JPanel musicPanel;            // panel for sheet music/tab snippets
+  private JPanel metaPanel;             // panel for Part metadata
+
+  // metaPanel fields
+  private JTextField txtPartName;          // Part name field
+  private JTextField txtPartLength;        // Part length field
+
+  // Colours
+  Color panelGray = new Color(0xDDDDDD);
 
   /**
    * Constructs the component with the given Part data
@@ -38,13 +44,35 @@ public class PartPanel extends JCustomizer
   public PartPanel(Part part)
   {
     this.part = part;
-    setLayout(new MigLayout("Insets 5"));
-    setBackground(new Color(0xDDDDDD));
-    setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-  // TODO add delete part button
 
+    /* Panel properties */
+    setLayout(new MigLayout("Insets 5, fill"));
+    setBackground(panelGray);
+    setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+
+    /* musicPanel -- left section of split pane */
     musicPanel = new JPanel(new MigLayout("Insets 0"));
+    musicPanel.setBackground(panelGray);
+
+    /* notePane -- right section of split pane */
     notePane = new PartNotePane();
+    notePane.setBorder(new EtchedBorder(EtchedBorder.RAISED));
+
+    /* Fields section */
+    // TODO implement delete part, assign values to fields
+    metaPanel = new JPanel(new MigLayout("Insets 0"));
+    metaPanel.setBackground(panelGray);
+    metaPanel.setBorder(BorderFactory.createTitledBorder(
+          new EtchedBorder(EtchedBorder.LOWERED), "Fields"));
+
+    txtPartName = new JTextField(part.getName());
+    txtPartLength = new JTextField(String.valueOf(part.getLengthInBars()));
+
+    ImageIcon deleteIcon = new ImageIcon(
+        PartPanel.class.getResource("/icons/delete.png"));
+    JButton btnDelete = new JButton("delete", deleteIcon);
+
+    // Punches button
     ImageIcon fistIcon = new ImageIcon(
         PartPanel.class.getResource("/icons/punch.png"));
     ImageIcon fistPressedIcon = new ImageIcon(
@@ -54,12 +82,25 @@ public class PartPanel extends JCustomizer
     btnPunches.setBorderPainted(false);
     btnPunches.setFocusPainted(false);
     btnPunches.setContentAreaFilled(false);
-    // TODO: visually indicate button press
 
+    metaPanel.add(new JLabel("Name:"));
+    metaPanel.add(txtPartName, "growx, wrap");
+    metaPanel.add(new JLabel("# of bars:"));
+    metaPanel.add(txtPartLength, "w 30!, split");
+    metaPanel.add(btnDelete, "h 20!, wrap");
+    metaPanel.add(btnPunches, "gaptop 10, alignx 50%, span");
+
+    /* Split pane */
+    // TODO ensure split sizes are retained on part resize, window resize
     JSplitPane split = new JSplitPane(
         JSplitPane.HORIZONTAL_SPLIT, musicPanel, notePane);
-    this.add(split, "pad 0 15 0 0, growx, h 100%, w 100%");
-    this.add(btnPunches, "h 100%");
+    split.setBorder(BorderFactory.createTitledBorder(
+          new EtchedBorder(EtchedBorder.LOWERED), "Notes"));
+    split.setBackground(panelGray);
+
+    // add components to part panel
+    add(metaPanel, "gapleft 30, gapbottom 5, w 20%, growy, dock west");
+    add(split, "growy, dock center");
   }
 
   /**

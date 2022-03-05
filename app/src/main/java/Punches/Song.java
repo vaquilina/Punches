@@ -26,6 +26,7 @@ public class Song implements Serializable
     signature = new TimeSignature(4, BeatValue.QUARTER);
     bpm = 120;
     parts = new ArrayList<Part>();
+    addNewPart();
   }
 
   /**

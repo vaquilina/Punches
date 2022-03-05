@@ -34,7 +34,7 @@ import org.softsmithy.lib.swing.customizer.layout.RelativeTableConstraints;
 
 /**
  * @author Vince Aquilina
- * @version 03/03/22
+ * @version 03/05/22
  *
  * The main JFrame containing the app.
  *
@@ -46,8 +46,10 @@ public class PunchesFrame extends JFrame implements ComponentListener
   //private Clipboard internalClipboard;      // for yank/put Part
   //private Clipboard externalClipboard;      // for yank/put text or image
   private SongPanel panSong;
-  JCustomizer[] cells;
   private InfiniteTableLayout itl;
+  private JScrollPane scroller;
+
+  // Flags
   private boolean unsavedChanges;
 
   // Colors
@@ -68,16 +70,9 @@ public class PunchesFrame extends JFrame implements ComponentListener
    */
   @Override
   public void componentResized(ComponentEvent e) {
-    int cellWidth = (int) (getContentPane().getSize().getWidth() - 
-        ((Integer)(UIManager.get("ScrollBar.width"))).intValue());
-    cellWidth -= panSong.getInsets().left + panSong.getInsets().right;
-    cellWidth -= getInsets().left + getInsets().right;
-
-    itl = new InfiniteTableLayout(cellWidth - 10, 200, panSong);
-    panSong.setCustomizerLayout(itl);
-    panSong.validate();
-
-    populateParts(); // TODO retain part sizes
+    adjustCellWidth();
+    panSong.removeAll();
+    populateParts();
   };
 
   /**
@@ -95,7 +90,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
       UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
     }
     catch (Exception ex) {
-      System.out.println("error setting look and feel");
+      System.out.println("error setting system look and feel");
       ex.printStackTrace();
     }
     this.setLayout(new MigLayout("Insets 5"));
@@ -206,6 +201,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
     JLabel lblBpm = new JLabel("bpm:");
     JTextField txtBpm = new JTextField("120", 3);
     // TODO: assign to bpm property on enter or focus lost
+    // TODO validate bpm
 
     toolbar.add(toolbarButtons.get("New Song"), "w 24!, h 24!");
     toolbar.add(toolbarButtons.get("Load Song"), "w 24!, h 24!");
@@ -230,7 +226,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
     toolbar.add(new JSeparator(JSeparator.VERTICAL), "h 24!");
     toolbar.add(toolbarButtons.get("About"), "w 24!, h 24!"); 
     /* TODO: launch about dialog (my credits, icon credits, lib credits,
-             adobe logo donate button) */
+             adobe logo, donate button) */
     toolbar.add(toolbarButtons.get("Quit"), "w 24!, h 24!, wrap");
 
     toolbarButtons.get("New Song").addActionListener(
@@ -323,7 +319,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
      */
     panSong = new SongPanel(new Song());
     panSong.setBackground(new Color(0xFFFFFF));
-    JScrollPane scroller = new JScrollPane(
+    scroller = new JScrollPane(
         panSong,
         JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
         JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -353,26 +349,43 @@ public class PunchesFrame extends JFrame implements ComponentListener
   }
 
   /**
-   * Adds or removes for "double-click to edit" functionality to PartPanels
-   *
-   * @param customizer - the JCustomizer wrapper object for the PartPanel
+   * Adjusts Part cell width to fit window
    */
-  public void makeEditable(JCustomizer customizer)
+  private void adjustCellWidth()
   {
-    customizer.addActionListener(new ActionListener() {
+    int cellWidth = (int) (getContentPane().getSize().getWidth() - 
+        ((Integer)(UIManager.get("ScrollBar.width"))).intValue());
+    cellWidth -= panSong.getInsets().left + panSong.getInsets().right;
+    cellWidth -= getInsets().left + getInsets().right;
+
+    itl = new InfiniteTableLayout(cellWidth - 10, 200, panSong);
+    panSong.setCustomizerLayout(itl);
+
+    panSong.invalidate();
+    panSong.validate();
+  }
+
+  /**
+   * Adds "double-click to edit" functionality to PartPanels
+   *
+   * @param customizer - the JCustomizer wrapper object
+   */
+  public void makeEditable(JCustomizer cell)
+  {
+    cell.addActionListener(new ActionListener() {
       boolean editing;
       @Override
       public void actionPerformed(ActionEvent e) {
         if (!editing) {
-          customizer.getComponent().setBackground(apricot);
-          customizer.setComponentZOrder(customizer.getComponent(1), 0);
-          customizer.getStateManager().setStateNormal();
+          cell.getComponent().setBackground(apricot);
+          cell.setComponentZOrder(cell.getComponent(1), 0);
+          cell.getStateManager().setStateNormal();
           editing = true;
         }
         else {
-          customizer.getComponent().setBackground(panelGray);
-          customizer.setComponentZOrder(customizer.getComponent(1), 0);
-          customizer.getStateManager().setStateMove();
+          cell.getComponent().setBackground(panelGray);
+          cell.setComponentZOrder(cell.getComponent(1), 0);
+          cell.getStateManager().setStateMove();
           editing = false;
         }
       }
@@ -406,8 +419,12 @@ public class PunchesFrame extends JFrame implements ComponentListener
   public void createSong()
   {
     if (!hasUnsavedChanges()) {
+      panSong.getSong().clearParts();
+      panSong.removeAll();
+
       panSong.setSong(new Song());
       populateParts();
+      panSong.invalidate(); panSong.validate();
     }
     else {
       // TODO prompt();
@@ -419,13 +436,12 @@ public class PunchesFrame extends JFrame implements ComponentListener
    */
   public void populateParts()
   {
-    cells = panSong.getCustomizers();
-
-    for (JCustomizer cell : cells) {
-      panSong.addCustomizer(cell, 
-          new RelativeTableConstraints(0, 0, 1, 1, cell, itl));
-      // TODO track part sizes
+    for (int i = 0; i < panSong.getSong().getParts().size(); i++) {
+      JCustomizer cell = new JCustomizer(
+          new PartPanel(panSong.getSong().getParts().get(i)));
+      makeEditable(cell);
+      panSong.addCustomizer(cell,
+          new RelativeTableConstraints(0, i, 1, 1, cell, itl));
     }
-    panSong.validate();
   }
 }
