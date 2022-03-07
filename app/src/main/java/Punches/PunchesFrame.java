@@ -1,53 +1,59 @@
 package Punches;
 
-import java.util.Map;
+import java.util.Collections;
 import java.util.LinkedHashMap; // maintains order of keys
+import java.util.Map;
 import java.util.Vector;
 
-import javax.swing.UIManager;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
-import javax.swing.JComboBox;
 import javax.swing.DefaultListCellRenderer;
-import javax.swing.JSeparator;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+//import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import java.awt.Color;
+//import java.awt.datatransfer.Clipboard;
 import java.awt.Font;
 import java.awt.Insets;
-import java.awt.event.FocusListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-//import java.awt.datatransfer.Clipboard;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.KeyboardFocusManager;
 
 import net.miginfocom.swing.MigLayout;
+
 import org.softsmithy.lib.swing.customizer.JCustomizer;
 import org.softsmithy.lib.swing.customizer.layout.InfiniteTableLayout;
 import org.softsmithy.lib.swing.customizer.layout.RelativeTableConstraints;
 
 /**
  * @author Vince Aquilina
- * @version 03/05/22
+ * @version 03/06/22
  *
- * The main JFrame containing the app.
+ * Punches Desktop GUI.
  *
  * TODO: Write tests
+ * TODO: adjust scrollbar speed (implement scrollable)
  */
 public class PunchesFrame extends JFrame implements ComponentListener
 {
   //TODO: implement clipboard
   //private Clipboard internalClipboard;      // for yank/put Part
   //private Clipboard externalClipboard;      // for yank/put text or image
-  private SongPanel panSong;
-  private InfiniteTableLayout itl;
-  private JScrollPane scroller;
+
+  private SongPanel panSong;         // panel containing parts
+  private InfiniteTableLayout itl;    // layout manager for panSong
+  private JScrollPane scroller;       // scrollpane containing panSong
 
   // Flags
   private boolean unsavedChanges;
@@ -84,6 +90,9 @@ public class PunchesFrame extends JFrame implements ComponentListener
   {
     super(title);
 
+    KeyboardFocusManager kfMgr = 
+      KeyboardFocusManager.getCurrentKeyboardFocusManager();
+
     unsavedChanges = false;
 
     try {
@@ -110,7 +119,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
         new ImageIcon(PunchesFrame.class.getResource("/icons/disk.png")));
     toolbarIcons.put("Export to PDF directly" ,
         new ImageIcon(PunchesFrame.class.getResource(
-                         "/icons/page_white_acrobat.png")));
+            "/icons/page_white_acrobat.png")));
     toolbarIcons.put("Cut Selection",
         new ImageIcon(PunchesFrame.class.getResource("/icons/cut.png")));
     toolbarIcons.put("Copy Selection",
@@ -146,6 +155,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
     JTextField txtSongTitle = new JTextField("Song Title", 30);
     txtSongTitle.setFont(new Font(Font.SERIF, Font.ITALIC, 12));
     txtSongTitle.addFocusListener(new FocusListener() {
+      @Override
       public void focusGained(FocusEvent e)
       {
         if (txtSongTitle.getText().equals("Song Title")) {
@@ -153,15 +163,36 @@ public class PunchesFrame extends JFrame implements ComponentListener
           txtSongTitle.setFont(new Font(Font.SERIF, Font.PLAIN, 12));
         }
       }
+      @Override
       public void focusLost(FocusEvent e)
       {
+        Song song = panSong.getSong();
+
         if (txtSongTitle.getText().equals("")) {
           txtSongTitle.setText("Song Title");
           txtSongTitle.setFont(new Font(Font.SERIF, Font.ITALIC, 12));
         }
+        else { 
+          if (! txtSongTitle.getText().equals(song.getTitle()))  {
+            txtSongTitle.setFont(new Font(Font.SERIF, Font.ITALIC, 12));
+            txtSongTitle.setForeground(Color.RED);
+          }
+          else {
+            txtSongTitle.setFont(new Font(Font.SERIF, Font.PLAIN, 12));
+            txtSongTitle.setForeground(Color.BLACK);
+          }
+        }
       }
     });
-    // TODO: listen for enter key/focus lost, assign text to songTitle property
+    txtSongTitle.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        Song song = panSong.getSong();
+        song.setTitle(txtSongTitle.getText());
+
+        kfMgr.clearGlobalFocusOwner();
+      }
+    });
 
     Map<String, ImageIcon> musicNotes = new LinkedHashMap<>();
     musicNotes.put("whole", 
@@ -186,8 +217,42 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
     JLabel lblTimeSignature = new JLabel("time signature:");
 
+    // TODO validate beats per bar
     JTextField txtBeatsPerBar = new JTextField("4", 2);
-    // TODO: assign to beatsPerBar property on enter or focus lost
+    txtBeatsPerBar.addFocusListener(new FocusListener() {
+      @Override
+      public void focusGained(FocusEvent e)
+      {
+        txtBeatsPerBar.setFont(new Font(Font.SERIF, Font.PLAIN, 12));
+        txtBeatsPerBar.setForeground(Color.BLACK);
+      }
+      @Override
+      public void focusLost(FocusEvent e)
+      {
+        Song song = panSong.getSong();
+
+        if (! Integer.valueOf(txtBeatsPerBar.getText()).equals(
+              song.getSignature().getBeatsPerBar()))  {
+          txtBeatsPerBar.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 12));
+          txtBeatsPerBar.setForeground(Color.RED);
+              }
+        else {
+          txtBeatsPerBar.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 12));
+          txtBeatsPerBar.setForeground(Color.BLACK);
+        }
+      }
+    });
+    txtBeatsPerBar.addActionListener(
+        new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            Song song = panSong.getSong();
+            song.getSignature().setBeatsPerBar(
+                Integer.valueOf(txtBeatsPerBar.getText()));
+
+            kfMgr.clearGlobalFocusOwner();
+          }
+        });
 
     JLabel lblSlash = new JLabel("/");
 
@@ -196,12 +261,74 @@ public class PunchesFrame extends JFrame implements ComponentListener
     DefaultListCellRenderer listRenderer = new DefaultListCellRenderer();
     listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER);
     cmbValueOfABeat.setRenderer(listRenderer);
-    // TODO: assign to valueOfBeat property on selection
+    cmbValueOfABeat.addActionListener(
+        new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            BeatValue value;
+
+            switch (cmbValueOfABeat.getSelectedIndex()) {
+              case 0:
+                value = BeatValue.WHOLE;
+                break;
+              case 1:
+                value = BeatValue.HALF;
+                break;
+              case 2:
+                value = BeatValue.QUARTER;
+                break;
+              case 3:
+                value = BeatValue.EIGHTH;
+                break;
+              case 4:
+                value = BeatValue.SIXTEENTH;
+                break;
+              case 5:
+                value = BeatValue.THIRTY_SECOND;
+                break;
+              default:
+                value = BeatValue.QUARTER;
+            }
+
+            panSong.getSong().getSignature().setValueOfABeat(value);
+
+            kfMgr.clearGlobalFocusOwner();
+          }
+        });
 
     JLabel lblBpm = new JLabel("bpm:");
-    JTextField txtBpm = new JTextField("120", 3);
-    // TODO: assign to bpm property on enter or focus lost
     // TODO validate bpm
+    JTextField txtBpm = new JTextField("120", 3);
+    txtBpm.addFocusListener(new FocusListener() {
+      @Override
+      public void focusGained(FocusEvent e)
+      {
+        txtBpm.setFont(new Font(Font.SERIF, Font.PLAIN, 12));
+        txtBpm.setForeground(Color.BLACK);
+      }
+      @Override
+      public void focusLost(FocusEvent e)
+      {
+        if (! Integer.valueOf(txtBpm.getText()).equals(
+              panSong.getSong().getBpm()))  {
+          txtBpm.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 12));
+          txtBpm.setForeground(Color.RED);
+              }
+        else {
+          txtBpm.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 12));
+          txtBpm.setForeground(Color.BLACK);
+        }
+      }
+    });
+    txtBpm.addActionListener(
+        new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            panSong.getSong().setBpm(Integer.valueOf(txtBpm.getText()));
+
+            kfMgr.clearGlobalFocusOwner();
+          }
+        });
 
     toolbar.add(toolbarButtons.get("New Song"), "w 24!, h 24!");
     toolbar.add(toolbarButtons.get("Load Song"), "w 24!, h 24!");
@@ -226,7 +353,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
     toolbar.add(new JSeparator(JSeparator.VERTICAL), "h 24!");
     toolbar.add(toolbarButtons.get("About"), "w 24!, h 24!"); 
     /* TODO: launch about dialog (my credits, icon credits, lib credits,
-             adobe logo, donate button) */
+       adobe logo, donate button) */
     toolbar.add(toolbarButtons.get("Quit"), "w 24!, h 24!, wrap");
 
     toolbarButtons.get("New Song").addActionListener(
@@ -296,7 +423,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
         new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent e) {
-            // TODO addPart();
+            addPart();
           }
         });
     toolbarButtons.get("About").addActionListener(
@@ -348,6 +475,10 @@ public class PunchesFrame extends JFrame implements ComponentListener
     addComponentListener(this); // listen for resize events
   }
 
+  /////////////////////
+  // HELPER METHODS //
+  ////////////////////
+
   /**
    * Adjusts Part cell width to fit window
    */
@@ -370,7 +501,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
    *
    * @param customizer - the JCustomizer wrapper object
    */
-  public void makeEditable(JCustomizer cell)
+  private void makeEditable(JCustomizer cell)
   {
     cell.addActionListener(new ActionListener() {
       boolean editing;
@@ -408,33 +539,15 @@ public class PunchesFrame extends JFrame implements ComponentListener
    *
    * @return TRUE if there are unsaved changes; otherwise FALSE
    */
-  public boolean hasUnsavedChanges()
+  private boolean hasUnsavedChanges()
   {
     return false;
   }
 
   /**
-   * Create a new Song
-   */
-  public void createSong()
-  {
-    if (!hasUnsavedChanges()) {
-      panSong.getSong().clearParts();
-      panSong.removeAll();
-
-      panSong.setSong(new Song());
-      populateParts();
-      panSong.invalidate(); panSong.validate();
-    }
-    else {
-      // TODO prompt();
-    }
-  }
-
-  /**
    * Populate Song panel
    */
-  public void populateParts()
+  private void populateParts()
   {
     for (int i = 0; i < panSong.getSong().getParts().size(); i++) {
       JCustomizer cell = new JCustomizer(
@@ -443,5 +556,38 @@ public class PunchesFrame extends JFrame implements ComponentListener
       panSong.addCustomizer(cell,
           new RelativeTableConstraints(0, i, 1, 1, cell, itl));
     }
+
+    panSong.revalidate();
+    scroller.revalidate();
+  }
+
+  ////////////////////
+  // BUTTON METHODS //
+  ////////////////////
+
+  /**
+   * Create a new Song
+   */
+  public void createSong()
+  {
+    // TODO
+    // if (hasUnsavedChanges()) {
+    //   prompt();
+    // }
+    panSong.getSong().clearParts();
+    panSong.removeAll();
+
+    panSong.setSong(new Song());
+    populateParts();
+  }
+
+  /**
+   * Add a new Part to the Song
+   */
+  public void addPart()
+  {
+    panSong.getSong().addNewPart();
+    panSong.removeAll();
+    populateParts();
   }
 }
