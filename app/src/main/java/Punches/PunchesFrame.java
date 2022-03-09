@@ -1,7 +1,23 @@
 package Punches;
 
-import java.util.Collections;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Insets;
+import java.awt.KeyboardFocusManager;
+import java.awt.datatransfer.Clipboard;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedHashMap; // maintains order of keys
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
@@ -9,7 +25,6 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-//import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,32 +33,21 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-import java.awt.Color;
-//import java.awt.datatransfer.Clipboard;
-import java.awt.Font;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.KeyboardFocusManager;
-
 import net.miginfocom.swing.MigLayout;
 
 import org.softsmithy.lib.swing.customizer.JCustomizer;
+import org.softsmithy.lib.swing.customizer.event.CustomizerEvent;
+import org.softsmithy.lib.swing.customizer.event.CustomizerListener;
 import org.softsmithy.lib.swing.customizer.layout.InfiniteTableLayout;
 import org.softsmithy.lib.swing.customizer.layout.RelativeTableConstraints;
 
 /**
  * @author Vince Aquilina
- * @version 03/06/22
+ * @version 03/09/22
  *
  * Punches Desktop GUI.
  *
  * TODO: Write tests
- * TODO: adjust scrollbar speed (implement scrollable)
  */
 public class PunchesFrame extends JFrame implements ComponentListener
 {
@@ -51,35 +55,25 @@ public class PunchesFrame extends JFrame implements ComponentListener
   //private Clipboard internalClipboard;      // for yank/put Part
   //private Clipboard externalClipboard;      // for yank/put text or image
 
-  private SongPanel panSong;         // panel containing parts
-  private InfiniteTableLayout itl;    // layout manager for panSong
-  private JScrollPane scroller;       // scrollpane containing panSong
+  private SongPanel panSong;                  // panel containing parts
+  private InfiniteTableLayout itl;            // layout manager for panSong
+  private JScrollPane scroller;               // scrollpane containing panSong
+
+  private List<JCustomizer> wrappers;         // part panel wrappers
+  private List<PartPanel> panels;             // part panels
 
   // Flags
   private boolean unsavedChanges;
+  private boolean initialized;
+  private boolean debugging;
+
+  //DEBUG {{{
+  private int step = 0;
+  //////////// }}}
 
   // Colors
   Color panelGray = new Color(0xDDDDDD);
   Color apricot = new Color(0xFFCCB3);
-
-  @Override
-  public void componentHidden(ComponentEvent e) {};
-  @Override
-  public void componentShown(ComponentEvent e) {};
-  @Override
-  public void componentMoved(ComponentEvent e) {};
-
-  /**
-   * Dynamically resizes Part cells when frame is resized
-   *
-   * @param e the resize event
-   */
-  @Override
-  public void componentResized(ComponentEvent e) {
-    adjustCellWidth();
-    panSong.removeAll();
-    populateParts();
-  };
 
   /**
    * @param title - the window title
@@ -90,6 +84,10 @@ public class PunchesFrame extends JFrame implements ComponentListener
   {
     super(title);
 
+    //DEBUG {{{
+    debugging = true;
+    //////////// }}}
+
     KeyboardFocusManager kfMgr = 
       KeyboardFocusManager.getCurrentKeyboardFocusManager();
 
@@ -99,43 +97,20 @@ public class PunchesFrame extends JFrame implements ComponentListener
       UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
     }
     catch (Exception ex) {
-      System.out.println("error setting system look and feel");
+      System.out.println(ex.getMessage());
       ex.printStackTrace();
     }
     this.setLayout(new MigLayout("Insets 5"));
 
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    /* Toolbar
+    /*
+     * Toolbar
      * TODO: link to source (http://www.famfamfam.com/) on about dialog
      */
 
-    Map<String, ImageIcon> toolbarIcons = new LinkedHashMap<>();
-    toolbarIcons.put("New Song" ,
-        new ImageIcon(PunchesFrame.class.getResource("/icons/page_add.png")));
-    toolbarIcons.put("Load Song" ,
-        new ImageIcon(PunchesFrame.class.getResource("/icons/folder.png")));
-    toolbarIcons.put("Save Song" ,
-        new ImageIcon(PunchesFrame.class.getResource("/icons/disk.png")));
-    toolbarIcons.put("Export to PDF directly" ,
-        new ImageIcon(PunchesFrame.class.getResource(
-            "/icons/page_white_acrobat.png")));
-    toolbarIcons.put("Cut Selection",
-        new ImageIcon(PunchesFrame.class.getResource("/icons/cut.png")));
-    toolbarIcons.put("Copy Selection",
-        new ImageIcon(PunchesFrame.class.getResource("/icons/page_copy.png")));
-    toolbarIcons.put("Paste Selection",
-        new ImageIcon(PunchesFrame.class.getResource("/icons/page_paste.png")));
-    toolbarIcons.put("Undo Last Action",
-        new ImageIcon(PunchesFrame.class.getResource("/icons/arrow_undo.png")));
-    toolbarIcons.put("Redo Last Action",
-        new ImageIcon(PunchesFrame.class.getResource("/icons/arrow_redo.png")));
-    toolbarIcons.put("Add Part",
-        new ImageIcon(PunchesFrame.class.getResource("/icons/add.png")));
-    toolbarIcons.put("About",
-        new ImageIcon(PunchesFrame.class.getResource("/icons/help.png")));
-    toolbarIcons.put("Quit",
-        new ImageIcon(PunchesFrame.class.getResource("/icons/door_out.png")));
+    // Toolbar Buttons
+    Map<String, ImageIcon> toolbarIcons = initToolbarIcons();
 
     JPanel toolbar = new JPanel(new MigLayout("Insets 0"));
 
@@ -149,10 +124,18 @@ public class PunchesFrame extends JFrame implements ComponentListener
       btn.getValue().setToolTipText(btn.getKey());
     }
 
+    // "Add Part" Button
     toolbarButtons.get("Add Part").setText("add part");
     toolbarButtons.get("Add Part").setMargin(new Insets(2, 2, 2, 2));
+    toolbarButtons.get("Add Part").setMnemonic(KeyEvent.VK_A);
 
+    // "Song Title" Text Field
     JTextField txtSongTitle = new JTextField("Song Title", 30);
+
+    JLabel lblSongTitle = new JLabel(""); // not visible; for mnemonic
+    lblSongTitle.setLabelFor(txtSongTitle);
+    lblSongTitle.setDisplayedMnemonic(KeyEvent.VK_T);
+
     txtSongTitle.setFont(new Font(Font.SERIF, Font.ITALIC, 12));
     txtSongTitle.addFocusListener(new FocusListener() {
       @Override
@@ -194,29 +177,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
       }
     });
 
-    Map<String, ImageIcon> musicNotes = new LinkedHashMap<>();
-    musicNotes.put("whole", 
-        new ImageIcon(PunchesFrame.class.getResource(
-            "/icons/music-note-1_16px.png")));
-    musicNotes.put("half",
-        new ImageIcon(PunchesFrame.class.getResource(
-            "/icons/music-note-2_16px.png")));
-    musicNotes.put("quarter",
-        new ImageIcon(PunchesFrame.class.getResource(
-            "/icons/music-note-4_16px.png")));
-    musicNotes.put("eighth",
-        new ImageIcon(PunchesFrame.class.getResource(
-            "/icons/music-note-8_16px.png")));
-    musicNotes.put("sixteenth",
-        new ImageIcon(PunchesFrame.class.getResource(
-            "/icons/music-note-16_16px.png")));
-    musicNotes.put("thirty-second",
-        new ImageIcon(PunchesFrame.class.getResource(
-            "/icons/music-note-32_16px.png")));
-    Vector<ImageIcon> musicNoteIcons = new Vector<>(musicNotes.values());
-
-    JLabel lblTimeSignature = new JLabel("time signature:");
-
+    // Time Signature Section
     // TODO validate beats per bar
     JTextField txtBeatsPerBar = new JTextField("4", 2);
     txtBeatsPerBar.addFocusListener(new FocusListener() {
@@ -253,11 +214,21 @@ public class PunchesFrame extends JFrame implements ComponentListener
             kfMgr.clearGlobalFocusOwner();
           }
         });
+    JLabel lblTimeSignature = new JLabel("time signature:");
+    lblTimeSignature.setLabelFor(txtBeatsPerBar);
+    lblTimeSignature.setDisplayedMnemonic(KeyEvent.VK_S);
 
     JLabel lblSlash = new JLabel("/");
 
+    // Music Note Icons
+    Map<String, ImageIcon> musicNotes = initMusicNoteIcons();
+
+    // load into vector for use with JComboBox
+    Vector<ImageIcon> musicNoteIcons = new Vector<>(musicNotes.values());
+
     JComboBox<ImageIcon> cmbValueOfABeat = new JComboBox<>(musicNoteIcons);
     cmbValueOfABeat.setSelectedIndex(2); // defaults to quarter note
+
     DefaultListCellRenderer listRenderer = new DefaultListCellRenderer();
     listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER);
     cmbValueOfABeat.setRenderer(listRenderer);
@@ -265,40 +236,22 @@ public class PunchesFrame extends JFrame implements ComponentListener
         new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent e) {
-            BeatValue value;
 
-            switch (cmbValueOfABeat.getSelectedIndex()) {
-              case 0:
-                value = BeatValue.WHOLE;
-                break;
-              case 1:
-                value = BeatValue.HALF;
-                break;
-              case 2:
-                value = BeatValue.QUARTER;
-                break;
-              case 3:
-                value = BeatValue.EIGHTH;
-                break;
-              case 4:
-                value = BeatValue.SIXTEENTH;
-                break;
-              case 5:
-                value = BeatValue.THIRTY_SECOND;
-                break;
-              default:
-                value = BeatValue.QUARTER;
-            }
-
+            BeatValue value = getBeatValue(cmbValueOfABeat.getSelectedIndex());
             panSong.getSong().getSignature().setValueOfABeat(value);
 
-            kfMgr.clearGlobalFocusOwner();
+            kfMgr.clearGlobalFocusOwner(); // clear focus on selection
           }
         });
 
-    JLabel lblBpm = new JLabel("bpm:");
-    // TODO validate bpm
+    // Tempo Section
+    /* TODO validate bpm */
     JTextField txtBpm = new JTextField("120", 3);
+
+    JLabel lblBpm = new JLabel("bpm:");
+    lblBpm.setLabelFor(txtBpm);
+    lblBpm.setDisplayedMnemonic(KeyEvent.VK_B);
+
     txtBpm.addFocusListener(new FocusListener() {
       @Override
       public void focusGained(FocusEvent e)
@@ -330,6 +283,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
           }
         });
 
+    // Layout Toobar
     toolbar.add(toolbarButtons.get("New Song"), "w 24!, h 24!");
     toolbar.add(toolbarButtons.get("Load Song"), "w 24!, h 24!");
     toolbar.add(toolbarButtons.get("Save Song"), "w 24!, h 24!");
@@ -343,6 +297,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
     toolbar.add(toolbarButtons.get("Redo Last Action"), "w 24!, h 24!");
     toolbar.add(new JSeparator(JSeparator.VERTICAL), "h 24!");
     toolbar.add(toolbarButtons.get("Add Part"), "w 100!, h 24!");
+    toolbar.add(lblSongTitle);
     toolbar.add(txtSongTitle, "w 150!, h 24!");
     toolbar.add(lblTimeSignature);
     toolbar.add(txtBeatsPerBar, "w 24!, h 24!");
@@ -352,10 +307,9 @@ public class PunchesFrame extends JFrame implements ComponentListener
     toolbar.add(txtBpm, "w 30!, h 24!");
     toolbar.add(new JSeparator(JSeparator.VERTICAL), "h 24!");
     toolbar.add(toolbarButtons.get("About"), "w 24!, h 24!"); 
-    /* TODO: launch about dialog (my credits, icon credits, lib credits,
-       adobe logo, donate button) */
     toolbar.add(toolbarButtons.get("Quit"), "w 24!, h 24!, wrap");
 
+    // ActionListeners for Buttons
     toolbarButtons.get("New Song").addActionListener(
         new ActionListener() {
           @Override
@@ -430,7 +384,8 @@ public class PunchesFrame extends JFrame implements ComponentListener
         new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent e) {
-            // TODO launchAboutDialog();
+            /* TODO: launch about dialog (my credits,
+             * icon credits, lib credits, adobe logo, donate button) */
           }
         });
     toolbarButtons.get("Quit").addActionListener(
@@ -446,41 +401,203 @@ public class PunchesFrame extends JFrame implements ComponentListener
      */
     panSong = new SongPanel(new Song());
     panSong.setBackground(new Color(0xFFFFFF));
+
+    // DEBUG {{{
+    if (debugging) {
+      step++;
+      System.out.println(step + ":PunchesFrame()\n" +
+          "parts: " + panSong.getSong().getParts().size() + "\n");
+    }
+    //////////// }}}
+
     scroller = new JScrollPane(
         panSong,
         JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
         JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    scroller.getVerticalScrollBar().setUnitIncrement(15);
 
-    /*
-     * initialize layout
-     */
+    // add major components to frame
     getContentPane().add(toolbar, "span");
     getContentPane().add(scroller, "grow, w 100%, h 100%");
+
+    // resize window to size of contents
     pack();    // necessary in order to get size of frame
 
-    /*
-     * Song Panel (cont'd)
-     */
     int cellWidth = (int) (getContentPane().getSize().getWidth() - 
         ((Integer)(UIManager.get("ScrollBar.width"))).intValue());
     cellWidth -= panSong.getInsets().left + panSong.getInsets().right;
     cellWidth -= getInsets().left + getInsets().right;
 
-    // TODO: Attribute softsmithy
-    itl = new InfiniteTableLayout(cellWidth - 10, 200, panSong);
+    itl = new InfiniteTableLayout(cellWidth, 200, panSong);
     panSong.setCustomizerLayout(itl);
+
+    initPartPanels(panSong.getSong().getParts());
 
     // adjust initial window height
     this.setBounds(getX(), getY(), getWidth(), 800); 
-    addComponentListener(this); // listen for resize events
+
+    // listen for resize events
+    addComponentListener(this);
   }
 
-  /////////////////////
+  //////////////////
+  // INIT METHODS //
+  //////////////////
+
+  /**
+   * Load toolbar icon resources
+   *
+   * @return - A Map containing toolbar icon resources
+   */
+  private Map<String, ImageIcon> initToolbarIcons()
+  {
+    Map<String, ImageIcon> toolbarIcons = new LinkedHashMap<>();
+    toolbarIcons.put("New Song" ,
+        new ImageIcon(PunchesFrame.class.getResource("/icons/page_add.png")));
+    toolbarIcons.put("Load Song" ,
+        new ImageIcon(PunchesFrame.class.getResource("/icons/folder.png")));
+    toolbarIcons.put("Save Song" ,
+        new ImageIcon(PunchesFrame.class.getResource("/icons/disk.png")));
+    toolbarIcons.put("Export to PDF directly" ,
+        new ImageIcon(PunchesFrame.class.getResource(
+            "/icons/page_white_acrobat.png")));
+    toolbarIcons.put("Cut Selection",
+        new ImageIcon(PunchesFrame.class.getResource("/icons/cut.png")));
+    toolbarIcons.put("Copy Selection",
+        new ImageIcon(PunchesFrame.class.getResource("/icons/page_copy.png")));
+    toolbarIcons.put("Paste Selection",
+        new ImageIcon(PunchesFrame.class.getResource("/icons/page_paste.png")));
+    toolbarIcons.put("Undo Last Action",
+        new ImageIcon(PunchesFrame.class.getResource("/icons/arrow_undo.png")));
+    toolbarIcons.put("Redo Last Action",
+        new ImageIcon(PunchesFrame.class.getResource("/icons/arrow_redo.png")));
+    toolbarIcons.put("Add Part",
+        new ImageIcon(PunchesFrame.class.getResource("/icons/add.png")));
+    toolbarIcons.put("About",
+        new ImageIcon(PunchesFrame.class.getResource("/icons/help.png")));
+    toolbarIcons.put("Quit",
+        new ImageIcon(PunchesFrame.class.getResource("/icons/door_out.png")));
+
+    return toolbarIcons;
+  }
+
+  /**
+   * Load music note icon resources 
+   *
+   * @return - A Map containing music note icon resources
+   */
+  private Map<String, ImageIcon> initMusicNoteIcons()
+  {
+    Map<String, ImageIcon> musicNotes = new LinkedHashMap<>();
+    musicNotes.put("whole", 
+        new ImageIcon(PunchesFrame.class.getResource(
+            "/icons/music-note-1_16px.png")));
+    musicNotes.put("half",
+        new ImageIcon(PunchesFrame.class.getResource(
+            "/icons/music-note-2_16px.png")));
+    musicNotes.put("quarter",
+        new ImageIcon(PunchesFrame.class.getResource(
+            "/icons/music-note-4_16px.png")));
+    musicNotes.put("eighth",
+        new ImageIcon(PunchesFrame.class.getResource(
+            "/icons/music-note-8_16px.png")));
+    musicNotes.put("sixteenth",
+        new ImageIcon(PunchesFrame.class.getResource(
+            "/icons/music-note-16_16px.png")));
+    musicNotes.put("thirty-second",
+        new ImageIcon(PunchesFrame.class.getResource(
+            "/icons/music-note-32_16px.png")));
+
+    return musicNotes;
+  }
+
+  /**
+   * Initialize PartPanels
+   *
+   * @param parts - a List containing the Song's Parts
+   */
+  private void initPartPanels(List<Part> parts)
+  {
+    panels = new LinkedList<>();
+    wrappers = new LinkedList<>();
+
+    panSong.removeAll();
+
+    panSong.getSong().refreshIndices();
+
+    final Iterator<Part> itParts = parts.listIterator();
+    for(int i = 0; itParts.hasNext(); i++) {
+      PartPanel panel = new PartPanel(itParts.next());
+      panels.add(panel);
+      panel.setParentFrame(this);
+      panel.positionDivider();
+      wrappers.add(new JCustomizer(panel));
+
+      JCustomizer wrapper = wrappers.get(i);
+      wrapper.addCustomizerListener(new CustomizerListener() {
+        @Override
+        public void customizerResetBoundsRel(CustomizerEvent e) {}
+        public void customizerReshapeRel(CustomizerEvent e) {}
+      });
+      makeEditable(wrapper);
+      panSong.addCustomizer(wrapper, 
+          new RelativeTableConstraints(0, i, 1, 1, wrapper, itl));
+    }
+
+    initialized = true;
+
+    //DEBUG {{{
+    if (debugging) {
+      step++;
+      System.out.println(step + ":initPartPanels()\n"     +
+                             "parts:\t" + parts.size()    + "\n" +
+                             "panels:\t" + panels.size()  + "\n" +
+                             "wrprs:\t" + wrappers.size() + "\n" +
+                             "\n*initialized*\n");
+    }
+    //////////// }}}
+  }
+
+  ////////////////////
   // HELPER METHODS //
   ////////////////////
 
   /**
-   * Adjusts Part cell width to fit window
+   * Process beat value combo box selection
+   *
+   * @return - beat value associated with selection
+   */
+  private BeatValue getBeatValue(int selectedIndex)
+  {
+    BeatValue value;
+
+    switch (selectedIndex) {
+      case 0:
+        value = BeatValue.WHOLE;
+        break;
+      case 1:
+        value = BeatValue.HALF;
+        break;
+      case 2:
+        value = BeatValue.QUARTER;
+        break;
+      case 3:
+        value = BeatValue.EIGHTH;
+        break;
+      case 4:
+        value = BeatValue.SIXTEENTH;
+        break;
+      case 5:
+        value = BeatValue.THIRTY_SECOND;
+        break;
+      default:
+        value = BeatValue.QUARTER;
+    }
+    return value;
+  }
+
+  /**
+   * Adjust Part cell width to fit window
    */
   private void adjustCellWidth()
   {
@@ -489,15 +606,12 @@ public class PunchesFrame extends JFrame implements ComponentListener
     cellWidth -= panSong.getInsets().left + panSong.getInsets().right;
     cellWidth -= getInsets().left + getInsets().right;
 
-    itl = new InfiniteTableLayout(cellWidth - 10, 200, panSong);
-    panSong.setCustomizerLayout(itl);
-
-    panSong.invalidate();
-    panSong.validate();
+    itl.setColumnWidth(0, cellWidth - 7);
   }
 
   /**
-   * Adds "double-click to edit" functionality to PartPanels
+   * Add "double-click to edit" functionality to PartPanels.<br />
+   * "Editable" panels change to an apricot color. 
    *
    * @param customizer - the JCustomizer wrapper object
    */
@@ -524,7 +638,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
   }
 
   /**
-   * Provides a clean exit when quit button is clicked
+   * Provide a clean exit when quit button is clicked
    */
   private void cleanExit()
   {
@@ -544,22 +658,99 @@ public class PunchesFrame extends JFrame implements ComponentListener
     return false;
   }
 
-  /**
-   * Populate Song panel
-   */
-  private void populateParts()
-  {
-    for (int i = 0; i < panSong.getSong().getParts().size(); i++) {
-      JCustomizer cell = new JCustomizer(
-          new PartPanel(panSong.getSong().getParts().get(i)));
-      makeEditable(cell);
-      panSong.addCustomizer(cell,
-          new RelativeTableConstraints(0, i, 1, 1, cell, itl));
-    }
+  ///**
+  // * Bind PartPanels to their wrappers
+  // */
+  //private void bindPartPanels()
+  //{
+  //  final Iterator<JCustomizer> itWrappers = wrappers.listIterator();
+  //  final Iterator<PartPanel> itPanels = panels.listIterator();
+  //  for ( ; itWrappers.hasNext() && itPanels.hasNext(); ) {
+  //    itWrappers.next().setComponent(itPanels.next());
+  //  }
 
-    panSong.revalidate();
-    scroller.revalidate();
-  }
+  //  //DEBUG {{{
+  //  if (debugging) {
+  //    step++;
+  //    System.out.println(step + ":bindPartPanels()\n"           +
+  //                              "\nwrprs:\t"  + wrappers.size() +
+  //                              "\npanels:\t" + panels.size()   + "\n");
+  //  }
+  //  //////////// }}}
+  //}
+
+  ///**
+  // * Bind Parts to their PartPanels
+  // *
+  // * @param parts - a List containing the song's Parts
+  // */
+  //private void bindParts(List<Part> parts)
+  //{
+  //  final Iterator<PartPanel> itPanels = panels.listIterator();
+  //  final Iterator<Part> itParts = parts.listIterator();
+  //  for ( ; itPanels.hasNext() && itParts.hasNext(); ) {
+  //    itPanels.next().setPart(itParts.next());
+  //  }
+
+  //  //DEBUG {{{
+  //  step++;
+  //  if (debugging) {
+  //    System.out.println(step + ":bindParts()\n"              +
+  //                              "\nparts:\t"  + parts.size()  +
+  //                              "\npanels:\t" + panels.size() + "\n");
+  //  }
+  //  //////////// }}}
+  //}
+
+  ///**
+  // * Populate Song panel
+  // */
+  //private void populateParts(List<Part> parts)
+  //{
+  //  if (wrappers.size() > parts.size()) {
+  //    Song song = panSong.getSong();
+  //    parts = song.getParts();
+  //    wrappers = new LinkedList<>(Arrays.asList(panSong.getCustomizers()));
+
+  //    panSong.removeAll();
+
+  //    final Iterator<JCustomizer> itWrappers = wrappers.listIterator();
+  //    final Iterator<PartPanel> itPanels = panels.listIterator();
+  //    final Iterator<Part> itParts = parts.listIterator();
+
+  //    for (int i = 0;
+  //         itParts.hasNext();
+  //         i++) {
+  //      JCustomizer wrapper = itWrappers.next();
+  //      PartPanel panel = itPanels.next();
+  //      panel.setParentFrame(this);
+
+  //      wrapper.setComponent(panel);
+  //      wrapper.addCustomizerListener(new CustomizerListener() {
+  //        @Override
+  //        public void customizerResetBoundsRel(CustomizerEvent e) {}
+  //        public void customizerReshapeRel(CustomizerEvent e) {}
+  //      });
+  //      makeEditable(wrapper);
+
+  //      panSong.addCustomizer(wrapper,
+  //          new RelativeTableConstraints(0, i, 1, 1, wrapper, itl));
+  //    }
+  //  }
+
+  //  //DEBUG {{{
+  //  if (debugging) {
+  //    step++;
+  //    System.out.println(step + ":populateParts()"              + "\n" +
+  //                              "parts:\t"  + parts.size()      + "\n" +
+  //                              "panels:\t" + panels.size()     + "\n" +
+  //                              "wrprs:\t"  + wrappers.size()   + "\n" +
+  //                              "loaded cstmzrs:"               + 
+  //                              panSong.getCustomizers().length + "\n");
+  //    printPartList();
+  //  }
+  //  //////////// }}}
+  //}
 
   ////////////////////
   // BUTTON METHODS //
@@ -567,18 +758,31 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
   /**
    * Create a new Song
+   *
+   * TODO fix
    */
   public void createSong()
   {
-    // TODO
-    // if (hasUnsavedChanges()) {
-    //   prompt();
-    // }
-    panSong.getSong().clearParts();
-    panSong.removeAll();
+    if (hasUnsavedChanges()) {
+       // TODO prompt();
+    }
+    else {
+      panSong.setSong(new Song());
+      panSong.removeAll();
 
-    panSong.setSong(new Song());
-    populateParts();
+      //DEBUG {{{
+      if (debugging) {
+        step++;
+        System.out.println(step + ":createSong()\n");
+        printPartList(); 
+      }
+      //////////// }}}
+
+      initPartPanels(panSong.getSong().getParts());
+
+      panSong.repaint();
+      panSong.revalidate();
+    }
   }
 
   /**
@@ -586,8 +790,103 @@ public class PunchesFrame extends JFrame implements ComponentListener
    */
   public void addPart()
   {
-    panSong.getSong().addNewPart();
-    panSong.removeAll();
-    populateParts();
+    //DEBUG {{{
+    if (debugging) {
+      step++;
+      System.out.println(step + ":addPart()");
+      printPartList(); 
+    }
+    //////////// }}}
+    Song song = panSong.getSong();
+
+    Part part = new Part();
+    song.addPart(part);
+    PartPanel panel = new PartPanel(part);
+    panels.add(panel);
+    panel.setParentFrame(this);
+    wrappers.add(new JCustomizer(panel));
+
+    song.refreshIndices();
+
+    int rowIndex = wrappers.size() - 1;
+    makeEditable(wrappers.get(rowIndex));
+    panSong.addCustomizer(wrappers.get(rowIndex),
+        new RelativeTableConstraints(0, rowIndex, 1, 1, wrappers.get(rowIndex),
+            itl));
+
+    panSong.revalidate();
   }
+
+  /**
+   * Removes a Part from the Song
+   *
+   * @param part - the Part to remove
+   * TODO fix
+   */
+  public void removePart(int index)
+  {
+    Song song = panSong.getSong();
+
+    song.getParts().remove(index);
+    song.refreshIndices();
+
+    panSong.removeAll();
+
+    initPartPanels(song.getParts());
+
+    panSong.repaint();
+    panSong.revalidate();
+
+    //DEBUG {{{
+    step++;
+    if (debugging) {
+      System.out.println(step + ":removePart()\n");
+      printPartList(); 
+    }
+    //////////// }}}
+  }
+
+  //DEBUG {{{
+  public void printPartList() 
+  {
+    System.out.println("\n----");
+    for (Part part : panSong.getSong().getParts()) {
+      System.out.println(part.getIndex() + ": " + part.getName());
+    }
+    System.out.println("----\n");
+  }
+  //////////// }}}
+
+  ///////////////////////////////
+  // ComponentListener Methods //
+  ///////////////////////////////
+
+  @Override
+  public void componentHidden(ComponentEvent e) {};
+  @Override
+  public void componentShown(ComponentEvent e)  {};
+  @Override
+  public void componentMoved(ComponentEvent e)  {};
+
+  /**
+   * Dynamically resizes Part cells when frame is resized
+   *
+   * @param e the resize event
+   */
+  @Override
+  public  void componentResized(ComponentEvent e) {
+    //DEBUG {{{
+    if (debugging) {
+      step++;
+      System.out.println(step + ": !! resize event\n"); 
+    }
+    //////////// }}}
+
+    if (initialized) {
+      adjustCellWidth();
+    }
+
+    panSong.revalidate();
+  };
 }
+

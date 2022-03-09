@@ -3,15 +3,17 @@ package Punches;
 import java.awt.Image;
 /**
  * @author Vince Aquilina
- * @version Tue 15 Feb 2022
+ * @version 03/09/22
  */
 public class Part
 {
   private String name;
-  private int lengthInBars;
   private String notes;
-  private Image sheetSnippet;
+  private int index;   // position in part list
+  private int lengthInBars;
+
   private String[] tabSnippet;
+  private Image sheetSnippet;
 
   /**
    * Constructs a default Part
@@ -126,6 +128,14 @@ public class Part
   }
 
   /**
+   * Set the position in the part list
+   */
+  public void setIndex(int index)
+  {
+    this.index = index;
+  }
+
+  /**
    * Get the part name
    *
    * @return the part name
@@ -173,5 +183,13 @@ public class Part
   public String[] getTabSnippet()
   {
     return tabSnippet;
+  }
+
+  /**
+   * Get the position in the part list
+   */
+  public int getIndex()
+  {
+    return index;
   }
 }

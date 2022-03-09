@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * @author Vince Aquilina
- * @version 03/06/22
+ * @version 03/09/22
  *
  * A class representing the outline of a song, made up of Parts and metadata.
  */
@@ -26,7 +26,7 @@ public class Song implements Serializable
     signature = new TimeSignature(4, BeatValue.QUARTER);
     bpm = 120;
     parts = new ArrayList<Part>();
-    addNewPart();
+    parts.add(new Part());
   }
 
   /**
@@ -43,15 +43,6 @@ public class Song implements Serializable
     this.title = title;
     this.signature = signature;
     this.bpm = bpm;
-  }
-
-  /**
-   * Add a new default part to the Song
-   */
-  public void addNewPart()
-  {
-    Part newPart = new Part();
-    parts.add(newPart);
   }
 
   /**
@@ -150,6 +141,16 @@ public class Song implements Serializable
   public int getBpm()
   {
     return bpm;
+  }
+
+  /**
+   * Tells Parts about their position in the list
+   */
+  public void refreshIndices()
+  {
+    for (Part part : parts) {
+      part.setIndex(parts.indexOf(part));
+    }
   }
 
   /**

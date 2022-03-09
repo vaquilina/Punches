@@ -1,37 +1,55 @@
 package Punches;
 
-import java.awt.Image;
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusListener;
+import java.awt.event.FocusEvent;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JSplitPane;
-import javax.swing.JPanel;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
-import javax.swing.JLabel;
-import javax.swing.BorderFactory;
+
 import net.miginfocom.swing.MigLayout;
 
 /**
  * @author Vince Aquilina
- * @version 03/05/22
+ * @version 03/09/22
  *
- * A Part component that represents a cell in the SongPanel.
+ * A Part component that represents a cell in the Song.
+ *
+ * TODO: implement ComponentListener?
  *
  */
 public class PartPanel extends JPanel
 {
-  protected Image sheetImage;           // sheet music snippet
-  private Part part;                    // Part data for this component
-  private PartNotePane notePane;        // notes pane
-  private JPanel musicPanel;            // panel for sheet music/tab snippets
-  private JPanel metaPanel;             // panel for Part metadata
+  protected Image sheetImage;
 
-  // metaPanel fields
-  private JTextField txtPartName;          // Part name field
+  private PunchesFrame parentFrame;
+  private Integer dividerLocation;
+
+  private JPanel fieldsPanel;
+  private JPanel musicPanel;  // panel for sheet music/tab snippets
+  private JSplitPane split;
+  private Part part;
+  private PartNotePane notePane;
+
+  // fieldsPanel fields
   private JTextField txtPartLength;        // Part length field
+  private JTextField txtPartName;          // Part name field
 
   // Colours
   Color panelGray = new Color(0xDDDDDD);
@@ -44,6 +62,9 @@ public class PartPanel extends JPanel
   public PartPanel(Part part)
   {
     this.part = part;
+
+    KeyboardFocusManager kfMgr = 
+      KeyboardFocusManager.getCurrentKeyboardFocusManager();
 
     /* Panel properties */
     setLayout(new MigLayout("Insets 5, fill"));
@@ -60,17 +81,83 @@ public class PartPanel extends JPanel
 
     /* Fields section */
     // TODO implement delete part, assign values to fields
-    metaPanel = new JPanel(new MigLayout("Insets 0"));
-    metaPanel.setBackground(panelGray);
-    metaPanel.setBorder(BorderFactory.createTitledBorder(
+    fieldsPanel = new JPanel(new MigLayout("Insets 0"));
+    fieldsPanel.setBackground(panelGray);
+    fieldsPanel.setBorder(BorderFactory.createTitledBorder(
           new EtchedBorder(EtchedBorder.LOWERED), "Fields"));
 
     txtPartName = new JTextField(part.getName());
+    txtPartName.addFocusListener(new FocusListener() {
+      @Override
+      public void focusGained(FocusEvent e)
+      {
+        txtPartName.setFont(new Font(Font.SERIF, Font.PLAIN, 12));
+        txtPartName.setForeground(Color.BLACK);
+      }
+      @Override
+      public void focusLost(FocusEvent e)
+      {
+        if (! txtPartName.getText().equals(part.getName()))  {
+          txtPartName.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 12));
+          txtPartName.setForeground(Color.RED);
+        }
+        else {
+          txtPartName.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 12));
+          txtPartName.setForeground(Color.BLACK);
+        }
+      }
+    });
+    txtPartName.addActionListener(
+        new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            part.setName(txtPartName.getText());
+
+            kfMgr.clearGlobalFocusOwner();
+          }
+        });
+
     txtPartLength = new JTextField(String.valueOf(part.getLengthInBars()));
+    txtPartLength.addFocusListener(new FocusListener() {
+      @Override
+      public void focusGained(FocusEvent e)
+      {
+        txtPartLength.setFont(new Font(Font.SERIF, Font.PLAIN, 12));
+        txtPartLength.setForeground(Color.BLACK);
+      }
+      @Override
+      public void focusLost(FocusEvent e)
+      {
+        if (! txtPartLength.getText().equals
+            (String.valueOf(part.getLengthInBars())))  {
+          txtPartLength.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 12));
+          txtPartLength.setForeground(Color.RED);
+        }
+        else {
+          txtPartLength.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 12));
+          txtPartLength.setForeground(Color.BLACK);
+        }
+
+        System.out.println(part.getLengthInBars());
+      }
+    });
+    txtPartLength.addActionListener(
+        new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            part.setLengthInBars(Integer.valueOf(txtPartLength.getText()));
+          }
+        });
 
     ImageIcon deleteIcon = new ImageIcon(
         PartPanel.class.getResource("/icons/delete.png"));
     JButton btnDelete = new JButton("delete", deleteIcon);
+    btnDelete.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        parentFrame.removePart(part.getIndex());
+      }
+    });
 
     // Punches button
     ImageIcon fistIcon = new ImageIcon(
@@ -83,24 +170,83 @@ public class PartPanel extends JPanel
     btnPunches.setFocusPainted(false);
     btnPunches.setContentAreaFilled(false);
 
-    metaPanel.add(new JLabel("Name:"));
-    metaPanel.add(txtPartName, "growx, wrap");
-    metaPanel.add(new JLabel("# of bars:"));
-    metaPanel.add(txtPartLength, "w 30!, split");
-    metaPanel.add(btnDelete, "h 20!, wrap");
-    metaPanel.add(btnPunches, "gaptop 10, alignx 50%, span");
+    fieldsPanel.add(new JLabel("Name:"));
+    fieldsPanel.add(txtPartName, "growx, wrap");
+    fieldsPanel.add(new JLabel("# of bars:"));
+    fieldsPanel.add(txtPartLength, "w 30!, split");
+    fieldsPanel.add(btnDelete, "h 20!, wrap");
+    fieldsPanel.add(btnPunches, "gaptop 10, alignx 50%, span");
 
     /* Split pane */
     // TODO ensure split sizes are retained on part resize, window resize
-    JSplitPane split = new JSplitPane(
+    split = new JSplitPane(
         JSplitPane.HORIZONTAL_SPLIT, musicPanel, notePane);
     split.setBorder(BorderFactory.createTitledBorder(
           new EtchedBorder(EtchedBorder.LOWERED), "Notes"));
     split.setBackground(panelGray);
 
+    dividerLocation = 10; // default position
+
+    // if user re-positions divider, remember new location
+    split.addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent e) {
+        if (e.getPropertyName().equals(
+              JSplitPane.DIVIDER_LOCATION_PROPERTY)) {
+          dividerLocation = split.getDividerLocation();
+              }
+      }
+    });
+
     // add components to part panel
-    add(metaPanel, "gapleft 30, gapbottom 5, w 20%, growy, dock west");
+    add(fieldsPanel, "gapleft 30, gapbottom 5, w 20%, growy, dock west");
     add(split, "growy, dock center");
+  }
+
+  /**
+   * Get the part assigned to this component
+   *
+   * @return the part assigned to this component
+   */
+  public Part getPart()
+  {
+    return part;
+  }
+
+  /**
+   * Get the split pane's divider location
+   */
+  public Integer getSplitDividerLocation()
+  {
+    return dividerLocation;
+  }
+
+  /**
+   * Assign a new part to this component
+   *
+   * @param part - the new part to be assigned
+   */
+  public void setPart(Part part)
+  {
+    this.part = part;
+  }
+
+  /**
+   * Assign reference to parent PunchesFrame
+   *
+   * @param parentFrame - reference to the parent PunchesFrame
+   */
+  public void setParentFrame(PunchesFrame parentFrame)
+  {
+    this.parentFrame = parentFrame;
+  }
+
+  /**
+   * Position the split pane divider
+   */
+  public void positionDivider()
+  {
+    split.setDividerLocation(dividerLocation);
   }
 
   /**
@@ -116,25 +262,5 @@ public class PartPanel extends JPanel
 
     g2d.setColor(getBackground());
     g2d.fillRect(0, 0, getWidth(), getHeight());
-  }
-
-  /**
-   * Get the part assigned to this component
-   *
-   * @return the part assigned to this component
-   */
-  public Part getPart()
-  {
-    return part;
-  }
-
-  /**
-   * Assign a new part to this component
-   *
-   * @param part - the new part to be assigned
-   */
-  public void setPart(Part part)
-  {
-    this.part = part;
   }
 }
