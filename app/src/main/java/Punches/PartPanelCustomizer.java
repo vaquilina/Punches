@@ -1,92 +1,150 @@
 package Punches;
 
+import java.awt.Color;
+import java.awt.Rectangle;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
-
-import java.awt.Dimension;
-
-import javax.swing.JComponent;
-import javax.swing.JLayeredPane;
 
 import org.softsmithy.lib.swing.customizer.JCustomizer;
 import org.softsmithy.lib.swing.customizer.event.CustomizerListener;
 import org.softsmithy.lib.swing.customizer.event.CustomizerEvent;
 /**
  * @author Vince Aquilina
- * @version 03/09/22
+ * @version 03/10/22
  *
  * Extended JCustomizer with custom behaviour.
  */
 class PartPanelCustomizer extends JCustomizer implements CustomizerListener
 {
-  public static final int XPOS = 0;     // parent SongPanel uses a single column
+  /** This column */
+  public static final int COLUMN = 0;
 
+  /** y position */
   private int yPos;
+  /** Last known width of rectangle */
   private int width;
+  /** Last known height of rectangle */
   private int height;
+  /** Last known row */
+  private int row;
+  /** Last known rowSpan */
+  private int rowSpan;
+  /** The wrapped PartPanel */
+  private PartPanel partPanel;
 
-  // Flags
-  private boolean overlapping;
+  //DEBUG
   private boolean debugging;
 
   /**
    * Construct a default PartPanelCustomizer
    */
-  public PartPanelCustomizer(JComponent component) {
-    super(component);
+  public PartPanelCustomizer(PartPanel partPanel) 
+  {
+    super(partPanel);
 
-    //DEBUG
-    debugging = false;
+    //DEBUG {{{
+    debugging = true;
+    //////////// }}}
+
+    this.partPanel = partPanel;
 
     yPos = 0;
-    width = getWidth();
-    height = getHeight();
+    width = 0;
+    height = 0;
+    row = 0;
+    rowSpan = 1;
 
+    // listen for move/resize events
     addCustomizerListener(this);
-
-    //registerPropertyChangeListener();
   }
 
   /**
    * Set the value for stored y position
    */
-  public void setStoredYPos(int yPos) {
+  public void setStoredYPos(int yPos) 
+  {
     this.yPos = yPos;
   }
 
   /**
    * Set the value for stored width
    */
-  public void setStoredWidth(int width) {
+  public void setStoredWidth(int width) 
+  {
     this.width = width;
   }
 
   /**
    * Set the value for stored width
    */
-  public void setStoredHeight(int height) {
+  public void setStoredHeight(int height) 
+  {
     this.height = height;
   }
 
   /**
    * Get the stored y position
    */
-  public int getStoredYPos() {
+  public int getStoredYPos() 
+  {
     return yPos;
   }
 
   /**
-   * Get the stored width
+   * Set the row span
    */
-  public int getStoredWidth() {
+  public void setRowSpan(int rowSpan)
+  {
+    this.rowSpan = rowSpan;
+  }
+
+  /**
+   * Get the stored width
+   *
+   * @return the stored width
+   */
+  public int getStoredWidth() 
+  {
     return width;
   }
 
   /**
    * Get the stored height
+   *
+   * @return the stored height
    */
-  public int getStoredHeight() {
+  public int getStoredHeight() 
+  {
     return height;
+  }
+
+  /**
+   * Get the row
+   *
+   * @return the row
+   */
+  public int getRow()
+  {
+    return row;
+  }
+
+  /**
+   * Get the row span
+   * 
+   * @return the row span
+   */
+  public int getRowSpan()
+  {
+    return rowSpan;
+  }
+
+  /**
+   * Get the PartPanel
+   */
+  public PartPanel getPartPanel()
+  {
+    return partPanel;
   }
 
   ////////////////////
@@ -94,9 +152,9 @@ class PartPanelCustomizer extends JCustomizer implements CustomizerListener
   ////////////////////
   
   /**
-   * Register a PropertyChangeEvent
+   * Register a PropertyChangeListener
    */
-  private void registerPropertyChangeListener()
+  public void registerPropertyChangeListener()
   {
     this.addPropertyChangeListener(new PropertyChangeListener() {
       @Override
@@ -111,28 +169,42 @@ class PartPanelCustomizer extends JCustomizer implements CustomizerListener
   @Override
   public void customizerResetBoundsRel(CustomizerEvent e) {
     // TODO: grab indexes of overlapped customizers in order to reorder parts
+    if (getStateManager().getMoveState().isDragging()) {
+      getParent().setComponentZOrder(this, 0);
+    }
+
+    width = getWidth();
+    height = getHeight();
+
     //DEBUG {{{
     if (debugging) {
-      System.out.println("\npps: " + "[" + getX() + ", " + getY() + "]");
-      System.out.println("intersect? " +
+      System.out.println("dragging \"" + partPanel.getPart().getName() + "\"");
+      System.out.println("\tpos: " + "[" + getX() + ", " + getY() + "]");
+      System.out.println("\tdim: " + "[" + width + " x " + height + "]");
+      System.out.println("\tintersects: " +
         getParentCustomizerPane().
         getIntersectedCustomizers(getVisibleRect()).length);
-      System.out.println("dragging? " +
-          getStateManager().getMoveState().isDragging());
     }
     //////////// }}}
   }
 
   @Override
   public void customizerReshapeRel(CustomizerEvent e) {
-    setX(XPOS);
+    setX(COLUMN);
+    yPos = getY();
+    row = yPos / 200;
+    rowSpan = getHeight() / 200;
+
     //DEBUG {{{
     if (debugging) {
-      System.out.println("\nx:" + getX());
-      System.out.println("y:" + getY());
-      System.out.println("w:" + getWidth());
-      System.out.println("h:" + getHeight());
+      System.out.println("\t" + partPanel.getPart().getName());
+      System.out.println("\ty:" + getY());
+      System.out.println("\tw:" + getWidth());
+      System.out.println("\th:" + getHeight());
+      System.out.println("\tr:" + row);
+      System.out.println("\ts:" + rowSpan);
     }
     //////////// }}}
   }
 }
+

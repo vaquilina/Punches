@@ -24,37 +24,43 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 
 import net.miginfocom.swing.MigLayout;
-
 /**
  * @author Vince Aquilina
- * @version 03/09/22
+ * @version 03/10/22
  *
  * A Part component that represents a cell in the Song.
  */
 public class PartPanel extends JPanel
 {
+  /** The sheet music snippet */
   protected Image sheetImage;
 
+  /** Reference to the parent frame */
   private PunchesFrame parentFrame;
+  /** The location of the split pane divider */
   private Integer dividerLocation = 10;
 
+  /** The panel containing Part fields and metadata */
   private JPanel fieldsPanel;
-  private JPanel musicPanel;  // panel for sheet music/tab snippets
+  /** The panel containing sheet music/tab snippets */
+  private JPanel musicPanel;
+  /** The split pane containing the fieldsPanel and musicPanel */
   private JSplitPane split;
+  /** The Part data */
   private Part part;
+  /** The text pane containing Part notes */
   private PartNotePane notePane;
 
-  // fieldsPanel fields
+  /** The part length field */
   private JTextField txtPartLength;        // Part length field
+  /** the part name field */
   private JTextField txtPartName;          // Part name field
 
-  // Colours
-  Color panelGray = new Color(0xDDDDDD);
+  private Color panelGray = new Color(0xDDDDDD);
 
-  // Flags
+  //DEBUG
   private boolean debugging;
-
-  private int step = 0; // for debugging
+  private int step = 0;
 
   /**
    * Constructs the component with the given Part data
@@ -199,7 +205,7 @@ public class PartPanel extends JPanel
           if (debugging) {
             step++;
             System.out.println("PARTPANEL:" + step + " !! div moved:" + 
-                "pos " + dividerLocation + "\n");
+                "pos " + dividerLocation);
           }
           //////////// }}}
         }
@@ -273,3 +279,4 @@ public class PartPanel extends JPanel
     g2d.fillRect(0, 0, getWidth(), getHeight());
   }
 }
+
