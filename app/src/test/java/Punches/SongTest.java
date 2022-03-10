@@ -7,19 +7,31 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * @author Vince Aquilina
+ * @version 03/09/22
+ *
+ * Tests for the Song class.
+ */
 class SongTest
 {
   private final Song song = new Song();
 
+  /**
+   * Default Song object should be created
+   */
   @Test
   void defaultSongObjectShouldBeCreated()
   {
     assertEquals("", song.getTitle());
     assertEquals("4/4", song.getSignature().toString());
     assertEquals(120, song.getBpm());
-    assertTrue(song.getParts().isEmpty());
+    assertNotNull(song.getParts().get(0));
   }
 
+  /**
+   * Custom Song object should be created
+   */
   @Test
   void customSongShouldBeCreated()
   {
@@ -37,15 +49,21 @@ class SongTest
     assertEquals(80, newSong.getBpm());
   }
 
+  /**
+   * New Part should be added
+   */
   @Test
   void newPartShouldBeAdded()
   {
     song.setParts(new ArrayList<Part>());
-    song.addNewPart();
+    song.addPart(new Part());
 
     assertFalse(song.getParts().isEmpty());
   }
 
+  /**
+   * Existing Part should be added
+   */
   @Test
   void existingPartShouldBeAdded()
   {

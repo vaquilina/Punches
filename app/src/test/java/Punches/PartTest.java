@@ -13,11 +13,20 @@ import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * @author Vince Aquilina
+ * @version 03/09/22
+ *
+ * Tests for the Part class.
+ */
 class PartTest
 {
   ClassLoader loader = getClass().getClassLoader();
   Part part = new Part();
 
+  /**
+   * Default Part should be created
+   */
   @Test
   void defaultPartShouldBeCreated()
   {
@@ -28,6 +37,9 @@ class PartTest
     assertNull(part.getTabSnippet());
   }
 
+  /**
+   * Custom Part without a sheet music or tab snippet should be created
+   */
   @Test
   void customPartWithoutSnippetShouldBeCreated()
   {
@@ -44,6 +56,9 @@ class PartTest
     assertNull(newPart.getTabSnippet());
   }
 
+  /**
+   * Custom Part with a sheet music snippet should be created 
+   */
   @Test
   void customPartWithSheetSnippetShouldBeCreated() throws IOException
   {
@@ -63,6 +78,9 @@ class PartTest
     assertNull(newPart.getTabSnippet());
   }
 
+  /**
+   * Custome Part with tab snippet should be created
+   */
   @Test
   void customPartWithTabSnippetShouldBeCreated() throws IOException
   {

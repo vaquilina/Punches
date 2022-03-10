@@ -30,16 +30,13 @@ import net.miginfocom.swing.MigLayout;
  * @version 03/09/22
  *
  * A Part component that represents a cell in the Song.
- *
- * TODO: implement ComponentListener?
- *
  */
 public class PartPanel extends JPanel
 {
   protected Image sheetImage;
 
   private PunchesFrame parentFrame;
-  private Integer dividerLocation;
+  private Integer dividerLocation = 10;
 
   private JPanel fieldsPanel;
   private JPanel musicPanel;  // panel for sheet music/tab snippets
@@ -54,6 +51,11 @@ public class PartPanel extends JPanel
   // Colours
   Color panelGray = new Color(0xDDDDDD);
 
+  // Flags
+  private boolean debugging;
+
+  private int step = 0; // for debugging
+
   /**
    * Constructs the component with the given Part data
    *
@@ -65,6 +67,8 @@ public class PartPanel extends JPanel
 
     KeyboardFocusManager kfMgr = 
       KeyboardFocusManager.getCurrentKeyboardFocusManager();
+
+    debugging = true;
 
     /* Panel properties */
     setLayout(new MigLayout("Insets 5, fill"));
@@ -80,7 +84,6 @@ public class PartPanel extends JPanel
     notePane.setBorder(new EtchedBorder(EtchedBorder.RAISED));
 
     /* Fields section */
-    // TODO implement delete part, assign values to fields
     fieldsPanel = new JPanel(new MigLayout("Insets 0"));
     fieldsPanel.setBackground(panelGray);
     fieldsPanel.setBorder(BorderFactory.createTitledBorder(
@@ -185,16 +188,21 @@ public class PartPanel extends JPanel
           new EtchedBorder(EtchedBorder.LOWERED), "Notes"));
     split.setBackground(panelGray);
 
-    dividerLocation = 10; // default position
-
     // if user re-positions divider, remember new location
     split.addPropertyChangeListener(new PropertyChangeListener() {
       @Override
       public void propertyChange(PropertyChangeEvent e) {
-        if (e.getPropertyName().equals(
-              JSplitPane.DIVIDER_LOCATION_PROPERTY)) {
+        if (e.getPropertyName().equals(JSplitPane.DIVIDER_LOCATION_PROPERTY)) {
           dividerLocation = split.getDividerLocation();
-              }
+
+          //DEBUG {{{
+          if (debugging) {
+            step++;
+            System.out.println("PARTPANEL:" + step + " !! div moved:" + 
+                "pos " + dividerLocation + "\n");
+          }
+          //////////// }}}
+        }
       }
     });
 
@@ -247,6 +255,7 @@ public class PartPanel extends JPanel
   public void positionDivider()
   {
     split.setDividerLocation(dividerLocation);
+    split.revalidate();
   }
 
   /**

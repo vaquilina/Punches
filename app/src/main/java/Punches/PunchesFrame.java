@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.KeyboardFocusManager;
-import java.awt.datatransfer.Clipboard;
+//import java.awt.datatransfer.Clipboard;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -13,7 +13,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap; // maintains order of keys
 import java.util.LinkedList;
@@ -35,9 +34,7 @@ import javax.swing.UIManager;
 
 import net.miginfocom.swing.MigLayout;
 
-import org.softsmithy.lib.swing.customizer.JCustomizer;
-import org.softsmithy.lib.swing.customizer.event.CustomizerEvent;
-import org.softsmithy.lib.swing.customizer.event.CustomizerListener;
+//import org.softsmithy.lib.swing.customizer.JCustomizer;
 import org.softsmithy.lib.swing.customizer.layout.InfiniteTableLayout;
 import org.softsmithy.lib.swing.customizer.layout.RelativeTableConstraints;
 
@@ -59,7 +56,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
   private InfiniteTableLayout itl;            // layout manager for panSong
   private JScrollPane scroller;               // scrollpane containing panSong
 
-  private List<JCustomizer> wrappers;         // part panel wrappers
+  private List<PartPanelCustomizer> wrappers;         // part panel wrappers
   private List<PartPanel> panels;             // part panels
 
   // Flags
@@ -338,41 +335,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
             // TODO exportToPDF();
           }
         });
-    toolbarButtons.get("Cut Selection").addActionListener(
-        new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            // TODO cutSelection();
-          }
-        });
-    toolbarButtons.get("Copy Selection").addActionListener(
-        new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            // TODO copySelection();
-          }
-        });
-    toolbarButtons.get("Paste Selection").addActionListener(
-        new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            // TODO pasteSelection;
-          }
-        });
-    toolbarButtons.get("Undo Last Action").addActionListener(
-        new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            // TODO undo();
-          }
-        });
-    toolbarButtons.get("Redo Last Action").addActionListener(
-        new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            // TODO redo();
-          }
-        });
+
     toolbarButtons.get("Add Part").addActionListener(
         new ActionListener() {
           @Override
@@ -395,6 +358,15 @@ public class PunchesFrame extends JFrame implements ComponentListener
             cleanExit();
           }
         });
+
+    // TODO Clipboard
+    toolbarButtons.get("Cut Selection").setEnabled(false);
+    toolbarButtons.get("Copy Selection").setEnabled(false);
+    toolbarButtons.get("Paste Selection").setEnabled(false);
+
+    // TODO Command history
+    toolbarButtons.get("Undo Last Action").setEnabled(false);
+    toolbarButtons.get("Redo Last Action").setEnabled(false);
 
     /*
      * Song Panel
@@ -514,6 +486,8 @@ public class PunchesFrame extends JFrame implements ComponentListener
   /**
    * Initialize PartPanels
    *
+   * TODO: store dimensions, restore when repainted
+   *
    * @param parts - a List containing the Song's Parts
    */
   private void initPartPanels(List<Part> parts)
@@ -530,18 +504,16 @@ public class PunchesFrame extends JFrame implements ComponentListener
       PartPanel panel = new PartPanel(itParts.next());
       panels.add(panel);
       panel.setParentFrame(this);
-      panel.positionDivider();
-      wrappers.add(new JCustomizer(panel));
+      wrappers.add(new PartPanelCustomizer(panel));
 
-      JCustomizer wrapper = wrappers.get(i);
-      wrapper.addCustomizerListener(new CustomizerListener() {
-        @Override
-        public void customizerResetBoundsRel(CustomizerEvent e) {}
-        public void customizerReshapeRel(CustomizerEvent e) {}
-      });
+      PartPanelCustomizer wrapper = wrappers.get(i);
+
       makeEditable(wrapper);
+
       panSong.addCustomizer(wrapper, 
           new RelativeTableConstraints(0, i, 1, 1, wrapper, itl));
+
+      panel.positionDivider();
     }
 
     initialized = true;
@@ -613,9 +585,9 @@ public class PunchesFrame extends JFrame implements ComponentListener
    * Add "double-click to edit" functionality to PartPanels.<br />
    * "Editable" panels change to an apricot color. 
    *
-   * @param customizer - the JCustomizer wrapper object
+   * @param customizer - the PartPanelCustomizer wrapper object
    */
-  private void makeEditable(JCustomizer cell)
+  private void makeEditable(PartPanelCustomizer cell)
   {
     cell.addActionListener(new ActionListener() {
       boolean editing;
@@ -633,6 +605,14 @@ public class PunchesFrame extends JFrame implements ComponentListener
           cell.getStateManager().setStateMove();
           editing = false;
         }
+
+        //DEBUG {{{
+        if (debugging) {
+          step++;
+          System.out.println(step + ":makeEditable()");
+          System.out.println("editing? " + editing + "\n");
+        }
+        //////////// }}}
       }
     });
   }
@@ -658,100 +638,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
     return false;
   }
 
-  ///**
-  // * Bind PartPanels to their wrappers
-  // */
-  //private void bindPartPanels()
-  //{
-  //  final Iterator<JCustomizer> itWrappers = wrappers.listIterator();
-  //  final Iterator<PartPanel> itPanels = panels.listIterator();
-  //  for ( ; itWrappers.hasNext() && itPanels.hasNext(); ) {
-  //    itWrappers.next().setComponent(itPanels.next());
-  //  }
-
-  //  //DEBUG {{{
-  //  if (debugging) {
-  //    step++;
-  //    System.out.println(step + ":bindPartPanels()\n"           +
-  //                              "\nwrprs:\t"  + wrappers.size() +
-  //                              "\npanels:\t" + panels.size()   + "\n");
-  //  }
-  //  //////////// }}}
-  //}
-
-  ///**
-  // * Bind Parts to their PartPanels
-  // *
-  // * @param parts - a List containing the song's Parts
-  // */
-  //private void bindParts(List<Part> parts)
-  //{
-  //  final Iterator<PartPanel> itPanels = panels.listIterator();
-  //  final Iterator<Part> itParts = parts.listIterator();
-  //  for ( ; itPanels.hasNext() && itParts.hasNext(); ) {
-  //    itPanels.next().setPart(itParts.next());
-  //  }
-
-  //  //DEBUG {{{
-  //  step++;
-  //  if (debugging) {
-  //    System.out.println(step + ":bindParts()\n"              +
-  //                              "\nparts:\t"  + parts.size()  +
-  //                              "\npanels:\t" + panels.size() + "\n");
-  //  }
-  //  //////////// }}}
-  //}
-
-  ///**
-  // * Populate Song panel
-  // */
-  //private void populateParts(List<Part> parts)
-  //{
-  //  if (wrappers.size() > parts.size()) {
-  //    Song song = panSong.getSong();
-  //    parts = song.getParts();
-  //    wrappers = new LinkedList<>(Arrays.asList(panSong.getCustomizers()));
-
-  //    panSong.removeAll();
-
-  //    final Iterator<JCustomizer> itWrappers = wrappers.listIterator();
-  //    final Iterator<PartPanel> itPanels = panels.listIterator();
-  //    final Iterator<Part> itParts = parts.listIterator();
-
-  //    for (int i = 0;
-  //         itParts.hasNext();
-  //         i++) {
-  //      JCustomizer wrapper = itWrappers.next();
-  //      PartPanel panel = itPanels.next();
-  //      panel.setParentFrame(this);
-
-  //      wrapper.setComponent(panel);
-  //      wrapper.addCustomizerListener(new CustomizerListener() {
-  //        @Override
-  //        public void customizerResetBoundsRel(CustomizerEvent e) {}
-  //        public void customizerReshapeRel(CustomizerEvent e) {}
-  //      });
-  //      makeEditable(wrapper);
-
-  //      panSong.addCustomizer(wrapper,
-  //          new RelativeTableConstraints(0, i, 1, 1, wrapper, itl));
-  //    }
-  //  }
-
-  //  //DEBUG {{{
-  //  if (debugging) {
-  //    step++;
-  //    System.out.println(step + ":populateParts()"              + "\n" +
-  //                              "parts:\t"  + parts.size()      + "\n" +
-  //                              "panels:\t" + panels.size()     + "\n" +
-  //                              "wrprs:\t"  + wrappers.size()   + "\n" +
-  //                              "loaded cstmzrs:"               + 
-  //                              panSong.getCustomizers().length + "\n");
-  //    printPartList();
-  //  }
-  //  //////////// }}}
-  //}
-
   ////////////////////
   // BUTTON METHODS //
   ////////////////////
@@ -759,7 +645,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
   /**
    * Create a new Song
    *
-   * TODO fix
    */
   public void createSong()
   {
@@ -804,15 +689,17 @@ public class PunchesFrame extends JFrame implements ComponentListener
     PartPanel panel = new PartPanel(part);
     panels.add(panel);
     panel.setParentFrame(this);
-    wrappers.add(new JCustomizer(panel));
+    wrappers.add(new PartPanelCustomizer(panel));
 
     song.refreshIndices();
 
     int rowIndex = wrappers.size() - 1;
     makeEditable(wrappers.get(rowIndex));
     panSong.addCustomizer(wrappers.get(rowIndex),
-        new RelativeTableConstraints(0, rowIndex, 1, 1, wrappers.get(rowIndex),
-            itl));
+        new RelativeTableConstraints(wrappers.get(rowIndex), itl));
+
+    wrappers.get(rowIndex).setY(wrappers.get(rowIndex - 1).getY() + 
+        wrappers.get(rowIndex - 1).getHeight());
 
     panSong.revalidate();
   }
@@ -821,7 +708,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
    * Removes a Part from the Song
    *
    * @param part - the Part to remove
-   * TODO fix
    */
   public void removePart(int index)
   {

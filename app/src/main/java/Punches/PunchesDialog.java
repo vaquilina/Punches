@@ -6,7 +6,7 @@ import javax.sound.midi.Track;
 
 /**
  * @author Vince Aquilina
- * @version Thu 17 Feb 2022
+ * @version 03/10/22
  *
  * The "Punches Interface".
  */
@@ -24,13 +24,15 @@ public class PunchesDialog extends JDialog
 
   /*private Rhythm generateRhythm()
   {
+    // TODO implement method
     return new Rhythm();
   }
 
   private Sequence captureSequence()
   {
-    // TODO
+    // TODO implement method
     // PPQ indicates tempo-based timing (pulses per quarter)
+
     return new Sequence(Sequence.PPQ, 4);
     // will want to use higher resolution, then quantize down
   }*/
