@@ -1,7 +1,6 @@
 package Punches;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Graphics;
@@ -29,15 +28,13 @@ import net.miginfocom.swing.MigLayout;
  * A Part component that represents a cell in the Song.
  *
  * @author Vince Aquilina
- * @version 03/11/22
+ * @version 03/12/22
  */
 public class PartPanel extends JPanel
 {
   /** The sheet music snippet */
   protected Image sheetImage;
 
-  /** Reference to the parent frame */
-  private PunchesFrame parentFrame;
   /** The location of the split pane divider */
   private Integer dividerLocation = 10;
 

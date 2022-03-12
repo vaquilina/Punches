@@ -42,7 +42,7 @@ import org.softsmithy.lib.swing.customizer.layout.RelativeTableConstraints;
  * Punches Desktop GUI.
  *
  * @author Vince Aquilina
- * @version 03/11/22
+ * @version 03/12/22
  *
  * TODO: Write tests
  * TODO: implement clipboard
@@ -504,7 +504,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
     cells = new LinkedList<>();
 
     PartPanelWrapper cell = new PartPanelWrapper(new Part());
-    cell.getPartPanel().setParentFrame(this);
     cell.getPartPanel().getDeleteButton().
       addActionListener(new ActionListener() {
       @Override
@@ -692,7 +691,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
     PartPanelWrapper cell = new PartPanelWrapper(part);
 
-    cell.getPartPanel().setParentFrame(this);
     cell.getPartPanel().getDeleteButton().
       addActionListener(new ActionListener() {
       @Override
