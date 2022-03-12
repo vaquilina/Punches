@@ -1,7 +1,7 @@
 package Punches;
 
-import java.awt.Color;
-import java.awt.Rectangle;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
@@ -10,16 +10,15 @@ import org.softsmithy.lib.swing.customizer.JCustomizer;
 import org.softsmithy.lib.swing.customizer.event.CustomizerListener;
 import org.softsmithy.lib.swing.customizer.event.CustomizerEvent;
 /**
- * @author Vince Aquilina
- * @version 03/10/22
- *
  * Extended JCustomizer with custom behaviour.
+ *
+ * @author Vince Aquilina
+ * @version 03/11/22
+ *
+ * TODO: Logic for re-ordering parts 
  */
 class PartPanelCustomizer extends JCustomizer implements CustomizerListener
 {
-  /** This column */
-  public static final int COLUMN = 0;
-
   /** y position */
   private int yPos;
   /** Last known width of rectangle */
@@ -38,13 +37,15 @@ class PartPanelCustomizer extends JCustomizer implements CustomizerListener
 
   /**
    * Construct a default PartPanelCustomizer
+   *
+   * @param partPanel - the PartPanel to wrap
    */
   public PartPanelCustomizer(PartPanel partPanel) 
   {
     super(partPanel);
 
     //DEBUG {{{
-    debugging = true;
+    debugging = false;
     //////////// }}}
 
     this.partPanel = partPanel;
@@ -61,6 +62,9 @@ class PartPanelCustomizer extends JCustomizer implements CustomizerListener
 
   /**
    * Set the value for stored y position
+   *
+   * @param yPos - the last known y position of the
+   * upper left corner of the component
    */
   public void setStoredYPos(int yPos) 
   {
@@ -69,6 +73,8 @@ class PartPanelCustomizer extends JCustomizer implements CustomizerListener
 
   /**
    * Set the value for stored width
+   *
+   * @param width - the last known width of the component
    */
   public void setStoredWidth(int width) 
   {
@@ -77,6 +83,8 @@ class PartPanelCustomizer extends JCustomizer implements CustomizerListener
 
   /**
    * Set the value for stored width
+   *
+   * @param height - the last known height of the component
    */
   public void setStoredHeight(int height) 
   {
@@ -84,15 +92,9 @@ class PartPanelCustomizer extends JCustomizer implements CustomizerListener
   }
 
   /**
-   * Get the stored y position
-   */
-  public int getStoredYPos() 
-  {
-    return yPos;
-  }
-
-  /**
    * Set the row span
+   *
+   * @param rowSpan - the number of rows this component occupies
    */
   public void setRowSpan(int rowSpan)
   {
@@ -100,9 +102,19 @@ class PartPanelCustomizer extends JCustomizer implements CustomizerListener
   }
 
   /**
+   * Get the stored y position
+   *
+   * @return the last known y position
+   */
+  public int getStoredYPos() 
+  {
+    return yPos;
+  }
+
+  /**
    * Get the stored width
    *
-   * @return the stored width
+   * @return the last known width of the component
    */
   public int getStoredWidth() 
   {
@@ -112,7 +124,7 @@ class PartPanelCustomizer extends JCustomizer implements CustomizerListener
   /**
    * Get the stored height
    *
-   * @return the stored height
+   * @return the last known height of the component
    */
   public int getStoredHeight() 
   {
@@ -122,7 +134,7 @@ class PartPanelCustomizer extends JCustomizer implements CustomizerListener
   /**
    * Get the row
    *
-   * @return the row
+   * @return the first row on which this component resides
    */
   public int getRow()
   {
@@ -132,27 +144,25 @@ class PartPanelCustomizer extends JCustomizer implements CustomizerListener
   /**
    * Get the row span
    * 
-   * @return the row span
+   * @return the number of rows this component occupies
    */
   public int getRowSpan()
   {
     return rowSpan;
   }
-
-  /**
-   * Get the PartPanel
-   */
-  public PartPanel getPartPanel()
-  {
-    return partPanel;
-  }
-
-  ////////////////////
-  // HELPER METHODS //
-  ////////////////////
   
+  ///**
+  // * Get the PartPanel
+  // *
+  // * @return the PartPanel this component wraps
+  // */
+  //public PartPanel getPartPanel()
+  //{
+  //  return partPanel;
+  //}
+
   /**
-   * Register a PropertyChangeListener
+   * Register a PropertyChangeListener to this component
    */
   public void registerPropertyChangeListener()
   {
@@ -162,13 +172,29 @@ class PartPanelCustomizer extends JCustomizer implements CustomizerListener
     });
   }
 
+  /**
+   * Register a ComponentListener to this component
+   */
+  public void registerComponentListener()
+  {
+    this.addComponentListener(new ComponentListener() {
+      @Override
+      public void componentHidden(ComponentEvent e) {}
+      @Override
+      public void componentShown(ComponentEvent e) {}
+      @Override
+      public void componentMoved(ComponentEvent e) {}
+      @Override
+      public void componentResized(ComponentEvent e) {}
+    });
+  }
+
   ////////////////////////////////
   // CustomizerListener Methods //
   ////////////////////////////////
   
   @Override
   public void customizerResetBoundsRel(CustomizerEvent e) {
-    // TODO: grab indexes of overlapped customizers in order to reorder parts
     if (getStateManager().getMoveState().isDragging()) {
       getParent().setComponentZOrder(this, 0);
     }
@@ -190,13 +216,20 @@ class PartPanelCustomizer extends JCustomizer implements CustomizerListener
 
   @Override
   public void customizerReshapeRel(CustomizerEvent e) {
-    setX(COLUMN);
+    setX(0);
+    rowSpan = getHeight() / 200;
+
+    int intersects = getParentCustomizerPane().
+        getIntersectedCustomizers(getVisibleRect()).length;
+    if (intersects > 1 || row == 0 && intersects > 0) {
+      setY(yPos);
+    }
     yPos = getY();
     row = yPos / 200;
-    rowSpan = getHeight() / 200;
 
     //DEBUG {{{
     if (debugging) {
+      System.out.println(this.getClass());
       System.out.println("\t" + partPanel.getPart().getName());
       System.out.println("\ty:" + getY());
       System.out.println("\tw:" + getWidth());

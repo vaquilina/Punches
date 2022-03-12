@@ -14,10 +14,10 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 
+import java.util.ListIterator;
 import java.util.LinkedHashMap; // maintains order of keys
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Vector;
 
@@ -35,7 +35,6 @@ import javax.swing.UIManager;
 
 import net.miginfocom.swing.MigLayout;
 
-import org.softsmithy.lib.swing.customizer.event.CustomizerEvent;
 import org.softsmithy.lib.swing.customizer.layout.InfiniteTableLayout;
 import org.softsmithy.lib.swing.customizer.layout.RelativeTableConstraints;
 /**
@@ -45,12 +44,10 @@ import org.softsmithy.lib.swing.customizer.layout.RelativeTableConstraints;
  * @version 03/11/22
  *
  * TODO: Write tests
- * TODO: implement clipboard
- * TODO: implement command history
- * TODO: add manual reordering  
  */
 public class PunchesFrame extends JFrame implements ComponentListener
 {
+  //TODO: implement clipboard
   //private Clipboard internalClipboard;      // for yank/put Part
   //private Clipboard externalClipboard;      // for yank/put text or image
 
@@ -61,22 +58,18 @@ public class PunchesFrame extends JFrame implements ComponentListener
   /** Scroll pane for panSong */
   private JScrollPane scroller;
 
-  /** Bound Part cells */
-  List<PartPanelWrapper> cells;
+  /** Wraps part panels */
+  private List<PartPanelCustomizer> wrappers;
+  /** Part panels*/
+  private List<PartPanel> panels;
 
   /** Flags that there are unsaved changes */
   private boolean unsavedChanges;
   /** Flags that the song panel has been initialized */
   private boolean initialized;
 
-  /** Row height */
-  private static final int ROWHEIGHT = 200;
-  /** The column in which the panel will be drawn */
-  public static final int COLUMN = 0;
-
-
   //DEBUG {{{
-  private boolean debugging = true;
+  private boolean debugging;
   private int step = 0;
   //////////// }}}
 
@@ -92,6 +85,10 @@ public class PunchesFrame extends JFrame implements ComponentListener
   public PunchesFrame(String title)
   {
     super(title);
+
+    //DEBUG {{{
+    debugging = true;
+    //////////// }}}
 
     KeyboardFocusManager kfMgr = 
       KeyboardFocusManager.getCurrentKeyboardFocusManager();
@@ -408,11 +405,11 @@ public class PunchesFrame extends JFrame implements ComponentListener
     cellWidth -= panSong.getInsets().left + panSong.getInsets().right;
     cellWidth -= getInsets().left + getInsets().right;
 
-    itl = new InfiniteTableLayout(cellWidth, ROWHEIGHT, panSong);
+    itl = new InfiniteTableLayout(cellWidth, 200, panSong);
     panSong.setCustomizerLayout(itl);
 
     // adjust initial window height
-    setBounds(getX(), getY(), getWidth(), 1080); 
+    setBounds(getX(), getY(), getWidth(), 1037); 
 
     setMinimumSize(new Dimension(getWidth(),
           toolbar.getHeight() + 237));
@@ -420,7 +417,8 @@ public class PunchesFrame extends JFrame implements ComponentListener
     // listen for resize events
     addComponentListener(this);
 
-    initSongPanel();
+    initPartPanels(panSong.getSong().getParts());
+
   }
 
   //////////////////
@@ -499,73 +497,56 @@ public class PunchesFrame extends JFrame implements ComponentListener
    *
    * @param parts - a List containing the Song's Parts
    */
-  private void initSongPanel()
+  private void initPartPanels(List<Part> parts)
   {
-    cells = new LinkedList<>();
+    panSong.removeAll();
 
-    PartPanelWrapper cell = new PartPanelWrapper(new Part());
-    cell.getPartPanel().setParentFrame(this);
-    cell.getPartPanel().getDeleteButton().
-      addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-       removePart(cell.getPart().getIndex());
-      }
-    });
+    panels = new LinkedList<>();
+    wrappers = new LinkedList<>();
 
-    cells.add(cell);
-
-    // make Parts aware of their position in the Song
     panSong.getSong().refreshIndices();
-    cell.getPartPanel().updateIndex(cell.getPart().getIndex());
 
-    panSong.addCustomizer(cell.getPartPanelCustomizer(), 
-        new RelativeTableConstraints(COLUMN, 0,
-          1, 1, cell.getPartPanelCustomizer(), itl));
+    final ListIterator<Part> itParts = parts.listIterator();
+    for(int i = 0; itParts.hasNext(); i++) {
+      PartPanel panel = new PartPanel(itParts.next());
+      panels.add(panel);
+      panel.setParentFrame(this);
+      wrappers.add(new PartPanelCustomizer(panel));
 
-    PartPanelCustomizer customizer = cell.getPartPanelCustomizer();
-    cell.getPartPanelCustomizer().registerComponentListener();
-    cell.getPartPanelCustomizer().registerPropertyChangeListener();
+      PartPanelCustomizer wrapper = wrappers.get(i);
 
-    int width = adjustCellWidth();
+      makeEditable(wrapper);
 
-    // fire a CustomizerEvent to make cell aware of its position
-    customizer.customizerReshapeRel(
-        new CustomizerEvent(
-          customizer, COLUMN, 0, width, ROWHEIGHT
-          ));
+      panSong.addCustomizer(wrapper, 
+          new RelativeTableConstraints(PartPanelCustomizer.COLUMN, i,
+            1, 1, wrapper, itl));
 
-    // fire a CustomizerEvent to make cell aware of its size
-    customizer.customizerResetBoundsRel(new CustomizerEvent(
-          customizer, COLUMN, 0, width, ROWHEIGHT
-          ));
+      wrapper.registerPropertyChangeListener();
 
-    panSong.repaint();
-    panSong.revalidate();
+      adjustCellWidth();
 
-    cell.storePosition();
+      wrapper.reshapeRel(0, wrapper.getY(), (int) itl.getColumnWidth(0),
+          (int) itl.getRowHeight(0));
 
-    //DEBUG {{{
-    if (debugging) {
-      step++;
-      System.out.println(step + ":initSongPanel()\n" +
-          "parts:\t" + panSong.getSong().getParts().size() + "\n" +
-          "cells:\t" + cells.size() + "\n" +
-          "*parts initialized*");
-      System.out.println("part: " +
-          cell.getPartPanel().getPart().getName());
-      System.out.println("initial y:" + cell.getStoredPosition().y);
-      System.out.println("initial w:" +
-          cell.getStoredPosition().width);
-      System.out.println("initial h:" +
-          cell.getStoredPosition().height);
-      System.out.println("initial r:" +
-          cell.getPartPanelCustomizer().getRow());
-      System.out.println("initial s:" +
-          cell.getPartPanelCustomizer().getRowSpan());
+      //DEBUG {{{
+      if (debugging) {
+        step++;
+        System.out.println("*panel added*");
+        System.out.println("part: " +
+            wrapper.getPartPanel().getPart().getName());
+        System.out.println("initial y:" + wrapper.getStoredYPos());
+        System.out.println("initial w:" + wrapper.getStoredWidth());
+        System.out.println("initial h:" + wrapper.getStoredHeight());
+        System.out.println("initial r:" + wrapper.getRow());
+        System.out.println("initial s:" + wrapper.getRowSpan());
+        System.out.println(step + ":initPartPanels()\n"        +
+                                  "parts:\t" + parts.size()    + "\n" +
+                                  "panels:\t" + panels.size()  + "\n" +
+                                  "wrprs:\t" + wrappers.size() + "\n" +
+                                  "*parts initialized*");
+      }
+      //////////// }}}
     }
-    //////////// }}}
-
     initialized = true;
   }
 
@@ -581,6 +562,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
   private BeatValue getBeatValue(int selectedIndex)
   {
     BeatValue value;
+
     switch (selectedIndex) {
       case 0:
         value = BeatValue.WHOLE;
@@ -607,23 +589,52 @@ public class PunchesFrame extends JFrame implements ComponentListener
   }
 
   /**
-   * Adjust Part cells width to fill horizontal space
-   *
-   * @return the new cell width
+   * Adjust Part cell width to fit window
    */
-  private int adjustCellWidth()
+  private void adjustCellWidth()
   {
     int cellWidth = (int) (getContentPane().getSize().getWidth() - 
         ((Integer)(UIManager.get("ScrollBar.width"))).intValue());
     cellWidth -= panSong.getInsets().left + panSong.getInsets().right;
     cellWidth -= getInsets().left + getInsets().right;
 
-    // offset
-    cellWidth -= 7;
+    itl.setColumnWidth(0, cellWidth - 7);
+  }
 
-    itl.setColumnWidth(0, cellWidth);
+  /**
+   * Add "double-click to edit" functionality to PartPanels.<br />
+   * "Editable" panels change to an apricot color. 
+   *
+   * @param customizer - the PartPanelCustomizer wrapper object
+   */
+  private void makeEditable(PartPanelCustomizer cell)
+  {
+    cell.addActionListener(new ActionListener() {
+      boolean editing;
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        if (!editing) {
+          cell.getComponent().setBackground(apricot);
+          cell.setComponentZOrder(cell.getComponent(1), 0);
+          cell.getStateManager().setStateNormal();
+          editing = true;
+        }
+        else {
+          cell.getComponent().setBackground(panelGray);
+          cell.setComponentZOrder(cell.getComponent(1), 0);
+          cell.getStateManager().setStateMove();
+          editing = false;
+        }
 
-    return cellWidth;
+        //DEBUG {{{
+        if (debugging) {
+          step++;
+          System.out.println(step + ":makeEditable()");
+          System.out.println("editing? " + editing);
+        }
+        //////////// }}}
+      }
+    });
   }
 
   /**
@@ -631,9 +642,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
    */
   private void cleanExit()
   {
-    if (hasUnsavedChanges()) {
-      // TODO prompt();
-    }
+    // TODO: check for unsaved changes, running threads; prompt
     System.exit(0);
   }
 
@@ -659,7 +668,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
   public void createSong()
   {
     if (hasUnsavedChanges()) {
-      // TODO prompt();
+       // TODO prompt();
     }
     else {
       panSong.setSong(new Song());
@@ -673,7 +682,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
       }
       //////////// }}}
 
-      initSongPanel();
+      initPartPanels(panSong.getSong().getParts());
 
       panSong.repaint();
       panSong.revalidate();
@@ -685,79 +694,58 @@ public class PunchesFrame extends JFrame implements ComponentListener
    */
   public void addPart()
   {
+    // grab Song reference
     Song song = panSong.getSong();
+
+    // create new Part
     Part part = new Part();
 
+    // add new Part to Song
     song.addPart(part);
 
-    PartPanelWrapper cell = new PartPanelWrapper(part);
+    // create new PartPanel and it to the panel list
+    PartPanel panel = new PartPanel(part);
+    panels.add(panel);
 
-    cell.getPartPanel().setParentFrame(this);
-    cell.getPartPanel().getDeleteButton().
-      addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-       removePart(cell.getPart().getIndex());
-      }
-    });
+    // tell the new PartPanel who its daddy is
+    panel.setParentFrame(this);
 
-    cell.getPartPanelCustomizer().registerComponentListener();
-    cell.getPartPanelCustomizer().registerPropertyChangeListener();
+    // create new PartPanelCustomizer to wrap the new PartPanel
+    wrappers.add(new PartPanelCustomizer(panel));
 
-    cells.add(cell);
-
+    // make Parts aware of their position in the Song
     song.refreshIndices();
-    cell.getPartPanel().updateIndex(cell.getPart().getIndex());
 
-    // calculate row to add cell to
-    int row = 0;
+    /* add wrapped PartPanel to SongPanel */
+    int rowIndex = wrappers.size() - 1;
 
-    int y = 0;
-    if (cells.size() > 1) {
-      PartPanelCustomizer prevCell =
-        cells.get(cells.size() - 2).getPartPanelCustomizer();
+    PartPanelCustomizer wrapper = wrappers.get(rowIndex);
+    PartPanelCustomizer prevWrapper = wrappers.get(rowIndex - 1);
 
-      y = prevCell.getY() + prevCell.getHeight();
-    }
+    makeEditable(wrapper);
 
-    panSong.addCustomizer(cell.getPartPanelCustomizer(),
-        new RelativeTableConstraints(COLUMN, row, 1, 1,
-          cell.getPartPanelCustomizer(), itl));
+    panSong.addCustomizer(wrappers.get(rowIndex),
+        new RelativeTableConstraints(0, 0, 1, 1, wrapper, itl));
 
-    PartPanelCustomizer customizer = cell.getPartPanelCustomizer();
-
-    customizer.setY(y);
-    
-
-    panSong.repaint();
-    panSong.revalidate();
-
-    cell.storePosition();
+    int y = prevWrapper.getY() + prevWrapper.getHeight();
+    wrapper.reshapeRel(0, y, (int) itl.getColumnWidth(0),
+        (int) itl.getRowHeight(0));
 
     //DEBUG {{{
     if (debugging) {
       step++;
       System.out.println(step + ":addPart()");
+      System.out.println("*panel added*");
       System.out.println("part: " +
-          cell.getPartPanel().getPart().getName());
-      System.out.println("initial y:" +
-          cell.getPartPanelCustomizer().getStoredYPos());
-      System.out.println("initial w:" +
-          cell.getPartPanelCustomizer().getStoredWidth());
-      System.out.println("initial h:" +
-          cell.getPartPanelCustomizer().getStoredHeight());
-
+          wrapper.getPartPanel().getPart().getName());
+      System.out.println("initial y:" + wrapper.getStoredYPos());
+      System.out.println("initial w:" + wrapper.getStoredWidth());
+      System.out.println("initial h:" + wrapper.getStoredHeight());
+      System.out.println("initial r:" + wrapper.getRow());
+      System.out.println("initial s:" + wrapper.getRowSpan());
       printPartList(); 
     }
     //////////// }}}
-  }
-
-  /**
-   * Re-layout Part cells
-   */
-  public void refreshTable()
-  {
-
   }
 
   /**
@@ -770,28 +758,19 @@ public class PunchesFrame extends JFrame implements ComponentListener
     Song song = panSong.getSong();
 
     song.getParts().remove(index);
-    panSong.remove(cells.get(index).getPartPanelCustomizer());
-    cells.remove(index);
-
     song.refreshIndices();
 
-    
-  ListIterator<PartPanelWrapper> itCells = cells.listIterator();
-    while (itCells.hasNext()) {
-      PartPanelWrapper cell = itCells.next();
-      cell.getPartPanel().updateIndex(cell.getPart().getIndex());
-    }
+    panSong.removeAll();
 
-    panSong.updateUI();
-    repaint();
-    revalidate();
-    
+    initPartPanels(song.getParts());
+
+    panSong.repaint();
+    panSong.revalidate();
+
     //DEBUG {{{
     step++;
     if (debugging) {
       System.out.println(step + ":removePart()");
-      System.out.println("parts: " + panSong.getSong().getParts().size());
-      System.out.println("cells: " + cells.size());
       printPartList(); 
     }
     //////////// }}}

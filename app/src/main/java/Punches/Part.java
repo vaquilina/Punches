@@ -2,21 +2,29 @@ package Punches;
 
 import java.awt.Image;
 /**
+ * Encapsulates information about sections of a Song.
+ *
  * @author Vince Aquilina
- * @version 03/09/22
+ * @version 03/11/22
  */
 public class Part
 {
+  /** Part name */
   private String name;
+  /** Part notes */
   private String notes;
-  private int index;   // position in part list
+  /** Part's position in the Song */
+  private int index;
+  /** Part length in bars */
   private int lengthInBars;
 
+  /** Tabulature snippet (line-wise) */
   private String[] tabSnippet;
+  /** Sheet music snippet */
   private Image sheetSnippet;
 
   /**
-   * Constructs a default Part
+   * Construct a default Part
    */
   public Part()
   {
@@ -28,7 +36,7 @@ public class Part
   }
 
   /**
-   * Constructs a Part with the given metadata
+   * Construct a Part with the given metadata
    *
    * @param name - name of section
    * @param lengthInBars - length of the part, in bars
@@ -44,7 +52,7 @@ public class Part
   }
 
   /**
-   * Constructs a Part with the given metadata
+   * Construct a Part with the given metadata, with a sheet music snippet
    *
    * @param name - name of section
    * @param lengthInBars - length of the part, in bars
@@ -61,7 +69,7 @@ public class Part
   }
 
   /**
-   * Constructs a Part with the given metadata
+   * Construct a Part with the given metadata, with a tabulature snippet
    *
    * @param name - name of section
    * @param lengthInBars - length of the part, in bars
@@ -78,9 +86,28 @@ public class Part
   }
 
   /**
+   * Construct a Part with all fields set
+   *
+   * @param name - name of section
+   * @param lengthInBars - length of the part, in bars
+   * @param notes - sidenotes about the part
+   * @param tabSnippet - the tabulature snippet
+   * @param sheetSnippet - the sheet music snippet
+   */
+  public Part(String name, int lengthInBars, String notes,
+      String[] tabSnippet, Image sheetSnippet)
+  {
+    this.name = name;
+    this.lengthInBars = lengthInBars;
+    this.notes = notes;
+    this.tabSnippet = tabSnippet;
+    this.sheetSnippet = sheetSnippet;
+  }
+
+  /**
    * Set the name of the part
    *
-   * @param the part name
+   * @param name - the part name
    */
   public void setName(String name)
   {
@@ -90,7 +117,7 @@ public class Part
   /**
    * Set the length of the part
    *
-   * @param the length of the part, in bars
+   * @param lengthInBars - the length of the part, in bars
    */
   public void setLengthInBars(int lengthInBars)
   {
@@ -100,7 +127,7 @@ public class Part
   /**
    * Set the part notes
    *
-   * @param the part notes
+   * @param notes - the part notes
    */
   public void setNotes(String notes)
   {
@@ -110,7 +137,7 @@ public class Part
   /**
    * Set the sheet music snippet
    *
-   * @param the sheet music snippet
+   * @param sheetSnippet - the sheet music snippet
    */
   public void setSheetSnippet(Image sheetSnippet)
   {
@@ -120,7 +147,7 @@ public class Part
   /**
    * Set the tabulature snippet
    *
-   * @param the tabulature snippet
+   * @param tabSnippet - the tabulature snippet
    */
   public void setTabSnippet(String[] tabSnippet)
   {
@@ -129,6 +156,8 @@ public class Part
 
   /**
    * Set the position in the part list
+   *
+   * @param index - the Part's index in the parts array
    */
   public void setIndex(int index)
   {
@@ -187,9 +216,12 @@ public class Part
 
   /**
    * Get the position in the part list
+   *
+   * @return the Part's index in the parts array
    */
   public int getIndex()
   {
     return index;
   }
 }
+

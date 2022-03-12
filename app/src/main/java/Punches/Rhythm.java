@@ -3,18 +3,19 @@ package Punches;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.InvalidMidiDataException;
 import java.awt.image.BufferedImage;
-
 /**
- * @author Vince Aquilina
- * @version Wed 16 Feb 2022
- *
  * Objects of this class represent a quantized midi 
  * sequence of the rhythm keyed in to the Punches Interface.
+ *
+ * @author Vince Aquilina
+ * @version 03/11/22
  */
 public class Rhythm
 {
-  private Sequence received;        // "raw" unquantized
-  private Sequence preparedRhythm;  // quantized
+  /** The "raw" (unquantized) MIDI sequence */
+  private Sequence received;
+  /** The "prepared" (quantized) MIDI sequence */
+  private Sequence preparedRhythm;
 
   /**
    * Construct a Rhythm from a Sequence
@@ -55,3 +56,4 @@ public class Rhythm
   // converts preparedRhythm to tab snippet
   // public String[] toTab() {}
 }
+

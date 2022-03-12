@@ -1,6 +1,7 @@
 package Punches;
 
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Graphics;
@@ -25,10 +26,10 @@ import javax.swing.border.EtchedBorder;
 
 import net.miginfocom.swing.MigLayout;
 /**
- * @author Vince Aquilina
- * @version 03/10/22
- *
  * A Part component that represents a cell in the Song.
+ *
+ * @author Vince Aquilina
+ * @version 03/11/22
  */
 public class PartPanel extends JPanel
 {
@@ -52,18 +53,23 @@ public class PartPanel extends JPanel
   private PartNotePane notePane;
 
   /** The part length field */
-  private JTextField txtPartLength;        // Part length field
-  /** the part name field */
-  private JTextField txtPartName;          // Part name field
+  private JTextField txtPartLength;
+  /** The part name field */
+  private JTextField txtPartName;
+  /** The Label part's position in the song */
+  private JLabel lblName;
+  /** The delete button */
+  private JButton btnDelete;
 
   private Color panelGray = new Color(0xDDDDDD);
 
-  //DEBUG
-  private boolean debugging;
+  //DEBUG {{{
+  private boolean debugging = false;
   private int step = 0;
+  //////////// }}}
 
   /**
-   * Constructs the component with the given Part data
+   * Construct the component with the given Part data
    *
    * @param part - the Part object assigned to the component
    */
@@ -73,8 +79,6 @@ public class PartPanel extends JPanel
 
     KeyboardFocusManager kfMgr = 
       KeyboardFocusManager.getCurrentKeyboardFocusManager();
-
-    debugging = true;
 
     /* Panel properties */
     setLayout(new MigLayout("Insets 5, fill"));
@@ -94,6 +98,8 @@ public class PartPanel extends JPanel
     fieldsPanel.setBackground(panelGray);
     fieldsPanel.setBorder(BorderFactory.createTitledBorder(
           new EtchedBorder(EtchedBorder.LOWERED), "Fields"));
+
+    lblName = new JLabel("Name: (" + part.getIndex() + ")");
 
     txtPartName = new JTextField(part.getName());
     txtPartName.addFocusListener(new FocusListener() {
@@ -160,13 +166,7 @@ public class PartPanel extends JPanel
 
     ImageIcon deleteIcon = new ImageIcon(
         PartPanel.class.getResource("/icons/delete.png"));
-    JButton btnDelete = new JButton("delete", deleteIcon);
-    btnDelete.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        parentFrame.removePart(part.getIndex());
-      }
-    });
+    btnDelete = new JButton("delete", deleteIcon);
 
     // Punches button
     ImageIcon fistIcon = new ImageIcon(
@@ -179,7 +179,8 @@ public class PartPanel extends JPanel
     btnPunches.setFocusPainted(false);
     btnPunches.setContentAreaFilled(false);
 
-    fieldsPanel.add(new JLabel("Name:"));
+
+    fieldsPanel.add(lblName);
     fieldsPanel.add(txtPartName, "growx, wrap");
     fieldsPanel.add(new JLabel("# of bars:"));
     fieldsPanel.add(txtPartLength, "w 30!, split");
@@ -229,6 +230,8 @@ public class PartPanel extends JPanel
 
   /**
    * Get the split pane's divider location
+   *
+   * @return the spit pane divider's location
    */
   public Integer getSplitDividerLocation()
   {
@@ -265,9 +268,27 @@ public class PartPanel extends JPanel
   }
 
   /**
-   * Defines how the component is to be painted.
+   * Update the index in the fields panel
    *
-   * @param g
+   * @param the part index
+   */
+  public void updateIndex(int index)
+  {
+    lblName.setText("Name: (" + index + ") ");
+  }
+
+  /**
+   * Get a reference to the delete button
+   */
+  public JButton getDeleteButton()
+  {
+    return btnDelete;
+  }
+
+  /**
+   * Define how the component is to be painted.
+   *
+   * @param g - graphics
    */
   @Override
   protected void paintComponent(Graphics g)

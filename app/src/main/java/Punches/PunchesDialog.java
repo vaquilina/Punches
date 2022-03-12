@@ -5,35 +5,51 @@ import javax.sound.midi.Sequence;
 import javax.sound.midi.Track;
 
 /**
- * @author Vince Aquilina
- * @version 03/10/22
+ * The "Punches Interface" - The user will key in their rhythm here.
  *
- * The "Punches Interface".
+ * @author Vince Aquilina
+ * @version 03/11/22
  */
 public class PunchesDialog extends JDialog
 {
+  /** The MIDI sequence */
   private Sequence sequence;
+  /** The MIDI track; */
   private Track track;
+  /** The quantized rhythm */
   private Rhythm rhythm;
+  /** The Part to which the rhythm will be assigned */
   private Part relevantPart;
 
+  /**
+   * Construct a PunchesDialog
+   *
+   * @param relevantPart - the Part to which the rhythm will be assigned
+   */
   public PunchesDialog(Part relevantPart)
   {
     this.relevantPart = relevantPart;
   }
 
+  /**
+   * Create a Rhythm from a MIDI sequence
+   */
   /*private Rhythm generateRhythm()
   {
     // TODO implement method
     return new Rhythm();
   }
 
-  private Sequence captureSequence()
-  {
-    // TODO implement method
-    // PPQ indicates tempo-based timing (pulses per quarter)
+  /**
+   * Capture a sequence
+   */
+  //private Sequence captureSequence()
+  //{
+  //  // TODO implement method
+  //  // PPQ indicates tempo-based timing (pulses per quarter)
 
-    return new Sequence(Sequence.PPQ, 4);
-    // will want to use higher resolution, then quantize down
-  }*/
+  //  return new Sequence(Sequence.PPQ, 4);
+  //  // will want to use higher resolution, then quantize down
+  //}
 }
+

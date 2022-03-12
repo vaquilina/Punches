@@ -9,25 +9,29 @@ import java.awt.event.MouseEvent;
 
 import com.github.rjeschke.txtmark.Processor;
 /**
- * @author Vince Aquilina
- * @version Thu 03 Feb 2022 08:57:00 PM
- *
  * A JTextPane designed to contain Part notes.
+ *
+ * @author Vince Aquilina
+ * @version 03/11/22
  *
  * TODO: attribute txtmark
  *
  */
 public class PartNotePane extends JTextPane
 {
+  /** The notes as raw text */
   private String plainText;
 
   /**
-   * Constructs a default PartNotePane
+   * Construct a default PartNotePane
    */
   public PartNotePane()
   {
     plainText = "";
 
+    /*
+     * Press ENTER to render markdown 
+     */
     this.addKeyListener(new KeyListener() {
       @Override
       public void keyPressed(KeyEvent e) {
@@ -52,6 +56,9 @@ public class PartNotePane extends JTextPane
       public void keyTyped(KeyEvent e) {}
     });
 
+    /*
+     * LEFT CLICK to switch to plaintext entry
+     */
     this.addMouseListener(new MouseListener() {
       @Override
       public void mouseEntered(MouseEvent e) {}
@@ -74,7 +81,7 @@ public class PartNotePane extends JTextPane
   }
 
   /**
-   * Renders markdown text
+   * Render markdown/html text
    *
    * @param md - the text to render
    */
@@ -86,6 +93,6 @@ public class PartNotePane extends JTextPane
     setText(html);
     setEditable(false);
     getCaret().setVisible(false);
-    
   }
 }
+

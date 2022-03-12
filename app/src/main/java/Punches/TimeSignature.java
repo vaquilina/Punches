@@ -1,11 +1,11 @@
 package Punches;
 
 /**
- * @author Vince Aquilina
- * @version Thu 17 Feb 2022
- *
  * A type representing a Song's time signature,
  * made up of a numerator and a denominator.
+ *
+ * @author Vince Aquilina
+ * @version 03/11/22
  */
 public class TimeSignature
 {
@@ -13,7 +13,7 @@ public class TimeSignature
   private BeatValue valueOfABeat;
 
   /**
-   * Constructs a TimeSignature with given values
+   * Construct a TimeSignature with given values
    *
    * @param beatsPerBar - the number of beats per bar
    * @param valueOfABeat - the value of one beat
@@ -72,6 +72,8 @@ public class TimeSignature
   @Override
   public String toString()
   {
+    // TODO replace with better enum
+
     String beatValue = "";
     switch(valueOfABeat) {
       case WHOLE:

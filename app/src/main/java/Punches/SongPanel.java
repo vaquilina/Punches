@@ -2,10 +2,10 @@ package Punches;
 
 import org.softsmithy.lib.swing.customizer.JCustomizerPane;
 /**
- * @author Vince Aquilina
- * @version 03/09/22
+ * An extended JPanel designed to contain the parts of a Song.
  *
- * A JPanel designed to contain the parts of a Song.
+ * @author Vince Aquilina
+ * @version 03/11/22
  *
  * TODO: write tests
  */

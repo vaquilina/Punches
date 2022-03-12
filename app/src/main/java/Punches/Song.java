@@ -3,12 +3,13 @@ package Punches;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
- * @author Vince Aquilina
- * @version 03/09/22
+ * Encapsulates the outline of a song, made up of Parts and metadata.
  *
- * A class representing the outline of a song, made up of Parts and metadata.
+ * @author Vince Aquilina
+ * @version 03/11/22
  */
 public class Song implements Serializable
 {
@@ -18,7 +19,7 @@ public class Song implements Serializable
   private int bpm;                      // the song's tempo
 
   /**
-   * Contructs a default Song
+   * Contruct a default Song
    */
   public Song()
   {
@@ -30,7 +31,7 @@ public class Song implements Serializable
   }
 
   /**
-   * Constructs a song with given values
+   * Construct a song with given values
    *
    * @param parts - the collection of parts that comprise the song
    * @param title - the song title
@@ -46,7 +47,7 @@ public class Song implements Serializable
   }
 
   /**
-   * Add an existing part to the Song (Useful when pasting)
+   * Add an existing part to the Song (Useful when putting/pasting)
    *
    * @param part - the existing part
    */
@@ -86,7 +87,7 @@ public class Song implements Serializable
   /**
    * Set the time signature
    *
-   * @param the time signature
+   * @param signature - the time signature
    */
   public void setSignature(TimeSignature signature)
   {
@@ -144,17 +145,22 @@ public class Song implements Serializable
   }
 
   /**
-   * Tells Parts about their position in the list
+   * Tell Parts about their position in the list
    */
   public void refreshIndices()
   {
-    for (Part part : parts) {
+    ListIterator<Part> itParts = parts.listIterator();
+    while (itParts.hasNext()) {
+      Part part = itParts.next();
       part.setIndex(parts.indexOf(part));
+
+      //DEBUG
+      System.out.println("[" + part.getIndex() + "] " + part.getName()); 
     }
   }
 
   /**
-   * Produces a String representation of the Song
+   * Produce a String representation of the Song
    *
    * @return a String representation of the Song
    */
@@ -170,3 +176,4 @@ public class Song implements Serializable
     return songString;
   }
 }
+
