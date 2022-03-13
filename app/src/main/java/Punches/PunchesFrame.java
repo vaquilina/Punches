@@ -14,6 +14,13 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
+
 import java.util.LinkedHashMap; // maintains order of keys
 import java.util.LinkedList;
 import java.util.List;
@@ -25,6 +32,7 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -32,6 +40,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -42,7 +51,7 @@ import org.softsmithy.lib.swing.customizer.layout.RelativeTableConstraints;
  * Punches Desktop GUI.
  *
  * @author Vince Aquilina
- * @version 03/12/22
+ * @version 03/13/22
  *
  * TODO: Write tests
  * TODO: implement clipboard
@@ -63,6 +72,8 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
   /** Bound Part cells */
   List<PartPanelWrapper> cells;
+  /** Loaded file */
+  File loadedFile;
 
   /** Flags that there are unsaved changes */
   private boolean unsavedChanges;
@@ -326,21 +337,21 @@ public class PunchesFrame extends JFrame implements ComponentListener
         new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent e) {
-            // TODO loadSong();
+            loadSong();
           }
         });
     toolbarButtons.get("Save Song").addActionListener(
         new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent e) {
-            //TODO saveSong();
+            saveSong();
           }
         });
     toolbarButtons.get("Export to PDF directly").addActionListener(
         new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent e) {
-            // TODO exportToPDF();
+            exportSong();
           }
         });
 
@@ -573,6 +584,14 @@ public class PunchesFrame extends JFrame implements ComponentListener
   ////////////////////
 
   /**
+   * Re-layout Part cells
+   */
+  private void refreshTable()
+  {
+    //TODO: implement method
+  }
+
+  /**
    * Process beat value combo box selection
    *
    * @return - beat value associated with selection
@@ -645,7 +664,66 @@ public class PunchesFrame extends JFrame implements ComponentListener
    */
   private boolean hasUnsavedChanges()
   {
-    return false;
+    // TODO compare data
+    if (unsavedChanges) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  /**
+   * Write Song to selected file
+   *
+   * @param file - the file to write to
+   */
+  private void writeSongToFile(File file) 
+  {
+    try (ObjectOutputStream out = 
+        new ObjectOutputStream(new FileOutputStream(file))) {
+      out.writeObject(panSong.getSong());
+    }
+    catch (IOException e) {
+      //TODO handle
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Read Song from File
+   *
+   * @param file - the file to read from
+   */
+  private void readSongFromFile(File file) 
+  {
+    try (ObjectInputStream in = 
+        new ObjectInputStream(new FileInputStream(file))) {
+      panSong.setSong((Song) in.readObject());
+      //TODO refreshPanel();
+    }
+    catch (IOException e) {
+      //TODO handle
+      e.printStackTrace();
+    }
+    catch (ClassNotFoundException e) {
+      //TODO handle
+      e.printStackTrace();
+    }
+    catch (ClassCastException e) {
+      //TODO handle
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Write Song to PDF file
+   *
+   * @param pdfFile - the Adobe PDF file to write to
+   */
+  private void writeToPDF(File pdfFile) 
+  {
+    //TODO implement
   }
 
   ////////////////////
@@ -677,6 +755,79 @@ public class PunchesFrame extends JFrame implements ComponentListener
       panSong.repaint();
       panSong.revalidate();
     }
+  }
+
+  /**
+   * Load a Song from a file
+   */
+  public void loadSong()
+  {
+    if (hasUnsavedChanges()) {
+      //TODO prompt();
+    }
+    JFileChooser chooser = new JFileChooser();
+
+    chooser.setCurrentDirectory(
+        chooser.getFileSystemView().getDefaultDirectory());
+    chooser.setFileFilter(new FileNameExtensionFilter("Punches Files", "pnc"));
+    chooser.setMultiSelectionEnabled(false);
+    chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+    int choice = chooser.showOpenDialog(this);
+    if (choice == JFileChooser.APPROVE_OPTION) {
+      File selectedFile = chooser.getSelectedFile();
+      //TODO readSongFromFile(selectedFile);
+      //TODO refreshPanel();
+    }
+    else if (choice == JFileChooser.ERROR_OPTION) {
+      //TODO: handle
+    }
+  }
+
+  /**
+   * Save the current Song to a file
+   */
+  public void saveSong()
+  {
+    JFileChooser chooser = new JFileChooser();
+
+    chooser.setCurrentDirectory(
+        chooser.getFileSystemView().getDefaultDirectory());
+    chooser.setFileFilter(new FileNameExtensionFilter("Punches Files", "pnc"));
+    chooser.setMultiSelectionEnabled(false);
+    chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+    int choice = chooser.showSaveDialog(this);
+    if (choice == JFileChooser.APPROVE_OPTION) {
+      File selectedFile = chooser.getSelectedFile();
+      //TODO writeSongToFile(selectedFile);
+    }
+    else if (choice == JFileChooser.ERROR_OPTION) {
+      //TODO: handle
+    }
+  }
+
+  /**
+   * Export the song as a PDF
+   */
+  public void exportSong()
+  {
+    JFileChooser chooser = new JFileChooser();
+
+    chooser.setCurrentDirectory(
+        chooser.getFileSystemView().getDefaultDirectory());
+    chooser.setFileFilter(new FileNameExtensionFilter("PDF Files", "pdf"));
+    chooser.setMultiSelectionEnabled(false);
+    chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+    int choice = chooser.showSaveDialog(this);
+    if (choice == JFileChooser.APPROVE_OPTION) {
+      File selectedFile = chooser.getSelectedFile();
+      //TODO writeToPDF(selectedFile);
+    }
+    else if (choice == JFileChooser.ERROR_OPTION) {
+      //TODO: handle
+    } 
   }
 
   /**
@@ -748,14 +899,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
       printPartList(); 
     }
     //////////// }}}
-  }
-
-  /**
-   * Re-layout Part cells
-   */
-  public void refreshTable()
-  {
-
   }
 
   /**

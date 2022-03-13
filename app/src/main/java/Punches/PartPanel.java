@@ -246,16 +246,6 @@ public class PartPanel extends JPanel
   }
 
   /**
-   * Assign reference to parent PunchesFrame
-   *
-   * @param parentFrame - reference to the parent PunchesFrame
-   */
-  public void setParentFrame(PunchesFrame parentFrame)
-  {
-    this.parentFrame = parentFrame;
-  }
-
-  /**
    * Position the split pane divider
    */
   public void positionDivider()
