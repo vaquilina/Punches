@@ -1,13 +1,15 @@
 package Punches;
 
 import java.awt.Image;
+
+import java.io.Serializable;
 /**
  * Encapsulates information about sections of a Song.
  *
  * @author Vince Aquilina
- * @version 03/11/22
+ * @version 03/13/22
  */
-public class Part
+public class Part implements Serializable
 {
   /** Part name */
   private String name;

@@ -1,11 +1,12 @@
 package Punches;
 
+//import java.awt.datatransfer.Clipboard;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.KeyboardFocusManager;
-//import java.awt.datatransfer.Clipboard;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -72,8 +73,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
   /** Bound Part cells */
   List<PartPanelWrapper> cells;
-  /** Loaded file */
-  File loadedFile;
 
   /** Flags that there are unsaved changes */
   private boolean unsavedChanges;
@@ -534,8 +533,8 @@ public class PunchesFrame extends JFrame implements ComponentListener
           1, 1, cell.getPartPanelCustomizer(), itl));
 
     PartPanelCustomizer customizer = cell.getPartPanelCustomizer();
-    cell.getPartPanelCustomizer().registerComponentListener();
-    cell.getPartPanelCustomizer().registerPropertyChangeListener();
+    customizer.registerComponentListener();
+    customizer.registerPropertyChangeListener();
 
     int width = adjustCellWidth();
 
@@ -586,9 +585,86 @@ public class PunchesFrame extends JFrame implements ComponentListener
   /**
    * Re-layout Part cells
    */
-  private void refreshTable()
+  private void refreshTable(
+      List<Rectangle> bounds, List<Integer> dividerLocations)
   {
-    //TODO: implement method
+    panSong.removeAll();
+    panSong.repaint();
+
+    int cellWidth = adjustCellWidth();
+    itl = new InfiniteTableLayout(cellWidth, ROWHEIGHT, panSong);
+    panSong.setCustomizerLayout(itl);
+
+    cells = new LinkedList<>();
+
+    ListIterator<Part> itParts = panSong.getSong().getParts().listIterator();
+    ListIterator<Rectangle> itBounds = bounds.listIterator();
+
+    int i = 0;
+    while (itParts.hasNext()) {
+  
+      Part part = itParts.next(); 
+      PartPanelWrapper cell = new PartPanelWrapper(part);
+      cell.getPartPanel().getDeleteButton().
+        addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+         removePart(cell.getPart().getIndex());
+        }
+      });
+
+      cells.add(cell);
+      cell.getPartPanel().updateIndex(cell.getPart().getIndex());
+
+      //cell.getPartPanelCustomizer().reshapeRel(
+      //    cellBounds.x, cellBounds.y, cellBounds.width, cellBounds.height);
+
+      PartPanelCustomizer customizer = cell.getPartPanelCustomizer();
+      customizer.registerComponentListener();
+      customizer.registerPropertyChangeListener();
+
+      RelativeTableConstraints constraints = 
+        new RelativeTableConstraints(customizer, itl);
+
+      Rectangle cellBounds = itBounds.next();
+
+      constraints.setAbsoluteBounds(cellBounds);
+      constraints.setRow(i);
+
+      panSong.addCustomizer(cell.getPartPanelCustomizer(),constraints);
+
+      customizer.setBounds(cellBounds);
+
+      cell.storePosition();
+
+      i += cellBounds.height / 200;
+
+      //DEBUG {{{
+      if (debugging) {
+        System.out.println(part.getName() + ": " + cellBounds.toString());
+      }
+      //////////// }}}
+    }
+    repositionDividers(dividerLocations);
+
+    repaint();
+    revalidate();
+  }
+
+  /**
+   * Re-position the split pane divider of each cell
+   *
+   * @param dividerLocations - the list of divider locations
+   */
+  private void repositionDividers(List<Integer> dividerLocations) 
+  {
+    ListIterator<PartPanelWrapper> itCells = cells.listIterator();
+
+    for (int i = 0; itCells.hasNext(); i++) {
+      PartPanelWrapper cell = itCells.next();
+
+      cell.getPartPanel().setSplitDividerLocation(dividerLocations.get(i).intValue());
+    }
   }
 
   /**
@@ -678,11 +754,17 @@ public class PunchesFrame extends JFrame implements ComponentListener
    *
    * @param file - the file to write to
    */
-  private void writeSongToFile(File file) 
+  private void writeSongToFile(File file, PunchesFileHandler handler) 
   {
+    // append .pnc extension
+    String filePath = file.getAbsolutePath();
+    if (!filePath.endsWith(".pnc")) {
+      file = new File(filePath + ".pnc");
+    }
+
     try (ObjectOutputStream out = 
         new ObjectOutputStream(new FileOutputStream(file))) {
-      out.writeObject(panSong.getSong());
+      out.writeObject(handler);
     }
     catch (IOException e) {
       //TODO handle
@@ -697,10 +779,13 @@ public class PunchesFrame extends JFrame implements ComponentListener
    */
   private void readSongFromFile(File file) 
   {
+    System.out.println("loading song from file");
     try (ObjectInputStream in = 
         new ObjectInputStream(new FileInputStream(file))) {
-      panSong.setSong((Song) in.readObject());
-      //TODO refreshPanel();
+      PunchesFileHandler handler = (PunchesFileHandler) in.readObject();
+
+      panSong.setSong(handler.getSongData());
+      refreshTable(handler.getCellBounds(), handler.getDividerLocations());
     }
     catch (IOException e) {
       //TODO handle
@@ -762,9 +847,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
    */
   public void loadSong()
   {
-    if (hasUnsavedChanges()) {
-      //TODO prompt();
-    }
     JFileChooser chooser = new JFileChooser();
 
     chooser.setCurrentDirectory(
@@ -776,8 +858,10 @@ public class PunchesFrame extends JFrame implements ComponentListener
     int choice = chooser.showOpenDialog(this);
     if (choice == JFileChooser.APPROVE_OPTION) {
       File selectedFile = chooser.getSelectedFile();
-      //TODO readSongFromFile(selectedFile);
-      //TODO refreshPanel();
+      if (hasUnsavedChanges()) {
+        //TODO prompt();
+      }
+      readSongFromFile(selectedFile);
     }
     else if (choice == JFileChooser.ERROR_OPTION) {
       //TODO: handle
@@ -789,6 +873,18 @@ public class PunchesFrame extends JFrame implements ComponentListener
    */
   public void saveSong()
   {
+    ListIterator<PartPanelWrapper> itCells = cells.listIterator();
+    while (itCells.hasNext()) {
+      PartPanelWrapper cell = itCells.next();
+      cell.storePosition();
+
+      //DEBUG {{{
+      if (debugging) {
+        System.out.println(cell.getStoredPosition().toString());
+      }
+      //////////// }}}
+    }
+
     JFileChooser chooser = new JFileChooser();
 
     chooser.setCurrentDirectory(
@@ -800,7 +896,24 @@ public class PunchesFrame extends JFrame implements ComponentListener
     int choice = chooser.showSaveDialog(this);
     if (choice == JFileChooser.APPROVE_OPTION) {
       File selectedFile = chooser.getSelectedFile();
-      //TODO writeSongToFile(selectedFile);
+      //TODO check if file exists, prompt to overwrite
+
+      List<Rectangle> bounds = new LinkedList<>();
+      List<Integer> dividerLocations = new LinkedList<>();
+
+       itCells = cells.listIterator();
+      while (itCells.hasNext()) {
+        PartPanelWrapper cell = itCells.next();
+
+        bounds.add(cell.getStoredPosition());
+        dividerLocations.add(
+            Integer.valueOf(cell.getPartPanel().getSplitDividerLocation()));
+      }
+
+      PunchesFileHandler handler =
+        new PunchesFileHandler(panSong.getSong(), bounds, dividerLocations);
+
+      writeSongToFile(selectedFile, handler);
     }
     else if (choice == JFileChooser.ERROR_OPTION) {
       //TODO: handle
@@ -877,7 +990,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
     customizer.setY(y);
     
-
     panSong.repaint();
     panSong.revalidate();
 

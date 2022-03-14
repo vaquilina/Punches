@@ -1,13 +1,14 @@
 package Punches;
 
+import java.io.Serializable;
 /**
  * A type representing a Song's time signature,
  * made up of a numerator and a denominator.
  *
  * @author Vince Aquilina
- * @version 03/11/22
+ * @version 03/13/22
  */
-public class TimeSignature
+public class TimeSignature implements Serializable
 {
   private int beatsPerBar;
   private BeatValue valueOfABeat;

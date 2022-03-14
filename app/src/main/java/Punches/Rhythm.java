@@ -1,16 +1,19 @@
 package Punches;
 
-import javax.sound.midi.Sequence;
-import javax.sound.midi.InvalidMidiDataException;
 import java.awt.image.BufferedImage;
+
+import java.io.Serializable;
+
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.Sequence;
 /**
  * Objects of this class represent a quantized midi 
  * sequence of the rhythm keyed in to the Punches Interface.
  *
  * @author Vince Aquilina
- * @version 03/11/22
+ * @version 03/13/22
  */
-public class Rhythm
+public class Rhythm implements Serializable
 {
   /** The "raw" (unquantized) MIDI sequence */
   private Sequence received;

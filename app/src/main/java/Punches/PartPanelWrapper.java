@@ -4,11 +4,13 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Rectangle;
+
+import java.io.Serializable;
 /**
  * Binds a Part to PartPanel to a PartPanelCustomizer.
  *
  * @author Vince Aquilina
- * @version 03/11/22
+ * @version 03/13/22
  *
  * TODO write tests
  */
@@ -28,9 +30,6 @@ public class PartPanelWrapper
   // Colors
   private Color panelGray = new Color(0xDDDDDD);
   private Color apricot = new Color(0xFFCCB3);
-
-  //DEBUG
-  private boolean debugging;
 
   /**
    * Constructs a bound PartPanelWrapper

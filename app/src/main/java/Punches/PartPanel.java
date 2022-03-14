@@ -28,7 +28,7 @@ import net.miginfocom.swing.MigLayout;
  * A Part component that represents a cell in the Song.
  *
  * @author Vince Aquilina
- * @version 03/12/22
+ * @version 03/13/22
  */
 public class PartPanel extends JPanel
 {
@@ -61,7 +61,7 @@ public class PartPanel extends JPanel
   private Color panelGray = new Color(0xDDDDDD);
 
   //DEBUG {{{
-  private boolean debugging = false;
+  private boolean debugging = true;
   private int step = 0;
   //////////// }}}
 
@@ -197,13 +197,13 @@ public class PartPanel extends JPanel
       @Override
       public void propertyChange(PropertyChangeEvent e) {
         if (e.getPropertyName().equals(JSplitPane.DIVIDER_LOCATION_PROPERTY)) {
-          dividerLocation = split.getDividerLocation();
+          setSplitDividerLocation(split.getDividerLocation());
 
           //DEBUG {{{
           if (debugging) {
             step++;
             System.out.println("PARTPANEL:" + step + " !! div moved:" + 
-                "pos " + dividerLocation);
+                "pos " + getSplitDividerLocation());
           }
           //////////// }}}
         }
@@ -246,12 +246,23 @@ public class PartPanel extends JPanel
   }
 
   /**
+   * Set the split pane divider location
+   *
+   * @param dividerLocation - the new divider location
+   */
+  public void setSplitDividerLocation(int dividerLocation)
+  {
+    this.dividerLocation = dividerLocation;
+    positionDivider();
+  }
+
+  /**
    * Position the split pane divider
    */
   public void positionDivider()
   {
     split.setDividerLocation(dividerLocation);
-    split.revalidate();
+    revalidate();
   }
 
   /**

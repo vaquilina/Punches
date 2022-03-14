@@ -13,7 +13,7 @@ import org.softsmithy.lib.swing.customizer.event.CustomizerEvent;
  * Extended JCustomizer with custom behaviour.
  *
  * @author Vince Aquilina
- * @version 03/11/22
+ * @version 03/13/22
  *
  * TODO: Logic for re-ordering parts 
  */
@@ -32,8 +32,9 @@ class PartPanelCustomizer extends JCustomizer implements CustomizerListener
   /** The wrapped PartPanel */
   private PartPanel partPanel;
 
-  //DEBUG
-  private boolean debugging;
+  //DEBUG {{{
+  private boolean debugging = false;
+  //////////// }}}
 
   /**
    * Construct a default PartPanelCustomizer
@@ -43,10 +44,6 @@ class PartPanelCustomizer extends JCustomizer implements CustomizerListener
   public PartPanelCustomizer(PartPanel partPanel) 
   {
     super(partPanel);
-
-    //DEBUG {{{
-    debugging = false;
-    //////////// }}}
 
     this.partPanel = partPanel;
 
