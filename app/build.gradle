@@ -38,8 +38,13 @@ dependencies {
     // TXTMark markdown renderer
     implementation 'com.github.rjeschke:txtmark:0.13'
 
-    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
-    implementation 'org.slf4j:slf4j-api:2.0.0-alpha6'
+    // Apache PDFBox
+    //implementation 'org.apache.pdfbox:pdfbox:2.0.25'
+
+    // OpenHTMLtoPDF
+    // https://github.com/danfickle/openhtmltopdf
+    implementation 'com.openhtmltopdf:openhtmltopdf-core:1.0.10'
+    implementation 'com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10'
 }
 
 application {
