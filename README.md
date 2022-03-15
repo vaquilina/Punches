@@ -6,7 +6,7 @@ A graphical app designed to make creating shorthand song charts easier for drumm
 
 ## Overview
 
-![Screenshot](https://github.com/vaquilina/Punches/screenshot.png "Screenshot")
+![Screenshot](https://github.com/vaquilina/Punches/raw/main/screenshot.png "Screenshot")
 
 **Punches** is a Java application that was created to address the cumbersome task of writing simple song charts for live gigs and recording sessions. It aims to make this process much faster and more intuitive than doing so manually--with the added benefit of producing a prettier and more organized result.
 
