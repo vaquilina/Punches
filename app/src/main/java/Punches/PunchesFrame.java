@@ -52,7 +52,7 @@ import org.softsmithy.lib.swing.customizer.layout.RelativeTableConstraints;
  * Punches Desktop GUI.
  *
  * @author Vince Aquilina
- * @version 03/13/22
+ * @version 03/15/22
  *
  * TODO: Write tests
  * TODO: implement clipboard
@@ -586,7 +586,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
    * Re-layout Part cells
    */
   private void refreshTable(
-      List<Rectangle> bounds, List<Integer> dividerLocations)
+      List<CellBounds> bounds, List<Integer> dividerLocations)
   {
     panSong.removeAll();
     panSong.repaint();
@@ -598,7 +598,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
     cells = new LinkedList<>();
 
     ListIterator<Part> itParts = panSong.getSong().getParts().listIterator();
-    ListIterator<Rectangle> itBounds = bounds.listIterator();
+    ListIterator<CellBounds> itBounds = bounds.listIterator();
 
     int i = 0;
     while (itParts.hasNext()) {
@@ -612,6 +612,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
          removePart(cell.getPart().getIndex());
         }
       });
+      cell.getPartPanel().getNotePane().setText(part.getNotes());
 
       cells.add(cell);
       cell.getPartPanel().updateIndex(cell.getPart().getIndex());
@@ -626,14 +627,19 @@ public class PunchesFrame extends JFrame implements ComponentListener
       RelativeTableConstraints constraints = 
         new RelativeTableConstraints(customizer, itl);
 
-      Rectangle cellBounds = itBounds.next();
+      CellBounds cellBounds = itBounds.next();
+      Rectangle rect = new Rectangle(
+          cellBounds.x,
+          cellBounds.y,
+          cellBounds.width,
+          cellBounds.height);
 
-      constraints.setAbsoluteBounds(cellBounds);
+      constraints.setAbsoluteBounds(rect);
       constraints.setRow(i);
 
-      panSong.addCustomizer(cell.getPartPanelCustomizer(),constraints);
+      panSong.addCustomizer(cell.getPartPanelCustomizer(), constraints);
 
-      customizer.setBounds(cellBounds);
+      customizer.setBounds(rect);
 
       cell.storePosition();
 
@@ -898,14 +904,21 @@ public class PunchesFrame extends JFrame implements ComponentListener
       File selectedFile = chooser.getSelectedFile();
       //TODO check if file exists, prompt to overwrite
 
-      List<Rectangle> bounds = new LinkedList<>();
+      List<CellBounds> bounds = new LinkedList<>();
       List<Integer> dividerLocations = new LinkedList<>();
 
        itCells = cells.listIterator();
       while (itCells.hasNext()) {
         PartPanelWrapper cell = itCells.next();
 
-        bounds.add(cell.getStoredPosition());
+        Rectangle storedPosition = cell.getStoredPosition();
+        CellBounds cellBounds = new CellBounds(
+            storedPosition.x,
+            storedPosition.y,
+            storedPosition.width,
+            storedPosition.height);
+
+        bounds.add(cellBounds);
         dividerLocations.add(
             Integer.valueOf(cell.getPartPanel().getSplitDividerLocation()));
       }

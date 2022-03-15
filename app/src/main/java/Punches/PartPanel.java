@@ -8,8 +8,10 @@ import java.awt.Image;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusListener;
 import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -28,7 +30,7 @@ import net.miginfocom.swing.MigLayout;
  * A Part component that represents a cell in the Song.
  *
  * @author Vince Aquilina
- * @version 03/13/22
+ * @version 03/15/22
  */
 public class PartPanel extends JPanel
 {
@@ -89,6 +91,17 @@ public class PartPanel extends JPanel
     /* notePane -- right section of split pane */
     notePane = new PartNotePane();
     notePane.setBorder(new EtchedBorder(EtchedBorder.RAISED));
+
+    notePane.addKeyListener(new KeyListener() {
+      @Override
+      public void keyReleased(KeyEvent e) {
+        part.setNotes(notePane.getPlainText());
+      }
+      @Override
+      public void keyPressed(KeyEvent e) {}
+      @Override
+      public void keyTyped(KeyEvent e) {}
+    });
 
     /* Fields section */
     fieldsPanel = new JPanel(new MigLayout("Insets 0"));
@@ -233,6 +246,16 @@ public class PartPanel extends JPanel
   public Integer getSplitDividerLocation()
   {
     return dividerLocation;
+  }
+
+  /**
+   * Get the panel's note pane
+   *
+   * @return the panel's note pane
+   */
+  public PartNotePane getNotePane()
+  {
+    return notePane;
   }
 
   /**

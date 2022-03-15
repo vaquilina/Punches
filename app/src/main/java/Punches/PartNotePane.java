@@ -2,17 +2,17 @@ package Punches;
 
 import javax.swing.JTextPane;
 
-import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import com.github.rjeschke.txtmark.Processor;
 /**
  * A JTextPane designed to contain Part notes.
  *
  * @author Vince Aquilina
- * @version 03/11/22
+ * @version 03/15/22
  *
  * TODO: attribute txtmark
  *
@@ -30,7 +30,7 @@ public class PartNotePane extends JTextPane
     plainText = "";
 
     /*
-     * Press ENTER to render markdown 
+     * Press ENTER to render markdown
      */
     this.addKeyListener(new KeyListener() {
       @Override
@@ -93,6 +93,16 @@ public class PartNotePane extends JTextPane
     setText(html);
     setEditable(false);
     getCaret().setVisible(false);
+  }
+
+  /**
+   * Get the part notes
+   *
+   * @return the part notes
+   */
+  public String getPlainText()
+  {
+    return plainText;
   }
 }
 

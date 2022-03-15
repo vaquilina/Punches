@@ -1,7 +1,5 @@
 package Punches;
 
-import java.awt.Rectangle;
-
 import java.io.Serializable;
 
 import java.util.List;
@@ -9,14 +7,14 @@ import java.util.List;
  * Encapsulates Song and layout data to be saved/loaded to/from files.
  *
  * @author Vince Aquilina
- * @version 03/13/22
+ * @version 03/15/22
  */
 public class PunchesFileHandler implements Serializable
 {
   /** The Song to be saved/loaded */
   private Song songData;
   /** The bounds of the part cells */
-  List<Rectangle> cellBounds;
+  List<CellBounds> cellBounds;
   /** The divider locations of each part cell */
   List<Integer> dividerLocations;
 
@@ -27,7 +25,7 @@ public class PunchesFileHandler implements Serializable
    * @param cellData - the collection of cells
    */
   public PunchesFileHandler(Song songData,
-      List<Rectangle> cellBounds, List<Integer> dividerLocations)
+      List<CellBounds> cellBounds, List<Integer> dividerLocations)
   {
     this.songData = songData;
     this.cellBounds = cellBounds;
@@ -49,7 +47,7 @@ public class PunchesFileHandler implements Serializable
    *
    * @param cellData - the collection of cell bounds
    */
-  public void setCellData(List<Rectangle> cellBounds)
+  public void setCellData(List<CellBounds> cellBounds)
   {
     this.cellBounds = cellBounds;
   }
@@ -79,7 +77,7 @@ public class PunchesFileHandler implements Serializable
    *
    * @return the cell bounds
    */
-  public List<Rectangle> getCellBounds()
+  public List<CellBounds> getCellBounds()
   {
     return cellBounds;
   }
