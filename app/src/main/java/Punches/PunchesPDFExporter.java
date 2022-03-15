@@ -3,6 +3,8 @@ package Punches;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.text.html.HTML.Tag;
+import javax.swing.text.html.HTMLWriter;
 /**
  * Allows for exporting of Punches data in PDF format.
  *
@@ -33,7 +35,7 @@ public class PunchesPDFExporter
    */
   public void prepare()
   {
-    //TODO implement method
+    //TODO layout page, generate html
   }
 
   /**
@@ -43,6 +45,6 @@ public class PunchesPDFExporter
    */
   public void exportPDF(File file) throws IOException
   {
-    //TODO implement method
+    //TODO render html as pdf and write to disk
   }
 }
