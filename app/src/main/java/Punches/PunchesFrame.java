@@ -52,7 +52,7 @@ import org.softsmithy.lib.swing.customizer.layout.RelativeTableConstraints;
  * Punches Desktop GUI.
  *
  * @author Vince Aquilina
- * @version 03/15/22
+ * @version 03/16/22
  *
  * TODO: Write tests
  * TODO: implement clipboard
@@ -814,7 +814,37 @@ public class PunchesFrame extends JFrame implements ComponentListener
    */
   private void writeToPDF(File pdfFile) 
   {
-    //TODO implement
+    // clone song object to preserve notes
+    Song newSong = new Song(panSong.getSong());
+
+    ListIterator<Part> itParts = newSong.getParts().listIterator();
+    ListIterator<PartPanelWrapper> itCells = cells.listIterator();
+    while (itParts.hasNext() && itCells.hasNext()) {
+      Part part = itParts.next();
+      PartPanelWrapper cell = itCells.next();
+
+      // set part notes to their raw html
+      part.setNotes(
+          cell.getPartPanel().getNotePane().getHTML());
+
+      //DEBUG {{{
+      if (debugging) {
+        step++;
+        System.out.println(step + ":writeToPDF()");
+        System.out.println("\n" + part.getNotes() + "\n");
+      }
+      //////////// }}}
+    }
+    try {
+      PunchesPDFExporter pdfExporter = new PunchesPDFExporter(newSong);
+      pdfExporter.prepare();
+      pdfExporter.exportPDF(pdfFile);
+    }
+    catch (IOException e) {
+      e.printStackTrace();
+      //TODO handle
+    }
+    //TODO export
   }
 
   ////////////////////
@@ -850,6 +880,8 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
   /**
    * Load a Song from a file
+   *
+   * TODO: render markdown in notepanes on load
    */
   public void loadSong()
   {
@@ -949,7 +981,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
     int choice = chooser.showSaveDialog(this);
     if (choice == JFileChooser.APPROVE_OPTION) {
       File selectedFile = chooser.getSelectedFile();
-      //TODO writeToPDF(selectedFile);
+        writeToPDF(selectedFile);
     }
     else if (choice == JFileChooser.ERROR_OPTION) {
       //TODO: handle

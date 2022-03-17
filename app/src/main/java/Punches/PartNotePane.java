@@ -21,6 +21,8 @@ public class PartNotePane extends JTextPane
 {
   /** The notes as raw text */
   private String plainText;
+  /** The notes as raw html */
+  private String html;
 
   /**
    * Construct a default PartNotePane
@@ -28,6 +30,7 @@ public class PartNotePane extends JTextPane
   public PartNotePane()
   {
     plainText = "";
+    html = "";
 
     /*
      * Press ENTER to render markdown
@@ -88,7 +91,7 @@ public class PartNotePane extends JTextPane
   public void renderMarkdown(String md)
   {
     plainText = md;
-    String html = Processor.process(md);
+    html = Processor.process(md);
     setContentType("text/html");
     setText(html);
     setEditable(false);
@@ -103,6 +106,16 @@ public class PartNotePane extends JTextPane
   public String getPlainText()
   {
     return plainText;
+  }
+
+  /**
+   * Get the processed html code
+   *
+   * @return the html code
+   */
+  public String getHTML()
+  {
+    return html;
   }
 }
 

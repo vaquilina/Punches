@@ -9,14 +9,18 @@ import java.util.ListIterator;
  * Encapsulates the outline of a song, made up of Parts and metadata.
  *
  * @author Vince Aquilina
- * @version 03/11/22
+ * @version 03/17/22
  */
 public class Song implements Serializable
 {
-  private List<Part> parts;             // the parts that comprise the song
-  private String title;                 // the song's title
-  private TimeSignature signature;      // the song's time signature
-  private int bpm;                      // the song's tempo
+  /** The parts that comprise the Song */
+  private List<Part> parts;
+  /** The song's title */
+  private String title;
+  /** The song's time signature */
+  private TimeSignature signature;
+  /** The song's tempo */
+  private int bpm;
 
   /**
    * Contruct a default Song
@@ -28,6 +32,17 @@ public class Song implements Serializable
     bpm = 120;
     parts = new ArrayList<Part>();
     parts.add(new Part());
+  }
+
+  /**
+   * Copy Constructor
+   */
+  public Song(Song song)
+  {
+    title = song.title;
+    signature = song.signature;
+    bpm = song.bpm;
+    parts = song.parts;
   }
 
   /**
