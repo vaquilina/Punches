@@ -3,13 +3,16 @@ package Punches;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * Launches Punches app.
  *
  * @author Vince Aquilina
  * @version 03/11/22
  *
- * TODO: switch to a logging framework
+ * TODO: implement SLF4J simple logger
  */
 public class App 
 {
