@@ -8,6 +8,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import com.github.rjeschke.txtmark.Processor;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * A JTextPane designed to contain Part notes.
  *
@@ -19,6 +22,8 @@ import com.github.rjeschke.txtmark.Processor;
  */
 public class PartNotePane extends JTextPane
 {
+  private final Logger logger = LoggerFactory.getLogger(PartNotePane.class);
+
   /** The notes as raw text */
   private String plainText;
   /** The notes as raw html */
@@ -96,6 +101,8 @@ public class PartNotePane extends JTextPane
     setText(html);
     setEditable(false);
     getCaret().setVisible(false);
+
+    logger.debug("markdown rendered");
   }
 
   /**

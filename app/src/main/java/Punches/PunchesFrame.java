@@ -48,11 +48,14 @@ import net.miginfocom.swing.MigLayout;
 import org.softsmithy.lib.swing.customizer.event.CustomizerEvent;
 import org.softsmithy.lib.swing.customizer.layout.InfiniteTableLayout;
 import org.softsmithy.lib.swing.customizer.layout.RelativeTableConstraints;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * Punches Desktop GUI.
  *
  * @author Vince Aquilina
- * @version 03/17/22
+ * @version 03/18/22
  *
  * TODO: Write tests
  * TODO: implement clipboard
@@ -61,6 +64,9 @@ import org.softsmithy.lib.swing.customizer.layout.RelativeTableConstraints;
  */
 public class PunchesFrame extends JFrame implements ComponentListener
 {
+  private static final Logger logger =
+    LoggerFactory.getLogger(PunchesFrame.class);
+
   //private Clipboard internalClipboard;      // for yank/put Part
   //private Clipboard externalClipboard;      // for yank/put text or image
 
@@ -84,12 +90,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
   /** The column in which the panel will be drawn */
   public static final int COLUMN = 0;
 
-
-  //DEBUG {{{
-  private boolean debugging = true;
-  private int step = 0;
-  //////////// }}}
-
   // Colors
   private Color panelGray = new Color(0xDDDDDD);
   private Color apricot = new Color(0xFFCCB3);
@@ -112,8 +112,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
       UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
     }
     catch (Exception ex) {
-      System.out.println(ex.getMessage());
-      ex.printStackTrace();
+      logger.error(ex.getMessage(), ex.getClass());
     }
     this.setLayout(new MigLayout("Insets 5"));
 
@@ -393,11 +392,8 @@ public class PunchesFrame extends JFrame implements ComponentListener
     panSong.setBackground(new Color(0xFFFFFF));
 
     // DEBUG {{{
-    if (debugging) {
-      step++;
-      System.out.println(step + ":PunchesFrame()\n" +
-          "parts: " + panSong.getSong().getParts().size());
-    }
+    logger.debug("Song panel initialized. parts: ", 
+        panSong.getSong().getParts().size());
     //////////// }}}
 
     scroller = new JScrollPane(
@@ -555,24 +551,17 @@ public class PunchesFrame extends JFrame implements ComponentListener
     cell.storePosition();
 
     //DEBUG {{{
-    if (debugging) {
-      step++;
-      System.out.println(step + ":initSongPanel()\n" +
-          "parts:\t" + panSong.getSong().getParts().size() + "\n" +
-          "cells:\t" + cells.size() + "\n" +
-          "*parts initialized*");
-      System.out.println("part: " +
-          cell.getPartPanel().getPart().getName());
-      System.out.println("initial y:" + cell.getStoredPosition().y);
-      System.out.println("initial w:" +
-          cell.getStoredPosition().width);
-      System.out.println("initial h:" +
-          cell.getStoredPosition().height);
-      System.out.println("initial r:" +
-          cell.getPartPanelCustomizer().getRow());
-      System.out.println("initial s:" +
-          cell.getPartPanelCustomizer().getRowSpan());
-    }
+    logger.info("cell added");
+    logger.debug("parts: {}, cells: {}",
+        panSong.getSong().getParts().size(), cells.size());
+    logger.debug("part: ", cell.getPartPanel().getPart().getName());
+    logger.debug("initial position: " + cell.getStoredPosition().y +
+                      ", w: " + cell.getStoredPosition().width +
+                      ", h: " + cell.getStoredPosition().height +
+                      ", r: " + cell.getPartPanelCustomizer().getRow() +
+                      ", s: " + cell.getPartPanelCustomizer().getRowSpan());
+
+    logger.info("song panel initialized");
     //////////// }}}
 
     initialized = true;
@@ -649,9 +638,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
       i += cellBounds.height / 200;
 
       //DEBUG {{{
-      if (debugging) {
-        System.out.println(part.getName() + ": " + cellBounds.toString());
-      }
+      logger.info(part.getName() + ": " + cellBounds.toString());
       //////////// }}}
     }
     repositionDividers(dividerLocations);
@@ -778,7 +765,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
     }
     catch (IOException e) {
       //TODO handle
-      e.printStackTrace();
+      logger.error(e.getMessage(), e.getClass());
     }
   }
 
@@ -789,7 +776,8 @@ public class PunchesFrame extends JFrame implements ComponentListener
    */
   private void readSongFromFile(File file) 
   {
-    System.out.println("loading song from file");
+    logger.info("loading song from file");
+
     try (ObjectInputStream in = 
         new ObjectInputStream(new FileInputStream(file))) {
       PunchesFileHandler handler = (PunchesFileHandler) in.readObject();
@@ -799,15 +787,15 @@ public class PunchesFrame extends JFrame implements ComponentListener
     }
     catch (IOException e) {
       //TODO handle
-      e.printStackTrace();
+      logger.error(e.getMessage(), e.getClass());
     }
     catch (ClassNotFoundException e) {
       //TODO handle
-      e.printStackTrace();
+      logger.error(e.getMessage(), e.getClass());
     }
     catch (ClassCastException e) {
       //TODO handle
-      e.printStackTrace();
+      logger.error(e.getMessage(), e.getClass());
     }
   }
 
@@ -830,14 +818,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
       // set part notes to their raw html
       part.setNotes(
           cell.getPartPanel().getNotePane().getHTML());
-
-      //DEBUG {{{
-      if (debugging) {
-        step++;
-        System.out.println(step + ":writeToPDF()");
-        System.out.println("\n" + part.getNotes() + "\n");
-      }
-      //////////// }}}
     }
     try {
       PunchesPDFExporter pdfExporter = new PunchesPDFExporter(newSong);
@@ -868,11 +848,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
       panSong.removeAll();
 
       //DEBUG {{{
-      if (debugging) {
-        step++;
-        System.out.println(step + ":createSong()");
-        printPartList(); 
-      }
+      logger.info("new song created");
       //////////// }}}
 
       initSongPanel();
@@ -921,9 +897,8 @@ public class PunchesFrame extends JFrame implements ComponentListener
       cell.storePosition();
 
       //DEBUG {{{
-      if (debugging) {
-        System.out.println(cell.getStoredPosition().toString());
-      }
+      logger.info("stored cell position: {}",
+          cell.getStoredPosition().toString());
       //////////// }}}
     }
 
@@ -1045,20 +1020,13 @@ public class PunchesFrame extends JFrame implements ComponentListener
     cell.storePosition();
 
     //DEBUG {{{
-    if (debugging) {
-      step++;
-      System.out.println(step + ":addPart()");
-      System.out.println("part: " +
-          cell.getPartPanel().getPart().getName());
-      System.out.println("initial y:" +
-          cell.getPartPanelCustomizer().getStoredYPos());
-      System.out.println("initial w:" +
-          cell.getPartPanelCustomizer().getStoredWidth());
-      System.out.println("initial h:" +
-          cell.getPartPanelCustomizer().getStoredHeight());
-
-      printPartList(); 
-    }
+    logger.info("part added: ", cell.getPartPanel().getPart().getName());
+    logger.info("initial pos: y=" +
+        cell.getPartPanelCustomizer().getStoredYPos() +
+    ", w=" +
+        cell.getPartPanelCustomizer().getStoredWidth() + 
+    ", h=" +
+        cell.getPartPanelCustomizer().getStoredHeight());
     //////////// }}}
   }
 
@@ -1089,29 +1057,11 @@ public class PunchesFrame extends JFrame implements ComponentListener
     revalidate();
     
     //DEBUG {{{
-    step++;
-    if (debugging) {
-      System.out.println(step + ":removePart()");
-      System.out.println("parts: " + panSong.getSong().getParts().size());
-      System.out.println("cells: " + cells.size());
-      printPartList(); 
-    }
+    logger.info("part removed");
+    logger.debug("parts: {}, cells {}",
+        panSong.getSong().getParts().size(), cells.size());
     //////////// }}}
   }
-
-  //DEBUG {{{
-  /**
-   * Print a list of the Parts in this Song to the console.
-   */
-  private void printPartList() 
-  {
-    System.out.println("----PARTS----");
-    for (Part part : panSong.getSong().getParts()) {
-      System.out.println(part.getIndex() + ": " + part.getName());
-    }
-    System.out.println("-------------");
-  }
-  //////////// }}}
 
   ///////////////////////////////
   // ComponentListener Methods //
@@ -1137,10 +1087,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
    */
   public  void componentResized(ComponentEvent e) {
     //DEBUG {{{
-    if (debugging) {
-      step++;
-      System.out.println(step + ": !! frame resize event"); 
-    }
+    logger.debug("!! frame resize event"); 
     //////////// }}}
 
     if (initialized) {

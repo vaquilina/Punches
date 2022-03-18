@@ -9,6 +9,9 @@ import java.beans.PropertyChangeEvent;
 import org.softsmithy.lib.swing.customizer.JCustomizer;
 import org.softsmithy.lib.swing.customizer.event.CustomizerListener;
 import org.softsmithy.lib.swing.customizer.event.CustomizerEvent;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * Extended JCustomizer with custom behaviour.
  *
@@ -19,6 +22,9 @@ import org.softsmithy.lib.swing.customizer.event.CustomizerEvent;
  */
 class PartPanelCustomizer extends JCustomizer implements CustomizerListener
 {
+  private final Logger logger =
+    LoggerFactory.getLogger(PartPanelCustomizer.class);
+
   /** y position */
   private int yPos;
   /** Last known width of rectangle */
@@ -31,10 +37,6 @@ class PartPanelCustomizer extends JCustomizer implements CustomizerListener
   private int rowSpan;
   /** The wrapped PartPanel */
   private PartPanel partPanel;
-
-  //DEBUG {{{
-  private boolean debugging = false;
-  //////////// }}}
 
   /**
    * Construct a default PartPanelCustomizer
@@ -199,14 +201,12 @@ class PartPanelCustomizer extends JCustomizer implements CustomizerListener
     height = getHeight();
 
     //DEBUG {{{
-    if (debugging) {
-      System.out.println("dragging \"" + partPanel.getPart().getName() + "\"");
-      System.out.println("\tpos: " + "[" + getX() + ", " + getY() + "]");
-      System.out.println("\tdim: " + "[" + width + " x " + height + "]");
-      System.out.println("\tintersects: " +
+    logger.debug("dragging \"{}\"", partPanel.getPart().getName());
+    logger.info("pos: [{}, {}]", getX(), getY());
+    logger.info("dim: [{} x {}]", width, height);
+    logger.debug("intersects: {}",
         getParentCustomizerPane().
         getIntersectedCustomizers(getVisibleRect()).length);
-    }
     //////////// }}}
   }
 
@@ -224,15 +224,12 @@ class PartPanelCustomizer extends JCustomizer implements CustomizerListener
     row = yPos / 200;
 
     //DEBUG {{{
-    if (debugging) {
-      System.out.println(this.getClass());
-      System.out.println("\t" + partPanel.getPart().getName());
-      System.out.println("\ty:" + getY());
-      System.out.println("\tw:" + getWidth());
-      System.out.println("\th:" + getHeight());
-      System.out.println("\tr:" + row);
-      System.out.println("\ts:" + rowSpan);
-    }
+    logger.debug(partPanel.getPart().getName());
+    logger.debug("y pos: "   + getY());
+    logger.debug("width: "   + getWidth());
+    logger.debug("height: "  + getHeight());
+    logger.debug("row: "     + row);
+    logger.debug("rowspan: " + rowSpan);
     //////////// }}}
   }
 }

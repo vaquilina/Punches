@@ -26,14 +26,19 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 
 import net.miginfocom.swing.MigLayout;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * A Part component that represents a cell in the Song.
  *
  * @author Vince Aquilina
- * @version 03/17/22
+ * @version 03/18/22
  */
 public class PartPanel extends JPanel
 {
+  private final Logger logger =  LoggerFactory.getLogger(PartPanel.class);
+
   /** The sheet music snippet */
   protected Image sheetImage;
 
@@ -61,11 +66,6 @@ public class PartPanel extends JPanel
   private JButton btnDelete;
 
   private Color panelGray = new Color(0xDDDDDD);
-
-  //DEBUG {{{
-  private boolean debugging = true;
-  private int step = 0;
-  //////////// }}}
 
   /**
    * Construct the component with the given Part data
@@ -213,11 +213,7 @@ public class PartPanel extends JPanel
           setSplitDividerLocation(split.getDividerLocation());
 
           //DEBUG {{{
-          if (debugging) {
-            step++;
-            System.out.println("PARTPANEL:" + step + " !! div moved:" + 
-                "pos " + getSplitDividerLocation());
-          }
+          logger.debug(" div moved: pos {}", getSplitDividerLocation());
           //////////// }}}
         }
       }

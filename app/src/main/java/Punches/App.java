@@ -10,12 +10,12 @@ import org.slf4j.LoggerFactory;
  * Launches Punches app.
  *
  * @author Vince Aquilina
- * @version 03/11/22
- *
- * TODO: implement SLF4J simple logger
+ * @version 03/18/22
  */
 public class App 
 {
+  private static final Logger logger = LoggerFactory.getLogger(App.class);
+
   /**
    * The main method
    *
@@ -28,6 +28,8 @@ public class App
       app.setLocationRelativeTo(null);
       app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       app.setVisible(true);
+
+      logger.debug("window initialized");
     });
   }
 }

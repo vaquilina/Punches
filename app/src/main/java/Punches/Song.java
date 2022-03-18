@@ -5,14 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * Encapsulates the outline of a song, made up of Parts and metadata.
  *
  * @author Vince Aquilina
- * @version 03/17/22
+ * @version 03/18/22
  */
 public class Song implements Serializable
 {
+  private final Logger logger = LoggerFactory.getLogger(Song.class);
+
   /** The parts that comprise the Song */
   private List<Part> parts;
   /** The song's title */
@@ -171,8 +175,9 @@ public class Song implements Serializable
       Part part = itParts.next();
       part.setIndex(parts.indexOf(part));
 
-      //DEBUG
-      System.out.println("[" + part.getIndex() + "] " + part.getName()); 
+      //DEBUG {{{
+      logger.info("refreshed index: [{}] {}", part.getIndex(), part.getName()); 
+      //////////// }}}
     }
   }
 

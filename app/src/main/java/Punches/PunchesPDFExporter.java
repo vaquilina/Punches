@@ -107,9 +107,6 @@ public class PunchesPDFExporter
       System.out.println("must call prepare() first");
     }
     else {
-      //DEBUG
-      System.out.println(rawHTML);
-
       FileWriter writer = new FileWriter(file);
 
       writer.write(rawHTML);

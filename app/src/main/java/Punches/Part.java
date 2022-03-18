@@ -3,6 +3,9 @@ package Punches;
 import java.awt.Image;
 
 import java.io.Serializable;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * Encapsulates information about sections of a Song.
  *
@@ -11,6 +14,8 @@ import java.io.Serializable;
  */
 public class Part implements Serializable
 {
+  private final Logger logger = LoggerFactory.getLogger(Part.class);
+
   /** Part name */
   private String name;
   /** Part notes */
