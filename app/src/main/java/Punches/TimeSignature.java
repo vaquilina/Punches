@@ -75,29 +75,6 @@ public class TimeSignature implements Serializable
   @Override
   public String toString()
   {
-    // TODO replace with better enum
-
-    String beatValue = "";
-    switch(valueOfABeat) {
-      case WHOLE:
-        beatValue = "1";
-        break;
-      case HALF:
-        beatValue = "2";
-        break;
-      case QUARTER:
-        beatValue = "4";
-        break;
-      case EIGHTH:
-        beatValue = "8";
-        break;
-      case SIXTEENTH:
-        beatValue = "16";
-        break;
-      case THIRTY_SECOND:
-        beatValue = "32";
-    }
-
-    return beatsPerBar + "/" + beatValue;
+    return beatsPerBar + "/" + valueOfABeat.getValue();
   }
 }

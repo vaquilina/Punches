@@ -34,6 +34,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane; // for prompts
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -70,6 +71,14 @@ public class PunchesFrame extends JFrame implements ComponentListener
   //private Clipboard internalClipboard;      // for yank/put Part
   //private Clipboard externalClipboard;      // for yank/put text or image
 
+  /** The Song title text field */
+  private JTextField txtSongTitle;
+  /** The "beats per bar" field */
+  private JTextField txtBeatsPerBar;
+  /** The "value of a beat" dropdown */
+  private JComboBox<ImageIcon> cmbValueOfABeat;
+  /** The tempo text field */
+  private JTextField txtBpm;
   /** Panel containing parts */
   private SongPanel panSong;
   /** Layout manager for panSong */
@@ -144,7 +153,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
     toolbarButtons.get("Add Part").setMnemonic(KeyEvent.VK_A);
 
     // "Song Title" Text Field
-    JTextField txtSongTitle = new JTextField("Song Title", 30);
+    txtSongTitle = new JTextField("Song Title", 30);
 
     JLabel lblSongTitle = new JLabel(""); // not visible; for mnemonic
     lblSongTitle.setLabelFor(txtSongTitle);
@@ -193,7 +202,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
     // Time Signature Section
     // TODO validate beats per bar
-    JTextField txtBeatsPerBar = new JTextField("4", 2);
+    txtBeatsPerBar = new JTextField("4", 2);
     txtBeatsPerBar.addFocusListener(new FocusListener() {
       @Override
       public void focusGained(FocusEvent e)
@@ -240,7 +249,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
     // load into vector for use with JComboBox
     Vector<ImageIcon> musicNoteIcons = new Vector<>(musicNotes.values());
 
-    JComboBox<ImageIcon> cmbValueOfABeat = new JComboBox<>(musicNoteIcons);
+    cmbValueOfABeat = new JComboBox<>(musicNoteIcons);
     cmbValueOfABeat.setSelectedIndex(2); // defaults to quarter note
 
     DefaultListCellRenderer listRenderer = new DefaultListCellRenderer();
@@ -260,7 +269,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
     // Tempo Section
     /* TODO validate bpm */
-    JTextField txtBpm = new JTextField("120", 3);
+    txtBpm = new JTextField("120", 3);
 
     JLabel lblBpm = new JLabel("bpm:");
     lblBpm.setLabelFor(txtBpm);
@@ -507,21 +516,40 @@ public class PunchesFrame extends JFrame implements ComponentListener
    */
   private void initSongPanel()
   {
+    Song song = panSong.getSong();
+
     cells = new LinkedList<>();
 
     PartPanelWrapper cell = new PartPanelWrapper(new Part());
     cell.getPartPanel().getDeleteButton().
       addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-       removePart(cell.getPart().getIndex());
-      }
-    });
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          removePart(cell.getPart().getIndex());
+        }
+      });
+
+    txtBeatsPerBar.setText(
+        String.valueOf(song.getSignature().getBeatsPerBar()));
+
+    TimeSignature signature = song.getSignature();
+    cmbValueOfABeat.setSelectedIndex(
+        switch (signature.getValueOfABeat()) {
+          case WHOLE     -> 0;
+          case HALF      -> 1;
+          case QUARTER   -> 2;
+          case EIGHTH    -> 3;
+          case SIXTEENTH -> 4;
+          default        -> 2;
+        }
+        );
+
+    txtBpm.setText(String.valueOf(song.getBpm()));
 
     cells.add(cell);
 
     // make Parts aware of their position in the Song
-    panSong.getSong().refreshIndices();
+    song.refreshIndices();
     cell.getPartPanel().updateIndex(cell.getPart().getIndex());
 
     panSong.addCustomizer(cell.getPartPanelCustomizer(), 
@@ -553,13 +581,13 @@ public class PunchesFrame extends JFrame implements ComponentListener
     //DEBUG {{{
     logger.info("cell added");
     logger.debug("parts: {}, cells: {}",
-        panSong.getSong().getParts().size(), cells.size());
+        song.getParts().size(), cells.size());
     logger.debug("part: ", cell.getPartPanel().getPart().getName());
     logger.debug("initial position: " + cell.getStoredPosition().y +
-                      ", w: " + cell.getStoredPosition().width +
-                      ", h: " + cell.getStoredPosition().height +
-                      ", r: " + cell.getPartPanelCustomizer().getRow() +
-                      ", s: " + cell.getPartPanelCustomizer().getRowSpan());
+        ", w: " + cell.getStoredPosition().width +
+        ", h: " + cell.getStoredPosition().height +
+        ", r: " + cell.getPartPanelCustomizer().getRow() +
+        ", s: " + cell.getPartPanelCustomizer().getRowSpan());
 
     logger.info("song panel initialized");
     //////////// }}}
@@ -587,6 +615,25 @@ public class PunchesFrame extends JFrame implements ComponentListener
     itl = new InfiniteTableLayout(cellWidth, ROWHEIGHT, panSong);
     panSong.setCustomizerLayout(itl);
 
+    Song song = panSong.getSong();
+    txtSongTitle.setText(song.getTitle());
+    txtBeatsPerBar.setText(
+        String.valueOf(song.getSignature().getBeatsPerBar()));
+
+    BeatValue beatValue = song.getSignature().getValueOfABeat();
+    cmbValueOfABeat.setSelectedIndex(
+        switch (beatValue) {
+          case WHOLE     -> 0;
+          case HALF      -> 1;
+          case QUARTER   -> 2;
+          case EIGHTH    -> 3;
+          case SIXTEENTH -> 4;
+          default        -> 3;
+        }
+    );
+
+    txtBpm.setText(String.valueOf(song.getBpm()));
+
     cells = new LinkedList<>();
 
     ListIterator<Part> itParts = panSong.getSong().getParts().listIterator();
@@ -594,16 +641,16 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
     int i = 0;
     while (itParts.hasNext()) {
-  
+
       Part part = itParts.next(); 
       PartPanelWrapper cell = new PartPanelWrapper(part);
       cell.getPartPanel().getDeleteButton().
         addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-         removePart(cell.getPart().getIndex());
-        }
-      });
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            removePart(cell.getPart().getIndex());
+          }
+        });
       cell.getPartPanel().getNotePane().setText(part.getNotes());
 
       cells.add(cell);
@@ -762,7 +809,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
     try (ObjectOutputStream out = 
         new ObjectOutputStream(new FileOutputStream(file))) {
       out.writeObject(handler);
-    }
+        }
     catch (IOException e) {
       //TODO handle
       logger.error(e.getMessage(), e.getClass());
@@ -784,7 +831,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
       panSong.setSong(handler.getSongData());
       refreshTable(handler.getCellBounds(), handler.getDividerLocations());
-    }
+        }
     catch (IOException e) {
       //TODO handle
       logger.error(e.getMessage(), e.getClass());
@@ -824,11 +871,17 @@ public class PunchesFrame extends JFrame implements ComponentListener
       pdfExporter.prepare();
       pdfExporter.exportPDF(pdfFile);
     }
-    catch (IOException e) {
-      e.printStackTrace();
+    catch (PunchesPDFExporter.HTMLNotRenderedException ex) {
+      logger.error(ex.getMessage(), ex.getClass());
+    }
+    catch (IOException ex) {
+      logger.error(ex.getMessage(), ex.getClass());
       //TODO handle
     }
-    //TODO export
+    catch (Exception ex) {
+      logger.error(ex.getMessage(), ex.getClass());
+      //TODO handle
+    }
   }
 
   ////////////////////
@@ -918,7 +971,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
       List<CellBounds> bounds = new LinkedList<>();
       List<Integer> dividerLocations = new LinkedList<>();
 
-       itCells = cells.listIterator();
+      itCells = cells.listIterator();
       while (itCells.hasNext()) {
         PartPanelWrapper cell = itCells.next();
 
@@ -960,7 +1013,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
     int choice = chooser.showSaveDialog(this);
     if (choice == JFileChooser.APPROVE_OPTION) {
       File selectedFile = chooser.getSelectedFile();
-        writeToPDF(selectedFile);
+      writeToPDF(selectedFile);
     }
     else if (choice == JFileChooser.ERROR_OPTION) {
       //TODO: handle
@@ -981,11 +1034,11 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
     cell.getPartPanel().getDeleteButton().
       addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-       removePart(cell.getPart().getIndex());
-      }
-    });
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          removePart(cell.getPart().getIndex());
+        }
+      });
 
     cell.getPartPanelCustomizer().registerComponentListener();
     cell.getPartPanelCustomizer().registerPropertyChangeListener();
@@ -1013,7 +1066,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
     PartPanelCustomizer customizer = cell.getPartPanelCustomizer();
 
     customizer.setY(y);
-    
+
     panSong.repaint();
     panSong.revalidate();
 
@@ -1023,9 +1076,9 @@ public class PunchesFrame extends JFrame implements ComponentListener
     logger.info("part added: ", cell.getPartPanel().getPart().getName());
     logger.info("initial pos: y=" +
         cell.getPartPanelCustomizer().getStoredYPos() +
-    ", w=" +
+        ", w=" +
         cell.getPartPanelCustomizer().getStoredWidth() + 
-    ", h=" +
+        ", h=" +
         cell.getPartPanelCustomizer().getStoredHeight());
     //////////// }}}
   }
@@ -1045,8 +1098,8 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
     song.refreshIndices();
 
-    
-  ListIterator<PartPanelWrapper> itCells = cells.listIterator();
+
+    ListIterator<PartPanelWrapper> itCells = cells.listIterator();
     while (itCells.hasNext()) {
       PartPanelWrapper cell = itCells.next();
       cell.getPartPanel().updateIndex(cell.getPart().getIndex());
@@ -1055,7 +1108,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
     panSong.updateUI();
     repaint();
     revalidate();
-    
+
     //DEBUG {{{
     logger.info("part removed");
     logger.debug("parts: {}, cells {}",

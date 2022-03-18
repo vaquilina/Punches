@@ -1,11 +1,14 @@
 package Punches;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
+import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 /**
  * Allows for exporting of Punches data in PDF format.
  *
@@ -98,20 +101,31 @@ public class PunchesPDFExporter
    *
    * @param file the file to write to
    * @throws IOException
+   * @throws HTMLNotRenderedException if a call to prepare() is not made first
+   * @throws Exception in case of parsing errors
+   *
+   * TODO: image processing
    */
-  public void exportPDF(File file) throws IOException
+  public void exportPDF(File file) throws IOException, HTMLNotRenderedException,
+         Exception
   {
-    //TODO render html using openhtmltopdf
     if (rawHTML == null) {
-      //TODO throw exception
-      System.out.println("must call prepare() first");
+      throw new HTMLNotRenderedException("must call prepare() first");
     }
-    else {
-      FileWriter writer = new FileWriter(file);
 
-      writer.write(rawHTML);
+    try (OutputStream os = new FileOutputStream(file)) {
+      PdfRendererBuilder builder = new PdfRendererBuilder();
+      builder.useFastMode();
+      builder.withHtmlContent(rawHTML, file.getPath());
+      builder.toStream(os);
+      builder.run();
+    }
+  }
 
-      writer.close();
+  public class HTMLNotRenderedException extends Exception
+  {
+    public HTMLNotRenderedException(String errorMessage) {
+      super(errorMessage);
     }
   }
 }

@@ -198,7 +198,6 @@ public class PartPanel extends JPanel
     fieldsPanel.add(btnPunches, "gaptop 10, alignx 50%, span");
 
     /* Split pane */
-    // TODO ensure split sizes are retained on part resize, window resize
     split = new JSplitPane(
         JSplitPane.HORIZONTAL_SPLIT, musicPanel, notePane);
     split.setBorder(BorderFactory.createTitledBorder(

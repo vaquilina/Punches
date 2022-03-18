@@ -44,6 +44,8 @@ dependencies {
     // https://github.com/danfickle/openhtmltopdf
     implementation 'com.openhtmltopdf:openhtmltopdf-core:1.0.10'
     implementation 'com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10'
+    implementation 'com.openhtmltopdf:openhtmltopdf-slf4j:1.0.10'
+    implementation 'com.openhtmltopdf:openhtmltopdf-java2d:1.0.10'
 
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
     implementation 'org.slf4j:slf4j-api:1.7.36'
