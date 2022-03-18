@@ -30,7 +30,7 @@ import net.miginfocom.swing.MigLayout;
  * A Part component that represents a cell in the Song.
  *
  * @author Vince Aquilina
- * @version 03/15/22
+ * @version 03/17/22
  */
 public class PartPanel extends JPanel
 {
@@ -70,7 +70,7 @@ public class PartPanel extends JPanel
   /**
    * Construct the component with the given Part data
    *
-   * @param part - the Part object assigned to the component
+   * @param part the Part object assigned to the component
    */
   public PartPanel(Part part)
   {
@@ -261,7 +261,7 @@ public class PartPanel extends JPanel
   /**
    * Assign a new part to this component
    *
-   * @param part - the new part to be assigned
+   * @param part the new part to be assigned
    */
   public void setPart(Part part)
   {
@@ -271,7 +271,7 @@ public class PartPanel extends JPanel
   /**
    * Set the split pane divider location
    *
-   * @param dividerLocation - the new divider location
+   * @param dividerLocation the new divider location
    */
   public void setSplitDividerLocation(int dividerLocation)
   {
@@ -291,7 +291,7 @@ public class PartPanel extends JPanel
   /**
    * Update the index in the fields panel
    *
-   * @param the part index
+   * @param index the part index
    */
   public void updateIndex(int index)
   {
@@ -300,6 +300,8 @@ public class PartPanel extends JPanel
 
   /**
    * Get a reference to the delete button
+   *
+   * @return a reference to the delete button
    */
   public JButton getDeleteButton()
   {
@@ -309,7 +311,7 @@ public class PartPanel extends JPanel
   /**
    * Define how the component is to be painted.
    *
-   * @param g - graphics
+   * @param g graphics
    */
   @Override
   protected void paintComponent(Graphics g)

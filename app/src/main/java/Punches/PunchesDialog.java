@@ -8,7 +8,7 @@ import javax.sound.midi.Track;
  * The "Punches Interface" - The user will key in their rhythm here.
  *
  * @author Vince Aquilina
- * @version 03/11/22
+ * @version 03/17/22
  */
 public class PunchesDialog extends JDialog
 {
@@ -24,7 +24,7 @@ public class PunchesDialog extends JDialog
   /**
    * Construct a PunchesDialog
    *
-   * @param relevantPart - the Part to which the rhythm will be assigned
+   * @param relevantPart the Part to which the rhythm will be assigned
    */
   public PunchesDialog(Part relevantPart)
   {
@@ -33,6 +33,8 @@ public class PunchesDialog extends JDialog
 
   /**
    * Create a Rhythm from a MIDI sequence
+   *
+   * @return the newly created rhythm
    */
   /*private Rhythm generateRhythm()
   {
@@ -42,6 +44,8 @@ public class PunchesDialog extends JDialog
 
   /**
    * Capture a sequence
+   *
+   * @return the captured sequence
    */
   //private Sequence captureSequence()
   //{

@@ -7,7 +7,7 @@ import java.util.List;
  * Encapsulates Song and layout data to be saved/loaded to/from files.
  *
  * @author Vince Aquilina
- * @version 03/15/22
+ * @version 03/17/22
  */
 public class PunchesFileHandler implements Serializable
 {
@@ -21,8 +21,9 @@ public class PunchesFileHandler implements Serializable
   /**
    * Constructs a complete PunchesFileHandler
    *
-   * @param songdata - the Song object
-   * @param cellData - the collection of cells
+   * @param songData the Song object
+   * @param cellBounds the collection of cell bounds
+   * @param dividerLocations the collection of cell divider locations
    */
   public PunchesFileHandler(Song songData,
       List<CellBounds> cellBounds, List<Integer> dividerLocations)
@@ -35,7 +36,7 @@ public class PunchesFileHandler implements Serializable
   /**
    * Set the Song object
    *
-   * @param songData - the Song object 
+   * @param songData the Song object 
    */
   public void setSongData(Song songData)
   {
@@ -45,7 +46,7 @@ public class PunchesFileHandler implements Serializable
   /**
    * Set the cell bounds
    *
-   * @param cellData - the collection of cell bounds
+   * @param cellBounds the collection of cell bounds
    */
   public void setCellData(List<CellBounds> cellBounds)
   {
@@ -55,7 +56,7 @@ public class PunchesFileHandler implements Serializable
   /**
    * Set the divider locations
    *
-   * @param dividerLocations - the collection of divider locations
+   * @param dividerLocations the collection of divider locations
    */
   public void setDividerLocations(List<Integer> dividerLocations)
   {

@@ -11,7 +11,7 @@ import javax.sound.midi.Sequence;
  * sequence of the rhythm keyed in to the Punches Interface.
  *
  * @author Vince Aquilina
- * @version 03/13/22
+ * @version 03/17/22
  */
 public class Rhythm implements Serializable
 {
@@ -23,7 +23,7 @@ public class Rhythm implements Serializable
   /**
    * Construct a Rhythm from a Sequence
    *
-   * @param sequence - the Sequence
+   * @param sequence the Sequence
    */
   public Rhythm(Sequence sequence)
   {

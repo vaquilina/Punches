@@ -13,7 +13,7 @@ import org.softsmithy.lib.swing.customizer.event.CustomizerEvent;
  * Extended JCustomizer with custom behaviour.
  *
  * @author Vince Aquilina
- * @version 03/13/22
+ * @version 03/17/22
  *
  * TODO: Logic for re-ordering parts 
  */
@@ -39,7 +39,7 @@ class PartPanelCustomizer extends JCustomizer implements CustomizerListener
   /**
    * Construct a default PartPanelCustomizer
    *
-   * @param partPanel - the PartPanel to wrap
+   * @param partPanel the PartPanel to wrap
    */
   public PartPanelCustomizer(PartPanel partPanel) 
   {
@@ -60,8 +60,7 @@ class PartPanelCustomizer extends JCustomizer implements CustomizerListener
   /**
    * Set the value for stored y position
    *
-   * @param yPos - the last known y position of the
-   * upper left corner of the component
+   * @param yPos last known y position of the component
    */
   public void setStoredYPos(int yPos) 
   {
@@ -71,7 +70,7 @@ class PartPanelCustomizer extends JCustomizer implements CustomizerListener
   /**
    * Set the value for stored width
    *
-   * @param width - the last known width of the component
+   * @param width the last known width of the component
    */
   public void setStoredWidth(int width) 
   {
@@ -81,7 +80,7 @@ class PartPanelCustomizer extends JCustomizer implements CustomizerListener
   /**
    * Set the value for stored width
    *
-   * @param height - the last known height of the component
+   * @param height the last known height of the component
    */
   public void setStoredHeight(int height) 
   {
@@ -91,7 +90,7 @@ class PartPanelCustomizer extends JCustomizer implements CustomizerListener
   /**
    * Set the row span
    *
-   * @param rowSpan - the number of rows this component occupies
+   * @param rowSpan the number of rows this component occupies
    */
   public void setRowSpan(int rowSpan)
   {

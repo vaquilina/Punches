@@ -12,7 +12,7 @@ import com.github.rjeschke.txtmark.Processor;
  * A JTextPane designed to contain Part notes.
  *
  * @author Vince Aquilina
- * @version 03/15/22
+ * @version 03/17/22
  *
  * TODO: attribute txtmark
  *

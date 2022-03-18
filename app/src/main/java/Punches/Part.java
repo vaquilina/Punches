@@ -7,7 +7,7 @@ import java.io.Serializable;
  * Encapsulates information about sections of a Song.
  *
  * @author Vince Aquilina
- * @version 03/13/22
+ * @version 03/17/22
  */
 public class Part implements Serializable
 {
@@ -40,9 +40,9 @@ public class Part implements Serializable
   /**
    * Construct a Part with the given metadata
    *
-   * @param name - name of section
-   * @param lengthInBars - length of the part, in bars
-   * @param notes - sidenotes about the part
+   * @param name name of section
+   * @param lengthInBars length of the part, in bars
+   * @param notes sidenotes about the part
    */
   public Part(String name, int lengthInBars, String notes)
   {
@@ -56,10 +56,10 @@ public class Part implements Serializable
   /**
    * Construct a Part with the given metadata, with a sheet music snippet
    *
-   * @param name - name of section
-   * @param lengthInBars - length of the part, in bars
-   * @param notes - sidenotes about the part
-   * @param sheetSnippet - the sheet music snippet
+   * @param name name of section
+   * @param lengthInBars length of the part, in bars
+   * @param notes sidenotes about the part
+   * @param sheetSnippet the sheet music snippet
    */
   public Part(String name, int lengthInBars, String notes, Image sheetSnippet)
   {
@@ -73,10 +73,10 @@ public class Part implements Serializable
   /**
    * Construct a Part with the given metadata, with a tabulature snippet
    *
-   * @param name - name of section
-   * @param lengthInBars - length of the part, in bars
-   * @param notes - sidenotes about the part
-   * @param tabSnippet - the tabulature snippet
+   * @param name name of section
+   * @param lengthInBars length of the part, in bars
+   * @param notes sidenotes about the part
+   * @param tabSnippet the tabulature snippet
    */
   public Part(String name, int lengthInBars, String notes, String[] tabSnippet)
   {
@@ -90,11 +90,11 @@ public class Part implements Serializable
   /**
    * Construct a Part with all fields set
    *
-   * @param name - name of section
-   * @param lengthInBars - length of the part, in bars
-   * @param notes - sidenotes about the part
-   * @param tabSnippet - the tabulature snippet
-   * @param sheetSnippet - the sheet music snippet
+   * @param name name of section
+   * @param lengthInBars length of the part, in bars
+   * @param notes sidenotes about the part
+   * @param tabSnippet the tabulature snippet
+   * @param sheetSnippet the sheet music snippet
    */
   public Part(String name, int lengthInBars, String notes,
       String[] tabSnippet, Image sheetSnippet)
@@ -109,7 +109,7 @@ public class Part implements Serializable
   /**
    * Set the name of the part
    *
-   * @param name - the part name
+   * @param name the part name
    */
   public void setName(String name)
   {
@@ -119,7 +119,7 @@ public class Part implements Serializable
   /**
    * Set the length of the part
    *
-   * @param lengthInBars - the length of the part, in bars
+   * @param lengthInBars the length of the part, in bars
    */
   public void setLengthInBars(int lengthInBars)
   {
@@ -129,7 +129,7 @@ public class Part implements Serializable
   /**
    * Set the part notes
    *
-   * @param notes - the part notes
+   * @param notes the part notes
    */
   public void setNotes(String notes)
   {
@@ -139,7 +139,7 @@ public class Part implements Serializable
   /**
    * Set the sheet music snippet
    *
-   * @param sheetSnippet - the sheet music snippet
+   * @param sheetSnippet the sheet music snippet
    */
   public void setSheetSnippet(Image sheetSnippet)
   {
@@ -149,7 +149,7 @@ public class Part implements Serializable
   /**
    * Set the tabulature snippet
    *
-   * @param tabSnippet - the tabulature snippet
+   * @param tabSnippet the tabulature snippet
    */
   public void setTabSnippet(String[] tabSnippet)
   {
@@ -159,7 +159,7 @@ public class Part implements Serializable
   /**
    * Set the position in the part list
    *
-   * @param index - the Part's index in the parts array
+   * @param index the Part's index in the parts array
    */
   public void setIndex(int index)
   {

@@ -10,7 +10,7 @@ import java.io.Serializable;
  * Binds a Part to PartPanel to a PartPanelCustomizer.
  *
  * @author Vince Aquilina
- * @version 03/13/22
+ * @version 03/17/22
  *
  * TODO write tests
  */
@@ -34,7 +34,7 @@ public class PartPanelWrapper
   /**
    * Constructs a bound PartPanelWrapper
    *
-   * @param part - the Part to wrap
+   * @param part the Part to wrap
    */
   public PartPanelWrapper(Part part)
   {
@@ -91,7 +91,7 @@ public class PartPanelWrapper
   /**
    * Set the PartPanel
    *
-   * @param panel - the PartPanel
+   * @param panel the PartPanel
    */
   public void setPartPanel(PartPanel panel)
   {
@@ -101,7 +101,7 @@ public class PartPanelWrapper
   /**
    * Set the PartPanelCustomizer
    *
-   * @param customizer - the PartPanelCustomizer
+   * @param customizer the PartPanelCustomizer
    */
   public void setPartPanelCustomizer(PartPanelCustomizer customizer)
   {
@@ -111,7 +111,7 @@ public class PartPanelWrapper
   /**
    * Set the Part
    *
-   * @param part - the Part
+   * @param part the Part
    */
   public void setPart(Part part)
   {
@@ -150,6 +150,8 @@ public class PartPanelWrapper
 
   /**
    * Get the stored bounds
+   *
+   * @return the stored bounds
    */
   public Rectangle getStoredPosition()
   {

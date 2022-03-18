@@ -24,7 +24,7 @@ public class PunchesPDFExporter
   /**
    * Construct an initialized PunchesPDFExporter
    *
-   * @param song - the Song data
+   * @param song the Song data
    */
   public PunchesPDFExporter(Song song)
   {
@@ -33,6 +33,8 @@ public class PunchesPDFExporter
 
   /**
    * Prepare HTML data from Song data
+   *
+   * @throws IOException
    */
   public void prepare() throws IOException
   {
@@ -94,7 +96,8 @@ public class PunchesPDFExporter
   /**
    * Convert HTML to PDF data and write to disk
    *
-   * @param file - the file to write to
+   * @param file the file to write to
+   * @throws IOException
    */
   public void exportPDF(File file) throws IOException
   {

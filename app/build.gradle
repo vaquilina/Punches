@@ -26,6 +26,9 @@ dependencies {
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
 
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
+    testImplementation 'org.slf4j:slf4j-simple:1.7.36'
+
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:30.1.1-jre'
 
@@ -38,12 +41,12 @@ dependencies {
     // TXTMark markdown renderer
     implementation 'com.github.rjeschke:txtmark:0.13'
 
-    // Apache PDFBox
-    //implementation 'org.apache.pdfbox:pdfbox:2.0.25'
-
     // https://github.com/danfickle/openhtmltopdf
     implementation 'com.openhtmltopdf:openhtmltopdf-core:1.0.10'
     implementation 'com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10'
+
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    implementation 'org.slf4j:slf4j-api:1.7.36'
 }
 
 application {

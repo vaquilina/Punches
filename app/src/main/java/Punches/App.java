@@ -1,20 +1,22 @@
 package Punches;
 
-import javax.swing.JFrame;
-
 import java.awt.EventQueue;
+
+import javax.swing.JFrame;
 /**
  * Launches Punches app.
  *
  * @author Vince Aquilina
  * @version 03/11/22
+ *
+ * TODO: switch to a logging framework
  */
 public class App 
 {
   /**
    * The main method
    *
-   * @param args - command line arguments
+   * @param args command line arguments
    */
   public static void main(String[] args)
   {

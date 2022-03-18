@@ -52,7 +52,7 @@ import org.softsmithy.lib.swing.customizer.layout.RelativeTableConstraints;
  * Punches Desktop GUI.
  *
  * @author Vince Aquilina
- * @version 03/16/22
+ * @version 03/17/22
  *
  * TODO: Write tests
  * TODO: implement clipboard
@@ -97,7 +97,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
   /**
    * Construct the main content pane
    *
-   * @param title - the window title
+   * @param title the window title
    */
   public PunchesFrame(String title)
   {
@@ -440,7 +440,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
   /**
    * Load toolbar icon resources
    *
-   * @return - A Map containing toolbar icon resources
+   * @return A Map containing toolbar icon resources
    */
   private Map<String, ImageIcon> initToolbarIcons()
   {
@@ -477,7 +477,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
   /**
    * Load music note icon resources 
    *
-   * @return - A Map containing music note icon resources
+   * @return A Map containing music note icon resources
    */
   private Map<String, ImageIcon> initMusicNoteIcons()
   {
@@ -507,7 +507,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
   /**
    * Initialize PartPanels
    *
-   * @param parts - a List containing the Song's Parts
+   * @param parts a List containing the Song's Parts
    */
   private void initSongPanel()
   {
@@ -584,6 +584,9 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
   /**
    * Re-layout Part cells
+   *
+   * @param bounds the cells' bounds
+   * @param dividerLocations the cell's divider locations
    */
   private void refreshTable(
       List<CellBounds> bounds, List<Integer> dividerLocations)
@@ -660,7 +663,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
   /**
    * Re-position the split pane divider of each cell
    *
-   * @param dividerLocations - the list of divider locations
+   * @param dividerLocations the list of divider locations
    */
   private void repositionDividers(List<Integer> dividerLocations) 
   {
@@ -676,7 +679,8 @@ public class PunchesFrame extends JFrame implements ComponentListener
   /**
    * Process beat value combo box selection
    *
-   * @return - beat value associated with selection
+   * @param selectedIndex the index of the selected item from the combo box
+   * @return beat value associated with selection
    */
   private BeatValue getBeatValue(int selectedIndex)
   {
@@ -758,7 +762,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
   /**
    * Write Song to selected file
    *
-   * @param file - the file to write to
+   * @param file the file to write to
    */
   private void writeSongToFile(File file, PunchesFileHandler handler) 
   {
@@ -781,7 +785,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
   /**
    * Read Song from File
    *
-   * @param file - the file to read from
+   * @param file the file to read from
    */
   private void readSongFromFile(File file) 
   {
@@ -810,7 +814,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
   /**
    * Write Song to PDF file
    *
-   * @param pdfFile - the Adobe PDF file to write to
+   * @param pdfFile the Adobe PDF file to write to
    */
   private void writeToPDF(File pdfFile) 
   {
@@ -1061,7 +1065,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
   /**
    * Remove a Part from the Song
    *
-   * @param part - the Part to remove
+   * @param index the index of the Part to remove
    */
   public void removePart(int index)
   {

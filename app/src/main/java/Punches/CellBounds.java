@@ -5,7 +5,7 @@ import java.io.Serializable;
  * Represents a Cell's bounds.
  *
  * @author Vince Aquilina
- * @version 03/15/22
+ * @version 03/17/22
  */
 public class CellBounds implements Serializable
 {
@@ -21,10 +21,10 @@ public class CellBounds implements Serializable
   /**
    * Construct a CellBounds
    *
-   * @param x - the x co-ordinate
-   * @param y - the y co-ordinate
-   * @param width - the width
-   * @param height - the height
+   * @param x the x co-ordinate
+   * @param y the y co-ordinate
+   * @param width the width
+   * @param height the height
    */
   public CellBounds(int x, int y, int width, int height) 
   {
