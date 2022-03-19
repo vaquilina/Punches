@@ -2,37 +2,36 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN" "">
 <html>
 <head>
-<title>songTitle</title>
+<title>$songTitle</title>
 <meta charset="utf-8"></meta>
 <style>
 body {
-font-family: mono;
+font-family:monospace;
 }
 table {
-width: 100%;
+width:100%;
+border-collapse:collapse;
 }
-table,th {
-border: 1px dashed black;
+td, th {
+border-top:2px solid black;
 }
-td {
-border: 1px dashed red;
-}
-tr {
-border: 1px dotted blue;
+h1 {
+margin-top:0px;
+padding-top:2px;
 }
 </style>
 </head>
 <body>
 <table style="margin:auto">
 <tr>
-<td colspan="3">
-<h1>songTitle</h1>
-<strong>timeSignature &#64; tempo bpm</strong>
-<hr></hr>
+<td colspan="3" style="border:2px double black;">
+<h1>$songTitle</h1>
+<strong>$timeSignature &#64; $tempo bpm</strong>
+<br></br>
 </td>
 </tr>
 
-parts
+$parts
 
 </table>
 </body>

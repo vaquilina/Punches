@@ -51,6 +51,9 @@ public class AboutDialog extends JDialog
     final JLabel lblAdobe = new JLabel(
         "Adobe PDF logo , Adobe PDF " + COPYRIGHT + " Adobe, Inc.");
 
+    final JLabel lblLilyPond = new JLabel(
+        "LilyPond " + COPYRIGHT + " lilypond.org");
+
     final JLabel lblSoftSmithy = new JLabel(
         "SoftSmithy Utility Library " + COPYRIGHT + " Florian Brunner");
 
@@ -76,6 +79,7 @@ public class AboutDialog extends JDialog
     add(lblLogo, "center, wrap");
     add(lblCopyright, "center, wrap 20");
     add(lblAdobe, "center, wrap");
+    add(lblLilyPond, "center, wrap");
     add(lblSoftSmithy, "center, wrap");
     add(lblTxtmark, "center, wrap");
     add(lblOpenhtmltopdf, "center, wrap");
