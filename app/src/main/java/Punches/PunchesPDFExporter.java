@@ -13,7 +13,7 @@ import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
  * Allows for exporting of Punches data in PDF format.
  *
  * @author Vince Aquilina
- * @version 03/17/22
+ * @version 03/19/22
  *
  * TODO: write tests
  */
@@ -54,9 +54,9 @@ public class PunchesPDFExporter
     String timeSignature = song.getSignature().toString();
     String tempo = String.valueOf(song.getBpm());
 
-    outline = outline.replace("songTitle", songTitle);
-    outline = outline.replace("timeSignature", timeSignature);
-    outline = outline.replace("tempo", tempo);
+    outline = outline.replace("$songTitle", songTitle);
+    outline = outline.replace("$timeSignature", timeSignature);
+    outline = outline.replace("$tempo", tempo);
 
     StringBuilder sbParts = new StringBuilder("");
     for (Part part : song.getParts()) {
@@ -83,16 +83,16 @@ public class PunchesPDFExporter
 
       // construct part
       String row = new String(rowOutline);
-      row = row.replace("partName", partName);
-      row = row.replace("partLength", partLength);
-      row = row.replace("sheetSnippet", sheetSnippet);
-      row = row.replace("tabSnippet", tabSnippet);
-      row = row.replace("notes", notes);
+      row = row.replace("$partName", partName);
+      row = row.replace("$partLength", partLength);
+      row = row.replace("$sheetSnippet", sheetSnippet);
+      row = row.replace("$tabSnippet", tabSnippet);
+      row = row.replace("$notes", notes);
 
       sbParts.append(row);
     }
     String parts = new String(sbParts);
-    rawHTML = outline.replace("parts", parts);
+    rawHTML = outline.replace("$parts", parts);
 
   }
 

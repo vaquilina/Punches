@@ -23,7 +23,7 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 
 import java.util.LinkedHashMap; // maintains order of keys
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -56,7 +56,10 @@ import org.slf4j.LoggerFactory;
  * Punches Desktop GUI.
  *
  * @author Vince Aquilina
- * @version 03/18/22
+ * @version 03/19/22
+ *
+ * <b>Icons: </b><a
+ * href="https://www.famfamfam.com/lab/icons/silk">famfamfam</a>
  *
  * TODO: Write tests
  * TODO: implement clipboard
@@ -129,7 +132,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
     /*
      * Toolbar
-     * TODO: link to source (http://www.famfamfam.com/) on about dialog
      */
 
     // Toolbar Buttons
@@ -373,8 +375,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
         new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent e) {
-            /* TODO: launch about dialog (my credits,
-             * icon credits, lib credits, adobe logo, donate button) */
+            showAboutDialog();
           }
         });
     toolbarButtons.get("Quit").addActionListener(
@@ -518,7 +519,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
   {
     Song song = panSong.getSong();
 
-    cells = new LinkedList<>();
+    cells = new ArrayList<>();
 
     PartPanelWrapper cell = new PartPanelWrapper(new Part());
     cell.getPartPanel().getDeleteButton().
@@ -528,6 +529,8 @@ public class PunchesFrame extends JFrame implements ComponentListener
           removePart(cell.getPart().getIndex());
         }
       });
+	  
+	txtSongTitle.setText(song.getTitle());
 
     txtBeatsPerBar.setText(
         String.valueOf(song.getSignature().getBeatsPerBar()));
@@ -600,6 +603,17 @@ public class PunchesFrame extends JFrame implements ComponentListener
   ////////////////////
 
   /**
+   * Show the About dialog
+   */
+  public void showAboutDialog()
+  {
+    AboutDialog aboutDialog = new AboutDialog(this);
+
+    aboutDialog.setLocationRelativeTo(null);
+    aboutDialog.setVisible(true);
+  }
+
+  /**
    * Re-layout Part cells
    *
    * @param bounds the cells' bounds
@@ -634,7 +648,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
     txtBpm.setText(String.valueOf(song.getBpm()));
 
-    cells = new LinkedList<>();
+    cells = new ArrayList<>();
 
     ListIterator<Part> itParts = panSong.getSong().getParts().listIterator();
     ListIterator<CellBounds> itBounds = bounds.listIterator();
@@ -651,7 +665,10 @@ public class PunchesFrame extends JFrame implements ComponentListener
             removePart(cell.getPart().getIndex());
           }
         });
-      cell.getPartPanel().getNotePane().setText(part.getNotes());
+
+      PartNotePane notePane = cell.getPartPanel().getNotePane();
+      notePane.setText(part.getNotes());
+      notePane.renderMarkdown(notePane.getText());
 
       cells.add(cell);
       cell.getPartPanel().updateIndex(cell.getPart().getIndex());
@@ -831,7 +848,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
       panSong.setSong(handler.getSongData());
       refreshTable(handler.getCellBounds(), handler.getDividerLocations());
-        }
+    }
     catch (IOException e) {
       //TODO handle
       logger.error(e.getMessage(), e.getClass());
@@ -913,8 +930,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
   /**
    * Load a Song from a file
-   *
-   * TODO: render markdown in notepanes on load
    */
   public void loadSong()
   {
@@ -968,8 +983,8 @@ public class PunchesFrame extends JFrame implements ComponentListener
       File selectedFile = chooser.getSelectedFile();
       //TODO check if file exists, prompt to overwrite
 
-      List<CellBounds> bounds = new LinkedList<>();
-      List<Integer> dividerLocations = new LinkedList<>();
+      List<CellBounds> bounds = new ArrayList<>();
+      List<Integer> dividerLocations = new ArrayList<>();
 
       itCells = cells.listIterator();
       while (itCells.hasNext()) {

@@ -1,24 +1,23 @@
 package Punches;
 
-import javax.swing.JTextPane;
-
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import com.github.rjeschke.txtmark.Processor;
+import javax.swing.border.MatteBorder;
+import javax.swing.JTextPane;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.github.rjeschke.txtmark.Processor;
 /**
  * A JTextPane designed to contain Part notes.
  *
  * @author Vince Aquilina
- * @version 03/17/22
- *
- * TODO: attribute txtmark
- *
+ * @version 03/19/22
  */
 public class PartNotePane extends JTextPane
 {
@@ -37,6 +36,12 @@ public class PartNotePane extends JTextPane
     plainText = "";
     html = "";
 
+    // Borders
+    final MatteBorder NORMAL_BORDER = new MatteBorder(1, 1, 1, 1, Color.BLACK);
+    final MatteBorder WARNING_BORDER = new MatteBorder(1, 5, 1, 5, Color.RED);
+
+    setBorder(NORMAL_BORDER);
+
     /*
      * Press ENTER to render markdown
      */
@@ -47,6 +52,7 @@ public class PartNotePane extends JTextPane
           if (e.getModifiersEx() != 
               KeyEvent.SHIFT_DOWN_MASK && getContentType() == "text/plain") {
             renderMarkdown(getText());
+            setBorder(NORMAL_BORDER);
           }
           else if (getContentType() != "text/html") {
             int pos = getCaretPosition();
@@ -83,6 +89,27 @@ public class PartNotePane extends JTextPane
           setText(plainText);
           setEditable(true);
           getCaret().setVisible(true);
+        }
+      }
+    });
+
+    /*
+     * Indicate whether changes have been saved
+     */
+    this.addKeyListener(new KeyListener() {
+      @Override
+      public void keyTyped(KeyEvent e) {}
+      @Override
+      public void keyPressed(KeyEvent e) {}
+      @Override
+      public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() != KeyEvent.VK_ENTER){
+          if (! getText().equals(plainText)) {
+            setBorder(WARNING_BORDER);
+          }
+          else {
+            setBorder(NORMAL_BORDER);
+          }
         }
       }
     });

@@ -16,11 +16,13 @@ import org.slf4j.LoggerFactory;
  * Extended JCustomizer with custom behaviour.
  *
  * @author Vince Aquilina
- * @version 03/17/22
+ * @version 03/19/22
  *
  * TODO: Logic for re-ordering parts 
  */
-class PartPanelCustomizer extends JCustomizer implements CustomizerListener
+public class PartPanelCustomizer 
+  extends JCustomizer 
+  implements CustomizerListener
 {
   private final Logger logger =
     LoggerFactory.getLogger(PartPanelCustomizer.class);
@@ -202,8 +204,8 @@ class PartPanelCustomizer extends JCustomizer implements CustomizerListener
 
     //DEBUG {{{
     logger.debug("dragging \"{}\"", partPanel.getPart().getName());
-    logger.info("pos: [{}, {}]", getX(), getY());
-    logger.info("dim: [{} x {}]", width, height);
+    logger.debug("pos: [{}, {}]", getX(), getY());
+    logger.debug("dim: [{} x {}]", width, height);
     logger.debug("intersects: {}",
         getParentCustomizerPane().
         getIntersectedCustomizers(getVisibleRect()).length);

@@ -90,7 +90,6 @@ public class PartPanel extends JPanel
 
     /* notePane -- right section of split pane */
     notePane = new PartNotePane();
-    notePane.setBorder(new EtchedBorder(EtchedBorder.RAISED));
 
     notePane.addKeyListener(new KeyListener() {
       @Override
