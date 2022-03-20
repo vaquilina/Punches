@@ -74,6 +74,7 @@ public class AboutDialog extends JDialog
         dispose();
       }
     });
+    getRootPane().setDefaultButton(btnDismiss);
 
     // lay out components
     add(lblLogo, "center, wrap");

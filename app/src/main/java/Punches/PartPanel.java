@@ -33,11 +33,11 @@ import org.slf4j.LoggerFactory;
  * A Part component that represents a cell in the Song.
  *
  * @author Vince Aquilina
- * @version 03/18/22
+ * @version 03/20/22
  */
 public class PartPanel extends JPanel
 {
-  private final Logger logger =  LoggerFactory.getLogger(PartPanel.class);
+  private final Logger logger = LoggerFactory.getLogger(PartPanel.class);
 
   /** The sheet music snippet */
   protected Image sheetImage;
@@ -64,6 +64,8 @@ public class PartPanel extends JPanel
   private JLabel lblName;
   /** The delete button */
   private JButton btnDelete;
+  /** The Punches button */
+  private JButton btnPunches;
 
   private Color panelGray = new Color(0xDDDDDD);
 
@@ -182,7 +184,7 @@ public class PartPanel extends JPanel
         PartPanel.class.getResource("/icons/punch.png"));
     ImageIcon fistPressedIcon = new ImageIcon(
         PartPanel.class.getResource("/icons/punch-pressed.png"));
-    JButton btnPunches = new JButton(fistIcon);
+    btnPunches = new JButton(fistIcon);
     btnPunches.setPressedIcon(fistPressedIcon);
     btnPunches.setBorderPainted(false);
     btnPunches.setFocusPainted(false);
@@ -293,13 +295,23 @@ public class PartPanel extends JPanel
   }
 
   /**
-   * Get a reference to the delete button
+   * Get the delete button
    *
-   * @return a reference to the delete button
+   * @return the delete button
    */
   public JButton getDeleteButton()
   {
     return btnDelete;
+  }
+
+  /**
+   * Get the punches button
+   *
+   * @return the punches button
+   */
+  public JButton getPunchesButton()
+  {
+    return btnPunches;
   }
 
   /**

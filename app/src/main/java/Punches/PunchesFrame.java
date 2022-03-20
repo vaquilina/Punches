@@ -58,8 +58,8 @@ import org.slf4j.LoggerFactory;
  * @author Vince Aquilina
  * @version 03/19/22
  *
- * <b>Icons: </b><a
- * href="https://www.famfamfam.com/lab/icons/silk">famfamfam</a>
+ * <b>Icons: </b>
+ * <a href="https://www.famfamfam.com/lab/icons/silk">famfamfam</a>
  *
  * TODO: Write tests
  * TODO: implement clipboard
@@ -527,6 +527,17 @@ public class PunchesFrame extends JFrame implements ComponentListener
         @Override
         public void actionPerformed(ActionEvent e) {
           removePart(cell.getPart().getIndex());
+        }
+      });
+
+    JFrame parent = this;
+    cell.getPartPanel().getPunchesButton().
+      addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          PunchesDialog punchesDialog =
+            new PunchesDialog(parent, song, cell.getPart());
+          punchesDialog.setVisible(true);
         }
       });
 	  
