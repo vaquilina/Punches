@@ -16,14 +16,16 @@ import org.slf4j.LoggerFactory;
  * Extended JCustomizer with custom behaviour.
  *
  * @author Vince Aquilina
- * @version 03/19/22
- *
- * TODO: Logic for re-ordering parts 
+ * @version 03/20/22
  */
 public class PartPanelCustomizer 
   extends JCustomizer 
   implements CustomizerListener
 {
+  /*
+   * TODO: Logic for re-ordering parts 
+   */
+
   private final Logger logger =
     LoggerFactory.getLogger(PartPanelCustomizer.class);
 

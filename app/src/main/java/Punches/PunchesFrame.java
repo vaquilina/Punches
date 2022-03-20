@@ -60,14 +60,16 @@ import org.slf4j.LoggerFactory;
  *
  * <b>Icons: </b>
  * <a href="https://www.famfamfam.com/lab/icons/silk">famfamfam</a>
- *
- * TODO: Write tests
- * TODO: implement clipboard
- * TODO: implement command history
- * TODO: add manual reordering  
  */
 public class PunchesFrame extends JFrame implements ComponentListener
 {
+  /*
+   * TODO: Write tests
+   * TODO: implement clipboard
+   * TODO: implement command history
+   * TODO: add manual reordering  
+   */
+
   private static final Logger logger =
     LoggerFactory.getLogger(PunchesFrame.class);
 

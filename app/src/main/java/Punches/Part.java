@@ -14,6 +14,10 @@ import org.slf4j.LoggerFactory;
  */
 public class Part implements Serializable
 {
+  /*
+   * TODO: chain constuctors
+   */
+
   private final Logger logger = LoggerFactory.getLogger(Part.class);
 
   /** Part name */

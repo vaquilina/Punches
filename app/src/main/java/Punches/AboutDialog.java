@@ -15,14 +15,16 @@ import net.miginfocom.swing.MigLayout;
  * A Dialog that displays copyright information and attributions.
  *
  * @author Vince Aquilina
- * @version 03/19/22
- *
- * TODO: add hyperlinks
- * TODO: add link to user guide
- * TODO: add donate button
+ * @version 03/20/22
  */
 public class AboutDialog extends JDialog
 {
+  /*
+   * TODO: add hyperlinks
+   * TODO: add link to user guide
+   * TODO: add donate button
+   */
+
   private final Color PUNCHES_RED = new Color(0x710028);
   private final String COPYRIGHT = Character.toString(169);
 

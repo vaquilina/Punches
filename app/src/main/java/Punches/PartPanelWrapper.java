@@ -10,12 +10,14 @@ import java.io.Serializable;
  * Binds a Part to PartPanel to a PartPanelCustomizer.
  *
  * @author Vince Aquilina
- * @version 03/17/22
- *
- * TODO write tests
+ * @version 03/20/22
  */
 public class PartPanelWrapper
 {
+  /*
+   * TODO write tests
+   */
+
   /** The PartPanel */
   private PartPanel panel;
   /** The PartPanelCustomizer */

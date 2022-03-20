@@ -59,6 +59,8 @@ application {
 tasks.withType(JavaExec) {
   // for hidpi displays
   // jvmArgs += '-Dsun.java2d.uiScale=2.0'
+  jvmArgs += '-Dawt.useSystemAAFontSettings=on'
+  jvmArgs += '-Dswing.aatext=true'
 }
 
 tasks.named('test') {
