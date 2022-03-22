@@ -15,8 +15,8 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
-import javax.swing.JComponent;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -71,7 +71,7 @@ import org.slf4j.LoggerFactory;
  * <hr />
  *
  * @author Vince Aquilina
- * @version 03/21/22
+ * @version 03/22/22
  */
 public class PunchesDialog extends JDialog implements KeyListener
 {
@@ -79,7 +79,8 @@ public class PunchesDialog extends JDialog implements KeyListener
    * TODO: keybindings (multi-key simulataneous input)
    * TODO: metronome (run in separate thread)
    */
-  private final Logger logger = LoggerFactory.getLogger(PunchesDialog.class);
+  private final static Logger logger =
+    LoggerFactory.getLogger(PunchesDialog.class);
 
   KeyboardFocusManager kfMgr =
     KeyboardFocusManager.getCurrentKeyboardFocusManager();
@@ -95,10 +96,21 @@ public class PunchesDialog extends JDialog implements KeyListener
   /** The Song that the Part belongs to */
   private Song partOwner;
 
+  /** The "play" button */
+  private final JButton btnPlay;
+  /** The "stop button */
+  private final JButton btnStop;
+  /** The "to tab" button */
+  private final JButton btnToTab;
+  /** The "to sheet" button */
+  private final JButton btnToSheet;
   /** Map of voice buttons */
   private final Map<String, VoiceButton> voices;
   /** The metronome */
   private Metronome metronome;
+  /** The metronome's progress bar */
+  private static final JProgressBar prgMetronome =
+    new JProgressBar(JProgressBar.HORIZONTAL);
 
   ///////////////////
   // VOICE ACTIONS //
@@ -124,8 +136,9 @@ public class PunchesDialog extends JDialog implements KeyListener
     @Override
     public void actionPerformed(ActionEvent e) {
       voices.get("crash").doClick(20);
-      logger.debug("hit crash");
       kfMgr.clearFocusOwner();
+
+      logger.debug("hit crash");
     }
   }
 
@@ -134,8 +147,9 @@ public class PunchesDialog extends JDialog implements KeyListener
     @Override
     public void actionPerformed(ActionEvent e) {
       voices.get("ride").doClick(20);
-      logger.debug("hit ride");
       kfMgr.clearFocusOwner();
+
+      logger.debug("hit ride");
     }
   }
 
@@ -144,8 +158,9 @@ public class PunchesDialog extends JDialog implements KeyListener
     @Override
     public void actionPerformed(ActionEvent e) {
       voices.get("hihat").doClick(20);
-      logger.debug("hit hihat");
       kfMgr.clearFocusOwner();
+
+      logger.debug("hit hihat");
     }
   }
 
@@ -154,8 +169,9 @@ public class PunchesDialog extends JDialog implements KeyListener
     @Override
     public void actionPerformed(ActionEvent e) {
       voices.get("racktom").doClick(20);
-      logger.debug("hit racktom");
       kfMgr.clearFocusOwner();
+
+      logger.debug("hit racktom");
     }
   }
 
@@ -164,8 +180,9 @@ public class PunchesDialog extends JDialog implements KeyListener
     @Override
     public void actionPerformed(ActionEvent e) {
       voices.get("floortom").doClick(20);
-      logger.debug("hit floortom");
       kfMgr.clearFocusOwner();
+
+      logger.debug("hit floortom");
     }
   }
 
@@ -174,8 +191,9 @@ public class PunchesDialog extends JDialog implements KeyListener
     @Override
     public void actionPerformed(ActionEvent e) {
       voices.get("snare").doClick(20);
-      logger.debug("hit snare");
       kfMgr.clearFocusOwner();
+
+      logger.debug("hit snare");
     }
   }
 
@@ -184,8 +202,9 @@ public class PunchesDialog extends JDialog implements KeyListener
     @Override
     public void actionPerformed(ActionEvent e) {
       voices.get("kickdrum").doClick(20);
-      logger.debug("hit kickdrum");
       kfMgr.clearFocusOwner();
+
+      logger.debug("hit kickdrum");
     }
   }
 
@@ -216,7 +235,7 @@ public class PunchesDialog extends JDialog implements KeyListener
             partOwner.getSignature().toString() + 
             " @  " + partOwner.getBpm() + " bpm");
 
-    final JButton btnPlay = new JButton("PLAY/REC");
+    btnPlay = new JButton("PLAY/REC");
     btnPlay.setFocusable(false);
     btnPlay.setMnemonic(KeyEvent.VK_P);
     btnPlay.addActionListener(new ActionListener() {
@@ -227,7 +246,7 @@ public class PunchesDialog extends JDialog implements KeyListener
       }
     });
 
-    final JButton btnStop = new JButton("STOP");
+    btnStop = new JButton("STOP");
     btnStop.setFocusable(false);
     btnStop.setMnemonic(KeyEvent.VK_S);
     btnStop.addActionListener(new ActionListener() {
@@ -237,19 +256,19 @@ public class PunchesDialog extends JDialog implements KeyListener
         stop();
       }
     });
+    btnStop.setEnabled(false); // disabled until metronome is started
 
-    // TODO: progress bar fills as metronome plays
-    final JProgressBar progressBar = new JProgressBar(JProgressBar.HORIZONTAL);
+    prgMetronome.setStringPainted(true);
 
     final JPanel pnlMeta = new JPanel(new MigLayout(
           "Insets 0, fillx",
           "[fill][fill]",
           "[fill][fill]"));
-    pnlMeta.add(lblPartName, "cell 0 0");
-    pnlMeta.add(lblInfo,     "cell 1 0");
-    pnlMeta.add(btnPlay,     "cell 0 1");
-    pnlMeta.add(btnStop,     "cell 0 1");
-    pnlMeta.add(progressBar, "cell 1 1");
+    pnlMeta.add(lblPartName,  "cell 0 0");
+    pnlMeta.add(lblInfo,      "cell 1 0");
+    pnlMeta.add(btnPlay,      "cell 0 1");
+    pnlMeta.add(btnStop,      "cell 0 1");
+    pnlMeta.add(prgMetronome, "cell 1 1");
 
     /*
      * Voices Panel
@@ -322,7 +341,7 @@ public class PunchesDialog extends JDialog implements KeyListener
      * Button Panel
      */
 
-    final JButton btnToTab = new JButton("TO TAB");
+    btnToTab = new JButton("TO TAB");
     btnToTab.setFocusable(false);
     btnToTab.setMnemonic(KeyEvent.VK_T);
     btnToTab.addActionListener(new ActionListener() {
@@ -332,8 +351,9 @@ public class PunchesDialog extends JDialog implements KeyListener
         toTab(rhythm);
       }
     });
+    btnToTab.setEnabled(false); // disabled until Sequence captured
 
-    final JButton btnToSheet = new JButton("TO SHEET");
+    btnToSheet = new JButton("TO SHEET");
     btnToSheet.setFocusable(false);
     btnToSheet.setMnemonic(KeyEvent.VK_H);
     btnToSheet.addActionListener(new ActionListener() {
@@ -343,6 +363,7 @@ public class PunchesDialog extends JDialog implements KeyListener
         //toSheet(rhythm);
       }
     });
+    btnToSheet.setEnabled(false); // disabled until Sequence captured
 
     final JButton btnCancel = new JButton("CANCEL");
     btnCancel.setFocusable(false);
@@ -350,6 +371,9 @@ public class PunchesDialog extends JDialog implements KeyListener
     btnCancel.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
+        if (metronome != null) {
+          metronome.end();
+        }
         dispose();
       }
     });
@@ -374,6 +398,22 @@ public class PunchesDialog extends JDialog implements KeyListener
     pack();
 
     setLocationRelativeTo(null);
+  }
+
+  /**
+   * Update the progress bar
+   *
+   * @param progress the progress value
+   */
+  public static synchronized void updateProgress(int progress, int totalBeats)
+  {
+    double temp = (float) progress / (float) totalBeats;
+    progress = (int) (temp * 100);
+
+    prgMetronome.setValue(progress);
+
+    logger.debug("temp: " + temp);
+    logger.debug("progress %: " + progress);
   }
 
   ////////////////////
@@ -419,6 +459,7 @@ public class PunchesDialog extends JDialog implements KeyListener
    */
   private void play()
   {
+    //TODO init metronome
     metronome = new Metronome(
           (double) partOwner.getBpm(),
           partOwner.getSignature().getBeatsPerBar(),
@@ -426,6 +467,9 @@ public class PunchesDialog extends JDialog implements KeyListener
 
     Thread t = new Thread(metronome);
     t.start();
+
+    btnPlay.setEnabled(false);
+    btnStop.setEnabled(true);
   }
 
   /**
@@ -434,7 +478,11 @@ public class PunchesDialog extends JDialog implements KeyListener
   private void stop()
   {
     metronome.end();
-    metronome = null;
+
+    prgMetronome.setValue(0);
+
+    btnPlay.setEnabled(true);
+    btnStop.setEnabled(false);
   }
 
   /**
