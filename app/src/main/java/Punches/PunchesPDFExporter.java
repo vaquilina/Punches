@@ -9,17 +9,23 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * Allows for exporting of Punches data in PDF format.
  *
  * @author Vince Aquilina
- * @version 03/20/22
+ * @version 03/21/22
  */
 public class PunchesPDFExporter
 {
   /*
    * TODO: write tests
    */
+
+  private static Logger logger =
+    LoggerFactory.getLogger(PunchesPDFExporter.class);
 
   /** The Song data */
   Song song;
@@ -43,14 +49,21 @@ public class PunchesPDFExporter
    */
   public void prepare() throws IOException
   {
+    //TODO: fix paths to work on Windows as well
     String outline = Files.readString(
-        Paths.get(PunchesPDFExporter.
-          class.
+        Paths.get(PunchesPDFExporter.class.
           getResource("/templates/outline.html").getPath()));
+
+    logger.debug(Paths.get(PunchesPDFExporter.class.
+          getResource("/templates/outline.html").getPath()).toString());
+
     String rowOutline = Files.readString(
         Paths.get(PunchesPDFExporter.
           class.
           getResource("/templates/row.html").getPath()));
+
+    logger.debug(Paths.get(PunchesPDFExporter.class.
+          getResource("/templates/row.html").getPath()).toString());
 
     String songTitle = song.getTitle();
     String timeSignature = song.getSignature().toString();
