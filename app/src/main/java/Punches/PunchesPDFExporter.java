@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
  * Allows for exporting of Punches data in PDF format.
  *
  * @author Vince Aquilina
- * @version 03/21/22
+ * @version 03/22/22
  */
 public class PunchesPDFExporter
 {
@@ -49,21 +49,30 @@ public class PunchesPDFExporter
    */
   public void prepare() throws IOException
   {
-    //TODO: fix paths to work on Windows as well
-    String outline = Files.readString(
-        Paths.get(PunchesPDFExporter.class.
-          getResource("/templates/outline.html").getPath()));
+	
+	String outlinePath = PunchesPDFExporter.class.
+            getResource("/templates/outline.html").
+			getPath();
+			
+	String rowOutlinePath = PunchesPDFExporter.class.
+		    getResource("/templates/row.html").
+			getPath();
+	
+	// remove leading slash from Windows paths
+	logger.debug("OS: " + System.getProperty("os.name"));
+	if (System.getProperty("os.name").
+	                    toLowerCase().
+						contains("win")) {
+		outlinePath = outlinePath.substring(1);
+		rowOutlinePath = rowOutlinePath.substring(1);
+	}
+	
+	logger.debug("outline path: " + outlinePath);
+	logger.debug("row path: " + rowOutlinePath);
+	  
+    String outline = Files.readString(Paths.get(outlinePath));
 
-    logger.debug(Paths.get(PunchesPDFExporter.class.
-          getResource("/templates/outline.html").getPath()).toString());
-
-    String rowOutline = Files.readString(
-        Paths.get(PunchesPDFExporter.
-          class.
-          getResource("/templates/row.html").getPath()));
-
-    logger.debug(Paths.get(PunchesPDFExporter.class.
-          getResource("/templates/row.html").getPath()).toString());
+    String rowOutline = Files.readString(Paths.get(rowOutlinePath));
 
     String songTitle = song.getTitle();
     String timeSignature = song.getSignature().toString();
