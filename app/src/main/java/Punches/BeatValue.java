@@ -7,13 +7,20 @@ package Punches;
  */
 public enum BeatValue 
 {
-  WHOLE(1),           /** Whole note */
-  HALF(2),            /** Half note */
-  QUARTER(4),         /** Quarter note */
-  EIGHTH(8),          /** Eighth note */
-  SIXTEENTH(16),      /** Sixteenth note */
-  THIRTY_SECOND(32),  /** Thirty-second note */
-  SIXTY_FOURTH(64);   /** Sixty-fourth note */
+  /** Whole note */
+  WHOLE(1),
+  /** Half note */
+  HALF(2),
+  /** Quarter note */
+  QUARTER(4),
+  /** Eighth note */
+  EIGHTH(8),
+  /** Sixteenth note */
+  SIXTEENTH(16),
+  /** Thirty-second note */
+  THIRTY_SECOND(32),
+  /** Sixty-fourth note */
+  SIXTY_FOURTH(64);
 
   /** The numeric beat value */
   private int value;

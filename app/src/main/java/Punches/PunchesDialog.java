@@ -63,21 +63,20 @@ import org.slf4j.LoggerFactory;
  * |  |          BASS DRUM (SPACE)         |  |
  * |  |                                    |  |
  * |  '------------------------------------'  |
- * |                                          |
  * |            [TO TAB] [TO SHEET] [CANCEL]  |
- * |                                          |
  * +------------------------------------------+
  * </pre>
  * <hr />
  *
  * @author Vince Aquilina
- * @version 03/22/22
+ * @version 03/23/22
  */
 public class PunchesDialog extends JDialog implements KeyListener
 {
   /*
    * TODO: keybindings (multi-key simulataneous input)
-   * TODO: metronome (run in separate thread)
+   * TODO: capture
+   * TODO: conversion
    */
   private final static Logger logger =
     LoggerFactory.getLogger(PunchesDialog.class);
@@ -135,7 +134,7 @@ public class PunchesDialog extends JDialog implements KeyListener
   {
     @Override
     public void actionPerformed(ActionEvent e) {
-      voices.get("crash").doClick(20);
+      voices.get("crash").doClick(100);
       kfMgr.clearFocusOwner();
 
       logger.debug("hit crash");
@@ -146,7 +145,7 @@ public class PunchesDialog extends JDialog implements KeyListener
   {
     @Override
     public void actionPerformed(ActionEvent e) {
-      voices.get("ride").doClick(20);
+      voices.get("ride").doClick(100);
       kfMgr.clearFocusOwner();
 
       logger.debug("hit ride");
@@ -157,7 +156,7 @@ public class PunchesDialog extends JDialog implements KeyListener
   {
     @Override
     public void actionPerformed(ActionEvent e) {
-      voices.get("hihat").doClick(20);
+      voices.get("hihat").doClick(100);
       kfMgr.clearFocusOwner();
 
       logger.debug("hit hihat");
@@ -168,7 +167,7 @@ public class PunchesDialog extends JDialog implements KeyListener
   {
     @Override
     public void actionPerformed(ActionEvent e) {
-      voices.get("racktom").doClick(20);
+      voices.get("racktom").doClick(100);
       kfMgr.clearFocusOwner();
 
       logger.debug("hit racktom");
@@ -179,7 +178,7 @@ public class PunchesDialog extends JDialog implements KeyListener
   {
     @Override
     public void actionPerformed(ActionEvent e) {
-      voices.get("floortom").doClick(20);
+      voices.get("floortom").doClick(100);
       kfMgr.clearFocusOwner();
 
       logger.debug("hit floortom");
@@ -190,7 +189,7 @@ public class PunchesDialog extends JDialog implements KeyListener
   {
     @Override
     public void actionPerformed(ActionEvent e) {
-      voices.get("snare").doClick(20);
+      voices.get("snare").doClick(100);
       kfMgr.clearFocusOwner();
 
       logger.debug("hit snare");
@@ -201,7 +200,7 @@ public class PunchesDialog extends JDialog implements KeyListener
   {
     @Override
     public void actionPerformed(ActionEvent e) {
-      voices.get("kickdrum").doClick(20);
+      voices.get("kickdrum").doClick(100);
       kfMgr.clearFocusOwner();
 
       logger.debug("hit kickdrum");
@@ -217,7 +216,7 @@ public class PunchesDialog extends JDialog implements KeyListener
    */
   public PunchesDialog(Frame owner, Song partOwner, Part relevantPart)
   {
-    super(owner);
+    super(owner, ModalityType.APPLICATION_MODAL);
 
     this.partOwner = partOwner;
     this.relevantPart = relevantPart;
@@ -253,7 +252,7 @@ public class PunchesDialog extends JDialog implements KeyListener
       @Override
       public void actionPerformed(ActionEvent e) {
         //TODO: discard recording
-        stop();
+		stop();
       }
     });
     btnStop.setEnabled(false); // disabled until metronome is started
@@ -335,8 +334,6 @@ public class PunchesDialog extends JDialog implements KeyListener
     pnlVoices.add(voices.get("floortom"), "w 100%");
     pnlVoices.add(voices.get("kickdrum"), "span");
 
-    //TODO figure out focus condition situation
-
     /*
      * Button Panel
      */
@@ -416,6 +413,20 @@ public class PunchesDialog extends JDialog implements KeyListener
     logger.debug("progress %: " + progress);
   }
 
+  /**
+   * Toggle progress bar text for metronome count-in
+   *
+   * @param countingIn whether the metronome is counting in
+   */
+  public static synchronized void setProgressMode(boolean countingIn)
+  {
+    if (countingIn) {
+      prgMetronome.setString("counting in");
+    } else {
+      prgMetronome.setString(null);
+    }
+  }
+
   ////////////////////
   // HELPER METHODS //
   ////////////////////
@@ -453,13 +464,19 @@ public class PunchesDialog extends JDialog implements KeyListener
     //TODO: implement method
     return new String[] {};
   }
+  
+  /**
+   * Get a sheet music representation of a Rhythm
+   */
+  //private Image toSheet(Rhythm rhythm)
+  //{
+  //}
 
   /**
    * Initialize and start the metronome
    */
   private void play()
   {
-    //TODO init metronome
     metronome = new Metronome(
           (double) partOwner.getBpm(),
           partOwner.getSignature().getBeatsPerBar(),
@@ -484,13 +501,6 @@ public class PunchesDialog extends JDialog implements KeyListener
     btnPlay.setEnabled(true);
     btnStop.setEnabled(false);
   }
-
-  /**
-   * Get a sheet music representation of a Rhythm
-   */
-  //private Image toSheet(Rhythm rhythm)
-  //{
-  //}
 
   /////////////////////////
   // KeyListener Methods //

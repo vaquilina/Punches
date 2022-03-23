@@ -1,12 +1,11 @@
 package Punches;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
-import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -17,13 +16,12 @@ import org.slf4j.LoggerFactory;;
  * Metronome for the Punches Interface.
  *
  * @author Vince Aquilina
- * @version 03/22/22
+ * @version 03/23/22
  */
 public class Metronome extends Thread
 {
   /*
    * TODO: allow for counting with true beat value
-   * TODO: ensure duration and start/end are correct
    */
   private final Logger logger = LoggerFactory.getLogger(Metronome.class);
 
@@ -33,7 +31,7 @@ public class Metronome extends Thread
   private int counter;
   /** The duration in bars */
   private int duration;
-  /** The progess */
+  /** The progress */
   private int progress;
   /** The accent tone */
   private Clip accentTone;
@@ -64,9 +62,55 @@ public class Metronome extends Thread
     counter = 0;
     totalBeats = beatsPerMeasure * duration;
 
-    // TODO figure out values
-    accentTone = generateTone(440, 20, 44100.00f, 20, false);
-    regTone = generateTone(540, 20, 44100.00f, 20, false);
+    File accentSoundFile =
+      new File(Metronome.class.getResource(
+            "/sounds/metro_accent.wav").getPath());
+
+    File regSoundFile = 
+      new File(Metronome.class.getResource(
+            "/sounds/metro_reg.wav").getPath());
+
+    try {
+      accentTone = AudioSystem.getClip();
+      accentTone.open(AudioSystem.getAudioInputStream(accentSoundFile));
+
+      regTone = AudioSystem.getClip();
+      regTone.open(AudioSystem.getAudioInputStream(regSoundFile));
+    }
+    catch (IOException ex) {
+      logger.error(ex.getMessage());
+      ex.printStackTrace();
+    }
+    catch (LineUnavailableException ex) {
+      logger.error(ex.getMessage());
+      ex.printStackTrace();
+    }
+    catch (UnsupportedAudioFileException ex) {
+      logger.error(ex.getMessage());
+      ex.printStackTrace();
+    }
+  }
+
+  /**
+   * Sound the metronome beep
+   *
+   * @param isAccent whether or not this beep should be an accent
+   */
+  public void sound(boolean isAccent) 
+  {
+    if (isAccent) {
+      accentTone.setFramePosition(0);
+      accentTone.start();
+    } else {
+      regTone.setFramePosition(0);
+      regTone.start();
+    }
+  }
+
+  public void stopSound()
+  {
+    if (accentTone.isRunning()) accentTone.stop();
+    if (regTone.isRunning()) regTone.stop();
   }
 
   /**
@@ -78,97 +122,14 @@ public class Metronome extends Thread
   }
 
   /**
-   * Generate a tone and store it in a clip
-   *
-   * https://stackoverflow.com/questions/7782721/
-   * java-raw-audio-output/7782749#7782749
-   *
-   * @param hz the frequency of the note 
-   * @param wavelengths the number of wavelengths
-   * @param sampleRate the sample rate
-   * @param framesPerWavelength the number of frames per wavelength
-   * @param addHarmonic whether to add harmonic
-   */
-  public Clip generateTone(int hz, int wavelengths, float sampleRate,
-      int framesPerWavelength, boolean addHarmonic)
-  {
-    Clip clip = null;
-    try {
-      clip = AudioSystem.getClip();
-
-      if (accentTone != null) {
-        accentTone.stop();
-        accentTone.close();
-      } else {
-        accentTone = AudioSystem.getClip();
-      }
-      if (regTone != null) {
-        regTone.stop();
-        regTone.close();
-      } else {
-        regTone = AudioSystem.getClip();
-      }
-
-      // sound does not loop well for less than 5 wavelengths...
-      if (wavelengths < 5) wavelengths = 5; 
-
-      byte[] buf = new byte[2 * framesPerWavelength * wavelengths];
-
-      AudioFormat af = new AudioFormat(
-        sampleRate,
-        8,     // sample size in bits
-        2,     // channels
-        true,  // signed
-        false  // big endian
-      );
-
-      int maxVol = 127;
-      for (int i = 0; i < framesPerWavelength * wavelengths; i++) {
-        double angle =
-          ((float) (i * 2)/ ((float) framesPerWavelength)) * (Math.PI);
-
-        buf[i * 2] =
-          (byte) (Integer.valueOf(
-                (int) Math.round(Math.sin(angle) * maxVol))).byteValue();
-
-        if (addHarmonic) {
-          buf[(i * 2) + 1] =
-            (byte) (Integer.valueOf(
-                  (int) Math.round(Math.sin(2 * angle) * maxVol))).byteValue();
-        } else {
-          buf[(i * 2) + 1] = buf[i * 2];
-        }
-      }
-
-      byte[] b = buf;
-      AudioInputStream ais = new AudioInputStream(
-          new ByteArrayInputStream(b),
-          af,
-          buf.length / 2);
-
-      try {
-        clip.open(ais);
-      }
-      catch (IOException ex) {
-        logger.error(ex.getMessage());
-
-        ex.printStackTrace();
-      }
-    }
-    catch (LineUnavailableException ex) {
-      logger.error(ex.getMessage());
-      ex.printStackTrace();
-    }
-    return clip;
-  }
-
-  /**
    * The Main task
    */
   @Override
   public void run()
   {
     progress = 0;
+    boolean isCountingIn = true;
+    PunchesDialog.setProgressMode(true);
 
     while(keepRunning.get()) {
       try {
@@ -178,43 +139,45 @@ public class Metronome extends Thread
         logger.error(ex.getMessage());
       }
 
+      if (isCountingIn) {
+        if (counter >= beatsPerMeasure) {
+          counter = 0;
+          PunchesDialog.setProgressMode(false);
+          isCountingIn = false;
+        }
+      }
+
       if (keepRunning.get() == false) {
-        if (accentTone != null) {
-          accentTone.stop();
-          accentTone.close();
-        }
-        if (regTone != null) {
-          regTone.stop();
-          regTone.close();
-        }
+        stopSound();
+
+        accentTone.close();
+        regTone.close();
 
         break;
       }
 
-      counter++;
-      if (counter > duration) {
+      if (counter >= duration) {
+        stopSound();
         keepRunning.set(false);
 
         logger.debug("end");
-        break;
-      }
-      else if (counter % beatsPerMeasure == 0) {
-        accentTone.setFramePosition(0);
-        accentTone.loop(1);
-
-        progress++;
+      } else if (counter % beatsPerMeasure == 0) {
+        // play accent tone
+        stopSound();
+        sound(true);
+        if (! isCountingIn) progress++;
 
         logger.debug("tick");
-      }
-      else {
-        regTone.setFramePosition(0);
-        regTone.loop(1);
-
-        progress++;
+      } else {
+        // play reg tone
+        stopSound();
+        sound(false);
+        if (! isCountingIn) progress++;
 
         logger.debug("tock");
       }
-      PunchesDialog.updateProgress(progress, totalBeats);
+      counter++;
+      if (! isCountingIn) PunchesDialog.updateProgress(progress, totalBeats);
     }
     progress = 0;
   }
