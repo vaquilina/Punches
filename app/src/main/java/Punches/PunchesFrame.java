@@ -56,7 +56,7 @@ import org.slf4j.LoggerFactory;
  * Punches Desktop GUI.
  *
  * @author Vince Aquilina
- * @version 03/19/22
+ * @version 03/25/22
  *
  * <b>Icons: </b>
  * <a href="https://www.famfamfam.com/lab/icons/silk">famfamfam</a>
@@ -68,6 +68,8 @@ public class PunchesFrame extends JFrame implements ComponentListener
    * TODO: implement clipboard
    * TODO: implement command history
    * TODO: add manual reordering  
+   * TODO: clean up layout
+   * TODO: migrate to FlatLaf L&F formdev.com/flatlaf
    */
 
   private static final Logger logger =
@@ -666,6 +668,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
     ListIterator<Part> itParts = panSong.getSong().getParts().listIterator();
     ListIterator<CellBounds> itBounds = bounds.listIterator();
 
+	JFrame parent = this;
     int i = 0;
     while (itParts.hasNext()) {
 
@@ -678,6 +681,16 @@ public class PunchesFrame extends JFrame implements ComponentListener
             removePart(cell.getPart().getIndex());
           }
         });
+		
+	  cell.getPartPanel().getPunchesButton().
+      addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          PunchesDialog punchesDialog =
+            new PunchesDialog(parent, song, cell.getPart());
+          punchesDialog.setVisible(true);
+        }
+      });
 
       PartNotePane notePane = cell.getPartPanel().getNotePane();
       notePane.setText(part.getNotes());

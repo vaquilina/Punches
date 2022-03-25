@@ -15,7 +15,7 @@ import net.miginfocom.swing.MigLayout;
  * A Dialog that displays copyright information and attributions.
  *
  * @author Vince Aquilina
- * @version 03/20/22
+ * @version 03/25/22
  */
 public class AboutDialog extends JDialog
 {
@@ -48,7 +48,7 @@ public class AboutDialog extends JDialog
 
     // copyright/attributions
     final JLabel lblCopyright = new JLabel(
-        "Copyright " + COPYRIGHT + "2022 Vince Aquilina");
+        "Copyright " + COPYRIGHT + " 2022 Vince Aquilina");
 
     final JLabel lblAdobe = new JLabel(
         "Adobe PDF logo , Adobe PDF " + COPYRIGHT + " Adobe, Inc.");
@@ -60,13 +60,14 @@ public class AboutDialog extends JDialog
         "SoftSmithy Utility Library " + COPYRIGHT + " Florian Brunner");
 
     final JLabel lblTxtmark = new JLabel(
-        "txtmark " + COPYRIGHT + " René Jeschke");
+        "txtmark " + COPYRIGHT + " Ren" 
+			+ Character.toString(233) + " Jeschke");
 
     final JLabel lblOpenhtmltopdf = new JLabel(
-        "openhtmltopdf " + COPYRIGHT + "Dan Fickle");
+        "openhtmltopdf " + COPYRIGHT + " Dan Fickle");
 
     final JLabel lblFamfamfam = new JLabel(
-        "Silk Icons " + COPYRIGHT + "famfamfam.com");
+        "Silk Icons " + COPYRIGHT + " famfamfam.com");
 
     // dismiss button
     final JButton btnDismiss = new JButton("Dismiss");
