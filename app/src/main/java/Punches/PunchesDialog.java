@@ -8,7 +8,6 @@ import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.AbstractAction;
@@ -29,10 +28,8 @@ import javax.swing.event.ChangeListener;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Track;
 
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -69,9 +66,9 @@ import org.slf4j.LoggerFactory;
  * <hr />
  *
  * @author Vince Aquilina
- * @version 03/23/22
+ * @version 03/25/22
  */
-public class PunchesDialog extends JDialog implements KeyListener
+public class PunchesDialog extends JDialog
 {
   /*
    * TODO: keybindings (multi-key simulataneous input)
@@ -134,7 +131,7 @@ public class PunchesDialog extends JDialog implements KeyListener
   {
     @Override
     public void actionPerformed(ActionEvent e) {
-      voices.get("crash").doClick(100);
+      // voices.get("crash").doClick(100);
       kfMgr.clearFocusOwner();
 
       logger.debug("hit crash");
@@ -145,7 +142,7 @@ public class PunchesDialog extends JDialog implements KeyListener
   {
     @Override
     public void actionPerformed(ActionEvent e) {
-      voices.get("ride").doClick(100);
+      // voices.get("ride").doClick(100);
       kfMgr.clearFocusOwner();
 
       logger.debug("hit ride");
@@ -156,7 +153,7 @@ public class PunchesDialog extends JDialog implements KeyListener
   {
     @Override
     public void actionPerformed(ActionEvent e) {
-      voices.get("hihat").doClick(100);
+      // voices.get("hihat").doClick(100);
       kfMgr.clearFocusOwner();
 
       logger.debug("hit hihat");
@@ -167,7 +164,7 @@ public class PunchesDialog extends JDialog implements KeyListener
   {
     @Override
     public void actionPerformed(ActionEvent e) {
-      voices.get("racktom").doClick(100);
+      // voices.get("racktom").doClick(100);
       kfMgr.clearFocusOwner();
 
       logger.debug("hit racktom");
@@ -178,7 +175,7 @@ public class PunchesDialog extends JDialog implements KeyListener
   {
     @Override
     public void actionPerformed(ActionEvent e) {
-      voices.get("floortom").doClick(100);
+      // voices.get("floortom").doClick(100);
       kfMgr.clearFocusOwner();
 
       logger.debug("hit floortom");
@@ -189,7 +186,7 @@ public class PunchesDialog extends JDialog implements KeyListener
   {
     @Override
     public void actionPerformed(ActionEvent e) {
-      voices.get("snare").doClick(100);
+      // voices.get("snare").doClick(100);
       kfMgr.clearFocusOwner();
 
       logger.debug("hit snare");
@@ -200,7 +197,7 @@ public class PunchesDialog extends JDialog implements KeyListener
   {
     @Override
     public void actionPerformed(ActionEvent e) {
-      voices.get("kickdrum").doClick(100);
+      // voices.get("kickdrum").doClick(100);
       kfMgr.clearFocusOwner();
 
       logger.debug("hit kickdrum");
@@ -501,32 +498,6 @@ public class PunchesDialog extends JDialog implements KeyListener
     btnPlay.setEnabled(true);
     btnStop.setEnabled(false);
   }
-
-  /////////////////////////
-  // KeyListener Methods //
-  /////////////////////////
-
-  /** The set of keys that are currently being pressed */
-  private final Set<Character> pressed = new HashSet<Character>();
-
-  @Override
-  public synchronized void keyPressed(KeyEvent e)
-  {
-    pressed.add(e.getKeyChar());
-    if (pressed.size() > 1) {
-      // multiple keys are being pressed
-      // TODO iterate over set to get the keys
-    }
-  }
-
-  @Override
-  public synchronized void keyReleased(KeyEvent e)
-  {
-    pressed.remove(e.getKeyChar());
-  }
-
-  @Override
-  public void keyTyped(KeyEvent e) {}
 
   /////////////////
   // VoiceButton //

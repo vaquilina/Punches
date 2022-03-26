@@ -68,8 +68,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
    * TODO: implement clipboard
    * TODO: implement command history
    * TODO: add manual reordering  
-   * TODO: clean up layout
-   * TODO: migrate to FlatLaf L&F formdev.com/flatlaf
+   * TODO: migrate to FlatLaf L&F? formdev.com/flatlaf
    */
 
   private static final Logger logger =
@@ -130,7 +129,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
     catch (Exception ex) {
       logger.error(ex.getMessage(), ex.getClass());
     }
-    this.setLayout(new MigLayout("Insets 5"));
 
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -140,8 +138,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
     // Toolbar Buttons
     Map<String, ImageIcon> toolbarIcons = initToolbarIcons();
-
-    JPanel toolbar = new JPanel(new MigLayout("Insets 0"));
 
     Map<String, JButton> toolbarButtons = new LinkedHashMap<>();
     for (Map.Entry<String, ImageIcon> entry : toolbarIcons.entrySet()) {
@@ -159,7 +155,8 @@ public class PunchesFrame extends JFrame implements ComponentListener
     toolbarButtons.get("Add Part").setMnemonic(KeyEvent.VK_A);
 
     // "Song Title" Text Field
-    txtSongTitle = new JTextField("Song Title", 30);
+    txtSongTitle = new JTextField("Song Title");
+    txtSongTitle.setToolTipText("Song Title");
 
     JLabel lblSongTitle = new JLabel(""); // not visible; for mnemonic
     lblSongTitle.setLabelFor(txtSongTitle);
@@ -209,6 +206,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
     // Time Signature Section
     // TODO validate beats per bar
     txtBeatsPerBar = new JTextField("4", 2);
+    txtBeatsPerBar.setToolTipText("Beats per Bar");
     txtBeatsPerBar.addFocusListener(new FocusListener() {
       @Override
       public void focusGained(FocusEvent e)
@@ -313,30 +311,45 @@ public class PunchesFrame extends JFrame implements ComponentListener
         });
 
     // Layout Toobar
-    toolbar.add(toolbarButtons.get("New Song"), "w 24!, h 24!");
-    toolbar.add(toolbarButtons.get("Load Song"), "w 24!, h 24!");
-    toolbar.add(toolbarButtons.get("Save Song"), "w 24!, h 24!");
-    toolbar.add(toolbarButtons.get("Export to PDF directly"), "w 24!, h 24!");
-    toolbar.add(new JSeparator(JSeparator.VERTICAL), "h 24!");
-    toolbar.add(toolbarButtons.get("Cut Selection"), "w 24!, h 24!");
-    toolbar.add(toolbarButtons.get("Copy Selection"), "w 24!, h 24!");
-    toolbar.add(toolbarButtons.get("Paste Selection"), "w 24!, h 24!");
-    toolbar.add(new JSeparator(JSeparator.VERTICAL), "h 24!");
-    toolbar.add(toolbarButtons.get("Undo Last Action"), "w 24!, h 24!");
-    toolbar.add(toolbarButtons.get("Redo Last Action"), "w 24!, h 24!");
-    toolbar.add(new JSeparator(JSeparator.VERTICAL), "h 24!");
-    toolbar.add(toolbarButtons.get("Add Part"), "w 100!, h 24!");
-    toolbar.add(lblSongTitle);
-    toolbar.add(txtSongTitle, "w 150!, h 24!");
-    toolbar.add(lblTimeSignature);
-    toolbar.add(txtBeatsPerBar, "w 24!, h 24!");
-    toolbar.add(lblSlash);
-    toolbar.add(cmbValueOfABeat, "w 48!, h 24!");
-    toolbar.add(lblBpm);
-    toolbar.add(txtBpm, "w 30!, h 24!");
-    toolbar.add(new JSeparator(JSeparator.VERTICAL), "h 24!");
-    toolbar.add(toolbarButtons.get("About"), "w 24!, h 24!"); 
-    toolbar.add(toolbarButtons.get("Quit"), "w 24!, h 24!, wrap");
+    JPanel toolbar =
+      new JPanel(new MigLayout("Insets 0",
+            "[][][][]0[][][]", 
+            "[]"));
+
+    toolbar.add(toolbarButtons.get("New Song"),  "cell 0 0, w 24!,  h 24!");
+    toolbar.add(toolbarButtons.get("Load Song"), "cell 0 0, w 24!,  h 24!");
+    toolbar.add(toolbarButtons.get("Save Song"), "cell 0 0, w 24!,  h 24!");
+    toolbar.add(toolbarButtons.get(
+                      "Export to PDF directly"), "cell 0 0, w 24!,  h 24!");
+    toolbar.add(new JSeparator(JSeparator.VERTICAL),
+                                                 "cell 0 0,         h 24!");
+    toolbar.add(toolbarButtons.get("Cut Selection"),
+                                                 "cell 1 0, w 24!,  h 24!");
+    toolbar.add(toolbarButtons.get("Copy Selection"),
+                                                 "cell 1 0, w 24!,  h 24!");
+    toolbar.add(toolbarButtons.get("Paste Selection"),
+                                                 "cell 1 0, w 24!,  h 24!");
+    toolbar.add(new JSeparator(JSeparator.VERTICAL),
+                                                 "cell 1 0,         h 24!");
+    toolbar.add(toolbarButtons.get("Undo Last Action"),
+                                                 "cell 2 0, w 24!,  h 24!");
+    toolbar.add(toolbarButtons.get("Redo Last Action"),
+                                                 "cell 2 0, w 24!,  h 24!");
+    toolbar.add(new JSeparator(JSeparator.VERTICAL),
+                                                 "cell 2 0,         h 24!");
+    toolbar.add(toolbarButtons.get("Add Part"),  "cell 3 0, w 100!, h 24!");
+    toolbar.add(lblSongTitle,                    "cell 4 0, w 0!,   h 24!");
+    toolbar.add(txtSongTitle,                    "cell 4 0, w 150!, h 24!");
+    toolbar.add(lblTimeSignature,                "cell 5 0,         h 24!");
+    toolbar.add(txtBeatsPerBar,                  "cell 5 0, w 24!,  h 24!");
+    toolbar.add(lblSlash,                        "cell 5 0,         h 24!");
+    toolbar.add(cmbValueOfABeat,                 "cell 5 0,         h 24!");
+    toolbar.add(lblBpm,                          "cell 5 0,         h 24!");
+    toolbar.add(txtBpm,                          "cell 5 0, w 48!,  h 24!");
+    toolbar.add(new JSeparator(JSeparator.VERTICAL), 
+                                                 "cell 5 0,         h 24!");
+    toolbar.add(toolbarButtons.get("About"),     "cell 6 0, w 24!,  h 24!"); 
+    toolbar.add(toolbarButtons.get("Quit"),      "cell 6 0, w 24!,  h 24!");
 
     // ActionListeners for Buttons
     toolbarButtons.get("New Song").addActionListener(
@@ -417,7 +430,9 @@ public class PunchesFrame extends JFrame implements ComponentListener
     scroller.getVerticalScrollBar().setUnitIncrement(15);
 
     // add major components to frame
-    getContentPane().add(toolbar, "span");
+    this.setLayout(new MigLayout("Insets 5"));
+
+    getContentPane().add(toolbar, "span, w 100%");
     getContentPane().add(scroller, "grow, w 100%, h 100%");
 
     // resize window to size of contents
