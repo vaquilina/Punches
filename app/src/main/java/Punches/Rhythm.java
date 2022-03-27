@@ -14,14 +14,14 @@ import org.slf4j.LoggerFactory;
  * sequence of the rhythm keyed in to the Punches Interface.
  *
  * @author Vince Aquilina
- * @version 03/18/22
+ * @version 03/26/22
  */
 public class Rhythm implements Serializable
 {
   private final Logger logger = LoggerFactory.getLogger(Rhythm.class);
 
   /** The "raw" (unquantized) MIDI sequence */
-  private Sequence received;
+  private Sequence receivedRhythm;
   /** The "prepared" (quantized) MIDI sequence */
   private Sequence preparedRhythm;
 
@@ -32,7 +32,7 @@ public class Rhythm implements Serializable
    */
   public Rhythm(Sequence sequence)
   {
-    received = sequence;
+    receivedRhythm = sequence;
   }
 
   /**
@@ -40,9 +40,9 @@ public class Rhythm implements Serializable
    *
    * @return the Sequence that was passed in
    */
-  public Sequence getReceived()
+  public Sequence getReceivedRhythm()
   {
-    return received;
+    return receivedRhythm;
   }
 
   /**
@@ -54,14 +54,5 @@ public class Rhythm implements Serializable
   {
     return preparedRhythm;
   }
-
-  // helper method that quantizes the received rhythm
-  // private Sequence prepare() throws InvalidMidiDataException {}
-  
-  // converts preparedRhythm to sheet image
-  // public BufferedImage toSheet() {}
-  
-  // converts preparedRhythm to tab snippet
-  // public String[] toTab() {}
 }
 

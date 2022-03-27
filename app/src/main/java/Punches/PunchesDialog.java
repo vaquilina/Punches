@@ -8,14 +8,12 @@ import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.ActionMap;
-import javax.swing.InputMap;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -28,8 +26,10 @@ import javax.swing.event.ChangeListener;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Track;
 
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -66,9 +66,9 @@ import org.slf4j.LoggerFactory;
  * <hr />
  *
  * @author Vince Aquilina
- * @version 03/25/22
+ * @version 03/26/22
  */
-public class PunchesDialog extends JDialog
+public class PunchesDialog extends JDialog implements KeyListener
 {
   /*
    * TODO: keybindings (multi-key simulataneous input)
@@ -102,107 +102,17 @@ public class PunchesDialog extends JDialog
   private final JButton btnToSheet;
   /** Map of voice buttons */
   private final Map<String, VoiceButton> voices;
+  /** The voice panel */
+  private final JPanel pnlVoices;
   /** The metronome */
   private Metronome metronome;
   /** The metronome's progress bar */
   private static final JProgressBar prgMetronome =
     new JProgressBar(JProgressBar.HORIZONTAL);
 
-  ///////////////////
-  // VOICE ACTIONS //
-  ///////////////////
+  /** The set of keys currently depressed */
+  private final Set<Character> pressed;
 
-  Action disableAction = new AbstractAction() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      /* do nothing */
-    }
-  };
-
-  Action crashHitAction;
-  Action rideHitAction;
-  Action hihatHitAction;
-  Action racktomHitAction;
-  Action floortomHitAction;
-  Action snareHitAction;
-  Action kickdrumHitAction;
-
-  private class CrashHitAction extends AbstractAction
-  {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      // voices.get("crash").doClick(100);
-      kfMgr.clearFocusOwner();
-
-      logger.debug("hit crash");
-    }
-  }
-
-  private class RideHitAction extends AbstractAction
-  {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      // voices.get("ride").doClick(100);
-      kfMgr.clearFocusOwner();
-
-      logger.debug("hit ride");
-    }
-  }
-
-  private class HihatHitAction extends AbstractAction
-  {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      // voices.get("hihat").doClick(100);
-      kfMgr.clearFocusOwner();
-
-      logger.debug("hit hihat");
-    }
-  }
-
-  private class RacktomHitAction extends AbstractAction
-  {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      // voices.get("racktom").doClick(100);
-      kfMgr.clearFocusOwner();
-
-      logger.debug("hit racktom");
-    }
-  }
-
-  private class FloortomHitAction extends AbstractAction
-  {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      // voices.get("floortom").doClick(100);
-      kfMgr.clearFocusOwner();
-
-      logger.debug("hit floortom");
-    }
-  }
-
-  private class SnareHitAction extends AbstractAction
-  {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      // voices.get("snare").doClick(100);
-      kfMgr.clearFocusOwner();
-
-      logger.debug("hit snare");
-    }
-  }
-
-  private class KickdrumHitAction extends AbstractAction
-  {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      // voices.get("kickdrum").doClick(100);
-      kfMgr.clearFocusOwner();
-
-      logger.debug("hit kickdrum");
-    }
-  }
 
   /**
    * Construct a PunchesDialog
@@ -271,57 +181,16 @@ public class PunchesDialog extends JDialog
      */
 
     voices = new LinkedHashMap<>() {{
-      put("crash",    new VoiceButton("CRASH (C)",         crashHitAction));
-      put("ride",     new VoiceButton("RIDE (R)",          rideHitAction));
-      put("hihat",    new VoiceButton("HI-HAT (H)",        hihatHitAction));
-      put("racktom",  new VoiceButton("RACK TOM (T)",      racktomHitAction));
-      put("snare",    new VoiceButton("SNARE (S)",         snareHitAction));
-      put("floortom", new VoiceButton("FLOOR TOM (F)",     floortomHitAction));
-      put("kickdrum", new VoiceButton("KICK DRUM (SPACE)", kickdrumHitAction));
+      put("crash",    new VoiceButton("CRASH (C)"));
+      put("ride",     new VoiceButton("RIDE (R)"));
+      put("hihat",    new VoiceButton("HI-HAT (H)"));
+      put("racktom",  new VoiceButton("RACK TOM (T)"));
+      put("snare",    new VoiceButton("SNARE (S)"));
+      put("floortom", new VoiceButton("FLOOR TOM (F)"));
+      put("kickdrum", new VoiceButton("KICK DRUM (SPACE)"));
     }};
 
-    crashHitAction = new CrashHitAction();
-    rideHitAction = new RideHitAction();
-    hihatHitAction = new HihatHitAction();
-    racktomHitAction = new RacktomHitAction();
-    snareHitAction = new SnareHitAction();
-    floortomHitAction = new FloortomHitAction();
-    kickdrumHitAction = new KickdrumHitAction();
-
-    KeyStroke key;
-    InputMap inputMap = ((JPanel) getContentPane()).
-      getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-    ActionMap actionMap = ((JPanel) getContentPane()).getActionMap();
-
-    key = KeyStroke.getKeyStroke(KeyEvent.VK_C, 0);
-    inputMap.put(key, "crashHit");
-    actionMap.put("crashHit", crashHitAction);
-
-    key = KeyStroke.getKeyStroke(KeyEvent.VK_R, 0);
-    inputMap.put(key, "rideHit");
-    actionMap.put("rideHit", rideHitAction);
-
-    key = KeyStroke.getKeyStroke(KeyEvent.VK_H, 0);
-    inputMap.put(key, "hihatHit");
-    actionMap.put("hihatHit", hihatHitAction);
-
-    key = KeyStroke.getKeyStroke(KeyEvent.VK_T, 0);
-    inputMap.put(key, "racktomHit");
-    actionMap.put("racktomHit", racktomHitAction);
-
-    key = KeyStroke.getKeyStroke(KeyEvent.VK_S, 0);
-    inputMap.put(key, "snareHit");
-    actionMap.put("snareHit", snareHitAction);
-
-    key = KeyStroke.getKeyStroke(KeyEvent.VK_F, 0);
-    inputMap.put(key, "floortomHit");
-    actionMap.put("floortomHit", floortomHitAction);
-
-    key = KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0);
-    inputMap.put(key, "kickdrumHit");
-    actionMap.put("kickdrumHit", kickdrumHitAction);
-
-    final JPanel pnlVoices = new JPanel(new MigLayout(
+    pnlVoices = new JPanel(new MigLayout(
           "Insets 0, gap 0, wrap 2", "[fill][fill]", "fill"));
     pnlVoices.add(voices.get("crash"),    "w 100%, h 100%, grow");
     pnlVoices.add(voices.get("ride"),     "w 100%");
@@ -330,6 +199,20 @@ public class PunchesDialog extends JDialog
     pnlVoices.add(voices.get("snare"),    "w 100%");
     pnlVoices.add(voices.get("floortom"), "w 100%");
     pnlVoices.add(voices.get("kickdrum"), "span");
+
+    pressed = new HashSet<Character>();
+
+    Action disableAction = new AbstractAction() {
+      @Override
+      public void actionPerformed(ActionEvent e) { /* do nothing */ }
+    };
+
+    for (VoiceButton voice : voices.values()) {
+      voice.addKeyListener(this);
+      voice.getInputMap().put(KeyStroke.getKeyStroke("SPACE"), "disable");
+      voice.getActionMap().put("disable", disableAction);
+    }
+
 
     /*
      * Button Panel
@@ -499,6 +382,59 @@ public class PunchesDialog extends JDialog
     btnStop.setEnabled(false);
   }
 
+  /**
+   * Process keyboard input
+   *
+   * @param pressed the set of keys that were pressed
+   */
+  private void processKeys(Set<Character> pressed)
+  {
+    //TODO construct the appropriate messages
+
+    //timecode variable -> same for all keys in list
+  }
+
+  /**
+   * Visually indicate note input (light up the button)
+   *
+   * @param pressed the set of keys that were pressed
+   */
+  private void highlightKeys(Set<Character> pressed) 
+  {
+
+  }
+
+  /////////////////////////
+  // KeyListener Methods //
+  /////////////////////////
+
+  private final String VALID_CHARS = "crhtsf CRHTSF";
+
+  @Override
+  public void keyPressed(KeyEvent e)
+  {
+    if (! (VALID_CHARS.indexOf(String.valueOf(e.getKeyChar())) < 0))  {
+      pressed.add(e.getKeyChar());
+    }
+  }
+
+  @Override
+  public void keyReleased(KeyEvent e)
+  {
+    if (pressed.isEmpty()) {
+      return;
+    } else {
+      processKeys(pressed);
+
+      logger.debug("keys entered: " + pressed.toString());
+    }
+
+    pressed.clear();
+  }
+
+  @Override
+  public void keyTyped(KeyEvent e) { /* not used */ }
+
   /////////////////
   // VoiceButton //
   /////////////////
@@ -517,11 +453,9 @@ public class PunchesDialog extends JDialog
      * Construct a VoiceButton
      * @param text the button text
      */
-    public VoiceButton(String text, Action action) 
+    public VoiceButton(String text) 
     {
-      super(action);
-
-      setText(text);
+      super(text);
 
       setMinimumSize(new Dimension(200, 100));
 
