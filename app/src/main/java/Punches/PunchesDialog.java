@@ -19,17 +19,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import javax.sound.midi.Sequence;
-import javax.sound.midi.Track;
 
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -41,8 +39,8 @@ import org.slf4j.LoggerFactory;
  * </p>
  * <pre>
  * +------------------------------------------+
- * | Intro: 4 bars of 4/4 @ 120bpm            |
- * | [PLAY] [STOP] |||||||||||||||||||||----  |
+ * |  Intro:         4 bars of 4/4 @ 120bpm   |
+ * |  [PLAY] [REC] [STOP] ||||||||||||||---   |
  * |   ____________________________________   |
  * |  |                 |                  |  |
  * |  |    CRASH (C)    |      RIDE (R)    |  |
@@ -71,9 +69,9 @@ import org.slf4j.LoggerFactory;
 public class PunchesDialog extends JDialog implements KeyListener
 {
   /*
-   * TODO: keybindings (multi-key simulataneous input)
    * TODO: capture
    * TODO: conversion
+   * TODO: set minimum size of frame
    */
   private final static Logger logger =
     LoggerFactory.getLogger(PunchesDialog.class);
@@ -81,19 +79,15 @@ public class PunchesDialog extends JDialog implements KeyListener
   KeyboardFocusManager kfMgr =
     KeyboardFocusManager.getCurrentKeyboardFocusManager();
 
-  /** The MIDI sequence */
-  private Sequence sequence;
-  /** The MIDI track; */
-  private Track track;
-  /** The quantized rhythm */
-  private Rhythm rhythm;
-  /** The Part to which the rhythm will be assigned */
+  /** The Part to which the result will be assigned */
   private Part relevantPart;
   /** The Song that the Part belongs to */
   private Song partOwner;
 
   /** The "play" button */
   private final JButton btnPlay;
+  /** The "record" button */
+  private final JButton btnRec;
   /** The "stop button */
   private final JButton btnStop;
   /** The "to tab" button */
@@ -101,7 +95,7 @@ public class PunchesDialog extends JDialog implements KeyListener
   /** The "to sheet" button */
   private final JButton btnToSheet;
   /** Map of voice buttons */
-  private final Map<String, VoiceButton> voices;
+  private final Map<String, VoiceLabel> voices;
   /** The voice panel */
   private final JPanel pnlVoices;
   /** The metronome */
@@ -141,14 +135,25 @@ public class PunchesDialog extends JDialog implements KeyListener
             partOwner.getSignature().toString() + 
             " @  " + partOwner.getBpm() + " bpm");
 
-    btnPlay = new JButton("PLAY/REC");
+    btnPlay = new JButton("PLAY");
     btnPlay.setFocusable(false);
     btnPlay.setMnemonic(KeyEvent.VK_P);
     btnPlay.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        //TODO: start recording
+        //TODO playback recording
         play();
+      }
+    });
+
+    btnRec = new JButton("REC");
+    btnRec.setFocusable(false);
+    btnRec.setMnemonic(KeyEvent.VK_R);
+    btnRec.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        //TODO: start recording
+        record();
       }
     });
 
@@ -173,6 +178,7 @@ public class PunchesDialog extends JDialog implements KeyListener
     pnlMeta.add(lblPartName,  "cell 0 0");
     pnlMeta.add(lblInfo,      "cell 1 0");
     pnlMeta.add(btnPlay,      "cell 0 1");
+    pnlMeta.add(btnRec,       "cell 0 1");
     pnlMeta.add(btnStop,      "cell 0 1");
     pnlMeta.add(prgMetronome, "cell 1 1");
 
@@ -181,13 +187,13 @@ public class PunchesDialog extends JDialog implements KeyListener
      */
 
     voices = new LinkedHashMap<>() {{
-      put("crash",    new VoiceButton("CRASH (C)"));
-      put("ride",     new VoiceButton("RIDE (R)"));
-      put("hihat",    new VoiceButton("HI-HAT (H)"));
-      put("racktom",  new VoiceButton("RACK TOM (T)"));
-      put("snare",    new VoiceButton("SNARE (S)"));
-      put("floortom", new VoiceButton("FLOOR TOM (F)"));
-      put("kickdrum", new VoiceButton("KICK DRUM (SPACE)"));
+      put("crash",    new VoiceLabel("CRASH (C)"));
+      put("ride",     new VoiceLabel("RIDE (R)"));
+      put("hihat",    new VoiceLabel("HI-HAT (H)"));
+      put("racktom",  new VoiceLabel("RACK TOM (T)"));
+      put("snare",    new VoiceLabel("SNARE (S)"));
+      put("floortom", new VoiceLabel("FLOOR TOM (F)"));
+      put("kickdrum", new VoiceLabel("KICK DRUM (SPACE)"));
     }};
 
     pnlVoices = new JPanel(new MigLayout(
@@ -207,7 +213,7 @@ public class PunchesDialog extends JDialog implements KeyListener
       public void actionPerformed(ActionEvent e) { /* do nothing */ }
     };
 
-    for (VoiceButton voice : voices.values()) {
+    for (VoiceLabel voice : voices.values()) {
       voice.addKeyListener(this);
       voice.getInputMap().put(KeyStroke.getKeyStroke("SPACE"), "disable");
       voice.getActionMap().put("disable", disableAction);
@@ -225,7 +231,7 @@ public class PunchesDialog extends JDialog implements KeyListener
       @Override
       public void actionPerformed(ActionEvent e) {
         //TODO tab is created, registered to part
-        toTab(rhythm);
+        //toTab(rhythm);
       }
     });
     btnToTab.setEnabled(false); // disabled until Sequence captured
@@ -311,51 +317,45 @@ public class PunchesDialog extends JDialog implements KeyListener
   // HELPER METHODS //
   ////////////////////
 
-  /**
-   * Create a Rhythm from a MIDI sequence
-   *
-   * @return the newly created rhythm
-   */
+  ///**
+  // * Create a Rhythm from a Pattern
+  // *
+  // * @return the newly created rhythm
+  // */
   //private Rhythm generateRhythm()
   //{
   //  // TODO implement method
   //  return new Rhythm();
   //}
 
-  /**
-   * Capture a sequence
-   *
-   * @return the captured sequence
-   */
-  //private Sequence captureSequence()
+  ///**
+  // * Get a tabulature representation of a Pattern
+  // */
+  //private String[] toTab(Rhythm rhythm)
   //{
-  //  // TODO implement method
-  //  // PPQ indicates tempo-based timing (pulses per quarter)
-
-  //  return new Sequence(Sequence.PPQ, 4);
-  //  // will want to use higher resolution, then quantize down
+  //  //TODO: implement method
+  //  return new String[] {};
   //}
-
-  /**
-   * Get a tabulature representation of a Rhythm
-   */
-  private String[] toTab(Rhythm rhythm)
-  {
-    //TODO: implement method
-    return new String[] {};
-  }
   
-  /**
-   * Get a sheet music representation of a Rhythm
-   */
+  ///**
+  // * Get a sheet music representation of a Rhythm
+  // */
   //private Image toSheet(Rhythm rhythm)
   //{
   //}
 
   /**
-   * Initialize and start the metronome
+   * Playback the sequence
    */
   private void play()
+  {
+    // TODO
+  }
+
+  /**
+   * Initialize and start the metronome; start recording
+   */
+  private void record()
   {
     metronome = new Metronome(
           (double) partOwner.getBpm(),
@@ -365,7 +365,7 @@ public class PunchesDialog extends JDialog implements KeyListener
     Thread t = new Thread(metronome);
     t.start();
 
-    btnPlay.setEnabled(false);
+    btnRec.setEnabled(false);
     btnStop.setEnabled(true);
   }
 
@@ -378,7 +378,7 @@ public class PunchesDialog extends JDialog implements KeyListener
 
     prgMetronome.setValue(0);
 
-    btnPlay.setEnabled(true);
+    btnRec.setEnabled(true);
     btnStop.setEnabled(false);
   }
 
@@ -390,18 +390,36 @@ public class PunchesDialog extends JDialog implements KeyListener
   private void processKeys(Set<Character> pressed)
   {
     //TODO construct the appropriate messages
-
     //timecode variable -> same for all keys in list
-  }
 
-  /**
-   * Visually indicate note input (light up the button)
-   *
-   * @param pressed the set of keys that were pressed
-   */
-  private void highlightKeys(Set<Character> pressed) 
-  {
-
+    for (Character c : pressed) {
+      c = Character.toLowerCase(c);
+      switch (c) {
+        case 'c':
+          voices.get("crash").blink();
+          break;
+        case 'r':
+          voices.get("ride").blink();
+          break;
+        case 'h':
+          voices.get("hihat").blink();
+          break;
+        case 't':
+          voices.get("racktom").blink();
+          break;
+        case 's':
+          voices.get("snare").blink();
+          break;
+        case 'f':
+          voices.get("floortom").blink();
+          break;
+        case ' ':
+          voices.get("kickdrum").blink();
+          break;
+        default:
+          continue;
+      }
+    }
   }
 
   /////////////////////////
@@ -435,52 +453,72 @@ public class PunchesDialog extends JDialog implements KeyListener
   @Override
   public void keyTyped(KeyEvent e) { /* not used */ }
 
-  /////////////////
-  // VoiceButton //
-  /////////////////
+  ////////////////
+  // VoiceLabel //
+  ////////////////
 
   /**
-   * JButton that represents the voices on the drum kit.
+   * JLabel that represents the voices on the drum kit.
    */
-  private class VoiceButton extends JButton
+  private class VoiceLabel extends JLabel
   {
     /** The normal background color */
-    private Color normalColor = Color.LIGHT_GRAY;
-    /** The background color when pressed */
-    private Color pressedColor = Color.BLACK;
+    private final Color normalBgColor = Color.LIGHT_GRAY;
+    /** The normal foreground color */
+    private final Color normalFgColor = Color.BLACK;
+    /** The background color when active */
+    private final Color activeBgColor = Color.BLACK;
+    /** The foreground color when active */
+    private final Color activeFgColor = Color.WHITE;
 
     /**
-     * Construct a VoiceButton
+     * Construct a VoiceLabel
      * @param text the button text
      */
-    public VoiceButton(String text) 
+    public VoiceLabel(String text) 
     {
       super(text);
 
       setMinimumSize(new Dimension(200, 100));
 
       setBorder(new EtchedBorder(EtchedBorder.LOWERED));
-      setBorderPainted(true);
-      setFocusPainted(false);
-
-      setContentAreaFilled(false);
       setOpaque(true);
+      setFocusable(true);
 
-      setBackground(normalColor);
-      setForeground(Color.BLACK);
+      setHorizontalAlignment(SwingConstants.CENTER);
+      setBackground(normalBgColor);
+      setForeground(normalFgColor);
+    }
 
-      addChangeListener(new ChangeListener() {
+    /**
+     * Visually indicate that the voice is "active". 
+     * Simulates a button press.
+     */
+    public void blink()
+    {
+      VoiceLabel curLabel = this;
+      Timer timer = new Timer();
+
+      TimerTask activeTask = new TimerTask() {
         @Override
-        public void stateChanged(ChangeEvent e) {
-          if (getModel().isPressed()) {
-            setBackground(pressedColor);
-            setForeground(Color.WHITE);
-          } else {
-            setBackground(normalColor);
-            setForeground(Color.BLACK);
-          }
+        public void run()
+        {
+          curLabel.setBackground(activeBgColor);
+          curLabel.setForeground(activeFgColor);
         }
-      });
+      };
+
+      TimerTask inactiveTask = new TimerTask() {
+        @Override
+        public void run()
+        {
+          curLabel.setBackground(normalBgColor);
+          curLabel.setForeground(normalFgColor);
+        }
+      };
+
+      timer.schedule(activeTask, 0);
+      timer.schedule(inactiveTask, 100);
     }
   }
 }

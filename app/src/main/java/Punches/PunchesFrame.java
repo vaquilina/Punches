@@ -911,6 +911,12 @@ public class PunchesFrame extends JFrame implements ComponentListener
    */
   private void writeToPDF(File pdfFile) 
   {
+    // append .pdf extension
+    String filePath = pdfFile.getAbsolutePath();
+    if (!filePath.endsWith(".pdf")) {
+      pdfFile = new File(filePath + ".pdf");
+    }
+
     // clone song object to preserve notes
     Song newSong = new Song(panSong.getSong());
 

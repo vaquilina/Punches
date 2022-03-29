@@ -6,15 +6,15 @@ import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Receiver;
+import javax.sound.midi.ShortMessage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 /**
- * Used to capture input from the keyboard and write it to a MIDI file for 
- * processing.
+ * Records MIDI input
  *
  * @author Vince Aquilina
- * @version 03/26/22
+ * @version 03/28/22
  */
 public class Recorder implements Receiver
 {
@@ -59,6 +59,10 @@ public class Recorder implements Receiver
     return recording;
   }
 
+  ////////////////////
+  // HELPER METHODS //
+  ////////////////////
+
   /**
    * Write the MIDI data to a Standard MIDI file
    */
@@ -72,8 +76,14 @@ public class Recorder implements Receiver
   //////////////////////
 
   @Override
-  public void close() {}
+  public void close() 
+  {
+    // TODO
+  }
 
   @Override
-  public void send(MidiMessage message, long timeStamp) {}
+  public void send(MidiMessage message, long timeStamp) 
+  {
+    // TODO
+  }
 }

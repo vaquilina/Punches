@@ -46,6 +46,10 @@ public class AboutDialog extends JDialog
     lblLogo.setFont(logoFont);
     lblLogo.setForeground(PUNCHES_RED);
 
+    final JLabel lblLibraries = new JLabel("Libraries & Assets");
+    lblLibraries.setFont(new Font(Font.SERIF, Font.BOLD, 14));
+    lblLibraries.setForeground(PUNCHES_RED);
+
     // copyright/attributions
     final JLabel lblCopyright = new JLabel(
         "Copyright " + COPYRIGHT + " 2022 Vince Aquilina");
@@ -82,6 +86,7 @@ public class AboutDialog extends JDialog
     // lay out components
     add(lblLogo, "center, wrap");
     add(lblCopyright, "center, wrap 20");
+    add(lblLibraries, "center, span, wrap 10");
     add(lblAdobe, "center, wrap");
     add(lblLilyPond, "center, wrap");
     add(lblSoftSmithy, "center, wrap");
