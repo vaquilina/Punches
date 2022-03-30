@@ -34,7 +34,7 @@ import java.util.TimerTask;
 import net.miginfocom.swing.MigLayout;
 
 import org.jfugue.realtime.RealtimePlayer;
-import org.jfugue.rhythm.Rhythm;
+import org.jfugue.pattern.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -116,8 +116,6 @@ public class PunchesDialog extends JDialog implements KeyListener
   RealtimePlayer player;
   /** The rhythm dictionary for this drumkit */
   Map<Character, String> rhythmDict;
-  /** Map of voices as JFugue Rhythms */
-  Map<String, Rhythm> voiceRhythms;
 
   /**
    * Construct a PunchesDialog
@@ -145,16 +143,6 @@ public class PunchesDialog extends JDialog implements KeyListener
 
     // TODO: populate dict with characters and their corresponding Pattern
     rhythmDict = new LinkedHashMap<>();
-
-    voiceRhythms = new LinkedHashMap<>() {{
-      put("snare",    new Rhythm("s")); // JFugue default
-      put("kickdrum", new Rhythm("o")); // JFugue default
-      put("hihat",    new Rhythm("`")); // JFugue default
-      put("ride",     new Rhythm(""));  // TODO
-      put("crash",    new Rhythm("+")); // JFugue default
-      put("racktom",  new Rhythm(""));  // TODO
-      put("floortom", new Rhythm(""));  // TODO
-    }};
 
     /*
      * Meta Panel
@@ -425,44 +413,58 @@ public class PunchesDialog extends JDialog implements KeyListener
   {
     //TODO construct the appropriate messages
     
-    Rhythm hit = new Rhythm();
+    StringBuilder builder = new StringBuilder("V[PERCUSSION] ");
 
+    int i = 0;
     for (Character c : pressed) {
       c = Character.toLowerCase(c);
       switch (c) {
         case 'c':
           voices.get("crash").blink();
-          hit.addLayer("+"); // JFugue default
+          builder.append("[CRASH_CYMBAL_1]t");
           break;
         case 'r':
           voices.get("ride").blink();
-          hit.addLayer(".");  // TODO add voice
+          builder.append("[RIDE_CYMBAL_1]t");
           break;
         case 'h':
           voices.get("hihat").blink();
-          hit.addLayer("`"); // JFugue default
+          builder.append("[CLOSED_HI_HAT]t");
           break;
         case 't':
           voices.get("racktom").blink();
-          hit.addLayer(".");  // TODO add voice
+          builder.append("[HI_MID_TOM]t");
           break;
         case 's':
           voices.get("snare").blink();
-          hit.addLayer("s"); // JFugue default
+          builder.append("[ACOUSTIC_SNARE]t");
           break;
         case 'f':
           voices.get("floortom").blink();
-          hit.addLayer(".");  // TODO add voice
+          builder.append("[LO_FLOOR_TOM]t");
           break;
         case ' ':
           voices.get("kickdrum").blink();
-          hit.addLayer("o"); // JFugue default
+          builder.append("[ACOUSTIC_BASS_DRUM]t");
           break;
-        default:
-          continue;
       }
+      if (pressed.size() > 1 && i < pressed.size() - 1) {
+        builder.append("+");
+      }
+      i++;
     }
+    String noteString = builder.toString();
+
+    Pattern hit = new Pattern(noteString);
+    logger.debug(hit.toString());
+
     player.play(hit);
+  }
+
+  @Override
+  public void finalize()
+  {
+    player.close();
   }
 
   /////////////////////////
