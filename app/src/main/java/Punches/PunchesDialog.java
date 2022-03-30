@@ -22,6 +22,8 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
+import javax.sound.midi.MidiUnavailableException;
+
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -30,6 +32,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import net.miginfocom.swing.MigLayout;
+
+import org.jfugue.realtime.RealtimePlayer;
+import org.jfugue.rhythm.Rhythm;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,7 +69,7 @@ import org.slf4j.LoggerFactory;
  * <hr />
  *
  * @author Vince Aquilina
- * @version 03/26/22
+ * @version 03/29/22
  */
 public class PunchesDialog extends JDialog implements KeyListener
 {
@@ -107,6 +112,12 @@ public class PunchesDialog extends JDialog implements KeyListener
   /** The set of keys currently depressed */
   private final Set<Character> pressed;
 
+  /** The JFugue Player that will playback the voices */
+  RealtimePlayer player;
+  /** The rhythm dictionary for this drumkit */
+  Map<Character, String> rhythmDict;
+  /** Map of voices as JFugue Rhythms */
+  Map<String, Rhythm> voiceRhythms;
 
   /**
    * Construct a PunchesDialog
@@ -123,6 +134,27 @@ public class PunchesDialog extends JDialog implements KeyListener
     this.relevantPart = relevantPart;
 
     setTitle("Add Punches");
+
+    try {
+      player = new RealtimePlayer();
+    }
+    catch (MidiUnavailableException ex) {
+      logger.info(ex.getMessage());
+      ex.printStackTrace();
+    }
+
+    // TODO: populate dict with characters and their corresponding Pattern
+    rhythmDict = new LinkedHashMap<>();
+
+    voiceRhythms = new LinkedHashMap<>() {{
+      put("snare",    new Rhythm("s")); // JFugue default
+      put("kickdrum", new Rhythm("o")); // JFugue default
+      put("hihat",    new Rhythm("`")); // JFugue default
+      put("ride",     new Rhythm(""));  // TODO
+      put("crash",    new Rhythm("+")); // JFugue default
+      put("racktom",  new Rhythm(""));  // TODO
+      put("floortom", new Rhythm(""));  // TODO
+    }};
 
     /*
      * Meta Panel
@@ -383,43 +415,54 @@ public class PunchesDialog extends JDialog implements KeyListener
   }
 
   /**
-   * Process keyboard input
+   * Process keyboard input.  
+   * Iterates over the map of keys currently depressed and constructs
+   * a Rhythm consisting of all the active voices, which is then played.
    *
    * @param pressed the set of keys that were pressed
    */
   private void processKeys(Set<Character> pressed)
   {
     //TODO construct the appropriate messages
-    //timecode variable -> same for all keys in list
+    
+    Rhythm hit = new Rhythm();
 
     for (Character c : pressed) {
       c = Character.toLowerCase(c);
       switch (c) {
         case 'c':
           voices.get("crash").blink();
+          hit.addLayer("+"); // JFugue default
           break;
         case 'r':
           voices.get("ride").blink();
+          hit.addLayer(".");  // TODO add voice
           break;
         case 'h':
           voices.get("hihat").blink();
+          hit.addLayer("`"); // JFugue default
           break;
         case 't':
           voices.get("racktom").blink();
+          hit.addLayer(".");  // TODO add voice
           break;
         case 's':
           voices.get("snare").blink();
+          hit.addLayer("s"); // JFugue default
           break;
         case 'f':
           voices.get("floortom").blink();
+          hit.addLayer(".");  // TODO add voice
           break;
         case ' ':
           voices.get("kickdrum").blink();
+          hit.addLayer("o"); // JFugue default
           break;
         default:
           continue;
       }
     }
+    player.play(hit);
   }
 
   /////////////////////////
@@ -475,9 +518,9 @@ public class PunchesDialog extends JDialog implements KeyListener
      * Construct a VoiceLabel
      * @param text the button text
      */
-    public VoiceLabel(String text) 
+    public VoiceLabel(String label) 
     {
-      super(text);
+      super(label);
 
       setMinimumSize(new Dimension(200, 100));
 
