@@ -22,8 +22,6 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
-import javax.sound.midi.MidiUnavailableException;
-
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -33,8 +31,9 @@ import java.util.TimerTask;
 
 import net.miginfocom.swing.MigLayout;
 
-import org.jfugue.realtime.RealtimePlayer;
 import org.jfugue.pattern.Pattern;
+import org.jfugue.player.Player;
+import org.jfugue.rhythm.Rhythm;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,7 +68,7 @@ import org.slf4j.LoggerFactory;
  * <hr />
  *
  * @author Vince Aquilina
- * @version 03/29/22
+ * @version 03/31/22
  */
 public class PunchesDialog extends JDialog implements KeyListener
 {
@@ -113,9 +112,12 @@ public class PunchesDialog extends JDialog implements KeyListener
   private final Set<Character> pressed;
 
   /** The JFugue Player that will playback the voices */
-  RealtimePlayer player;
-  /** The rhythm dictionary for this drumkit */
-  Map<Character, String> rhythmDict;
+  private Player player;
+  /** Manages the sequence as it is constructed */
+  private Recorder recorder;
+  /** The collection of assembled rhythmic layers */
+  private Map<String, Rhythm> layers;
+  // TODO construct layers, add to map
 
   /**
    * Construct a PunchesDialog
@@ -133,16 +135,7 @@ public class PunchesDialog extends JDialog implements KeyListener
 
     setTitle("Add Punches");
 
-    try {
-      player = new RealtimePlayer();
-    }
-    catch (MidiUnavailableException ex) {
-      logger.info(ex.getMessage());
-      ex.printStackTrace();
-    }
-
-    // TODO: populate dict with characters and their corresponding Pattern
-    rhythmDict = new LinkedHashMap<>();
+    player = new Player();
 
     /*
      * Meta Panel
@@ -165,6 +158,7 @@ public class PunchesDialog extends JDialog implements KeyListener
         play();
       }
     });
+    btnPlay.setEnabled(false);
 
     btnRec = new JButton("REC");
     btnRec.setFocusable(false);
@@ -338,17 +332,6 @@ public class PunchesDialog extends JDialog implements KeyListener
   ////////////////////
 
   ///**
-  // * Create a Rhythm from a Pattern
-  // *
-  // * @return the newly created rhythm
-  // */
-  //private Rhythm generateRhythm()
-  //{
-  //  // TODO implement method
-  //  return new Rhythm();
-  //}
-
-  ///**
   // * Get a tabulature representation of a Pattern
   // */
   //private String[] toTab(Rhythm rhythm)
@@ -369,7 +352,9 @@ public class PunchesDialog extends JDialog implements KeyListener
    */
   private void play()
   {
-    // TODO
+    if (recorder.getModifiedPattern() != null) {
+      player.play(recorder.getModifiedPattern());
+    }
   }
 
   /**
@@ -387,6 +372,8 @@ public class PunchesDialog extends JDialog implements KeyListener
 
     btnRec.setEnabled(false);
     btnStop.setEnabled(true);
+
+    Recorder recorder = new Recorder();
   }
 
   /**
@@ -400,6 +387,10 @@ public class PunchesDialog extends JDialog implements KeyListener
 
     btnRec.setEnabled(true);
     btnStop.setEnabled(false);
+
+    if (recorder.getModifiedPattern() != null) {
+      btnPlay.setEnabled(true);
+    }
   }
 
   /**
@@ -411,9 +402,7 @@ public class PunchesDialog extends JDialog implements KeyListener
    */
   private void processKeys(Set<Character> pressed)
   {
-    //TODO construct the appropriate messages
-    
-    StringBuilder builder = new StringBuilder("V[PERCUSSION] ");
+    // TODO construct Rhythm
 
     int i = 0;
     for (Character c : pressed) {
@@ -421,50 +410,34 @@ public class PunchesDialog extends JDialog implements KeyListener
       switch (c) {
         case 'c':
           voices.get("crash").blink();
-          builder.append("[CRASH_CYMBAL_1]t");
+          logger.debug("hit crash");
           break;
         case 'r':
           voices.get("ride").blink();
-          builder.append("[RIDE_CYMBAL_1]t");
+          logger.debug("hit crash");
           break;
         case 'h':
           voices.get("hihat").blink();
-          builder.append("[CLOSED_HI_HAT]t");
+          logger.debug("hit crash");
           break;
         case 't':
           voices.get("racktom").blink();
-          builder.append("[HI_MID_TOM]t");
+          logger.debug("hit crash");
           break;
         case 's':
           voices.get("snare").blink();
-          builder.append("[ACOUSTIC_SNARE]t");
+          logger.debug("hit crash");
           break;
         case 'f':
           voices.get("floortom").blink();
-          builder.append("[LO_FLOOR_TOM]t");
+          logger.debug("hit crash");
           break;
         case ' ':
           voices.get("kickdrum").blink();
-          builder.append("[ACOUSTIC_BASS_DRUM]t");
+          logger.debug("hit crash");
           break;
       }
-      if (pressed.size() > 1 && i < pressed.size() - 1) {
-        builder.append("+");
-      }
-      i++;
     }
-    String noteString = builder.toString();
-
-    Pattern hit = new Pattern(noteString);
-    logger.debug(hit.toString());
-
-    player.play(hit);
-  }
-
-  @Override
-  public void finalize()
-  {
-    player.close();
   }
 
   /////////////////////////
