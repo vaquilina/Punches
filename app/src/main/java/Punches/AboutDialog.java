@@ -12,10 +12,10 @@ import javax.swing.JLabel;
 
 import net.miginfocom.swing.MigLayout;
 /**
- * A Dialog that displays copyright information and attributions.
+ * A Dialog that displays the project's copyright information and attributions.
  *
  * @author Vince Aquilina
- * @version 03/25/22
+ * @version 04/01/22
  */
 public class AboutDialog extends JDialog
 {
@@ -59,6 +59,9 @@ public class AboutDialog extends JDialog
 
     final JLabel lblLilyPond = new JLabel(
         "LilyPond " + COPYRIGHT + " lilypond.org");
+
+    final JLabel lblJFugue = new JLabel(
+        "JFugue " + COPYRIGHT + " www.jfugue.org");
 
     final JLabel lblSoftSmithy = new JLabel(
         "SoftSmithy Utility Library " + COPYRIGHT + " Florian Brunner");

@@ -8,6 +8,8 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.IOException;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.slf4j.Logger;
@@ -16,12 +18,12 @@ import org.slf4j.LoggerFactory;;
  * Metronome for the Punches Interface.
  *
  * @author Vince Aquilina
- * @version 03/23/22
+ * @version 04/01/22
  */
 public class Metronome extends Thread
 {
   /*
-   * TODO: allow for counting with true beat value
+   * TODO: add options for beat subdivisions
    */
   private final Logger logger = LoggerFactory.getLogger(Metronome.class);
 
@@ -44,6 +46,9 @@ public class Metronome extends Thread
   private int beatsPerMeasure;
   /** The total number of beats in the sequence */
   private int totalBeats;
+
+  /** List of metronome listeners */
+  private List<MetronomeListener> listeners = new ArrayList<>();
 
   /**
    * Construct a Metronome.
@@ -89,6 +94,16 @@ public class Metronome extends Thread
       logger.error(ex.getMessage());
       ex.printStackTrace();
     }
+  }
+
+  /**
+   * Adds a metronome listener
+   *
+   * @param listener the listener to add
+   */
+  public void addMetronomeListener(MetronomeListener listener)
+  {
+    listeners.add(listener);
   }
 
   /**
@@ -177,7 +192,13 @@ public class Metronome extends Thread
         logger.debug("tock");
       }
       counter++;
-      if (! isCountingIn) PunchesDialog.updateProgress(progress, totalBeats);
+      if (! isCountingIn) {
+        PunchesDialog.updateProgress(progress, totalBeats);
+
+        for (MetronomeListener listener : listeners) {
+          listener.metronomeTicked();
+        }
+      }
     }
     progress = 0;
   }

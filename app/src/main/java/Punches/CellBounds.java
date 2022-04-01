@@ -2,10 +2,10 @@ package Punches;
 
 import java.io.Serializable;
 /**
- * Represents a Cell's bounds.
+ * Represents a Part cell's bounds.
  *
  * @author Vince Aquilina
- * @version 03/17/22
+ * @version 04/01/22
  */
 public class CellBounds implements Serializable
 {

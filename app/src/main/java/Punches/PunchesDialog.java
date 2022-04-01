@@ -25,6 +25,7 @@ import javax.swing.border.EtchedBorder;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -68,14 +69,13 @@ import org.slf4j.LoggerFactory;
  * <hr />
  *
  * @author Vince Aquilina
- * @version 03/31/22
+ * @version 04/01/22
  */
 public class PunchesDialog extends JDialog implements KeyListener
 {
   /*
    * TODO: capture
    * TODO: conversion
-   * TODO: set minimum size of frame
    */
   private final static Logger logger =
     LoggerFactory.getLogger(PunchesDialog.class);
@@ -268,7 +268,7 @@ public class PunchesDialog extends JDialog implements KeyListener
     btnCancel.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        if (metronome != null) {
+        if (Objects.isNull(metronome)) {
           metronome.end();
         }
         dispose();
@@ -294,6 +294,8 @@ public class PunchesDialog extends JDialog implements KeyListener
 
     pack();
 
+    setMinimumSize(new Dimension(getWidth(), getHeight()));
+    setAlwaysOnTop(true);
     setLocationRelativeTo(null);
   }
 
@@ -309,7 +311,6 @@ public class PunchesDialog extends JDialog implements KeyListener
 
     prgMetronome.setValue(progress);
 
-    logger.debug("temp: " + temp);
     logger.debug("progress %: " + progress);
   }
 
@@ -352,7 +353,8 @@ public class PunchesDialog extends JDialog implements KeyListener
    */
   private void play()
   {
-    if (recorder.getModifiedPattern() != null) {
+    if (Objects.isNull(recorder) ||
+        Objects.isNull(recorder.getModifiedPattern())) {
       player.play(recorder.getModifiedPattern());
     }
   }
@@ -373,7 +375,8 @@ public class PunchesDialog extends JDialog implements KeyListener
     btnRec.setEnabled(false);
     btnStop.setEnabled(true);
 
-    Recorder recorder = new Recorder();
+    recorder = new Recorder();
+    metronome.addMetronomeListener(recorder);
   }
 
   /**
@@ -382,29 +385,27 @@ public class PunchesDialog extends JDialog implements KeyListener
   private void stop()
   {
     metronome.end();
+    player.getManagedPlayer().reset();
 
     prgMetronome.setValue(0);
 
     btnRec.setEnabled(true);
     btnStop.setEnabled(false);
 
-    if (recorder.getModifiedPattern() != null) {
+    if (Objects.isNull(recorder) ||
+        Objects.isNull(recorder.getModifiedPattern())) {
       btnPlay.setEnabled(true);
     }
   }
 
   /**
-   * Process keyboard input.  
-   * Iterates over the map of keys currently depressed and constructs
-   * a Rhythm consisting of all the active voices, which is then played.
+   * Iterate over the map of keys currently depressed and highlight
+   * the corresponding voices
    *
    * @param pressed the set of keys that were pressed
    */
-  private void processKeys(Set<Character> pressed)
+  private void processKeys()
   {
-    // TODO construct Rhythm
-
-    int i = 0;
     for (Character c : pressed) {
       c = Character.toLowerCase(c);
       switch (c) {
@@ -414,27 +415,27 @@ public class PunchesDialog extends JDialog implements KeyListener
           break;
         case 'r':
           voices.get("ride").blink();
-          logger.debug("hit crash");
+          logger.debug("hit ride");
           break;
         case 'h':
           voices.get("hihat").blink();
-          logger.debug("hit crash");
+          logger.debug("hit hihat");
           break;
         case 't':
           voices.get("racktom").blink();
-          logger.debug("hit crash");
+          logger.debug("hit racktom");
           break;
         case 's':
           voices.get("snare").blink();
-          logger.debug("hit crash");
+          logger.debug("hit snare");
           break;
         case 'f':
           voices.get("floortom").blink();
-          logger.debug("hit crash");
+          logger.debug("hit floortom");
           break;
         case ' ':
           voices.get("kickdrum").blink();
-          logger.debug("hit crash");
+          logger.debug("hit kickdrum");
           break;
       }
     }
@@ -449,6 +450,7 @@ public class PunchesDialog extends JDialog implements KeyListener
   @Override
   public void keyPressed(KeyEvent e)
   {
+    // check for character of interest
     if (! (VALID_CHARS.indexOf(String.valueOf(e.getKeyChar())) < 0))  {
       pressed.add(e.getKeyChar());
     }
@@ -460,11 +462,10 @@ public class PunchesDialog extends JDialog implements KeyListener
     if (pressed.isEmpty()) {
       return;
     } else {
-      processKeys(pressed);
+      processKeys();
 
       logger.debug("keys entered: " + pressed.toString());
     }
-
     pressed.clear();
   }
 

@@ -1,36 +1,38 @@
 package Punches;
 /**
- * Possible beat values
+ * Possible beat values as per JFugue.
  *
  * @author Vince Aquilina
- * @version 03/17/22
+ * @version 04/01/22
  */
 public enum BeatValue 
 {
   /** Whole note */
-  WHOLE(1),
+  WHOLE(1.0),
   /** Half note */
-  HALF(2),
+  HALF(0.5),
   /** Quarter note */
-  QUARTER(4),
+  QUARTER(0.25),
   /** Eighth note */
-  EIGHTH(8),
+  EIGHTH(0.125),
   /** Sixteenth note */
-  SIXTEENTH(16),
+  SIXTEENTH(0.0625),
   /** Thirty-second note */
-  THIRTY_SECOND(32),
+  THIRTY_SECOND(0.03125),
   /** Sixty-fourth note */
-  SIXTY_FOURTH(64);
+  SIXTY_FOURTH(0.015625),
+  /** One-twenty-eighth */
+  ONE_TWENTY_EIGHTH(0.0078125);
 
   /** The numeric beat value */
-  private int value;
+  private double value;
 
   /**
    * Binds the name of each BeatValue to its actual value
    *
    * @param value the numeric beat value
    */
-  private BeatValue(int value) 
+  private BeatValue(double value) 
   {
     this.value = value;
   }
@@ -40,7 +42,7 @@ public enum BeatValue
    *
    * @return the numeric beat value 
    */
-  public int getValue() 
+  public double getValue() 
   {
     return this.value;
   }

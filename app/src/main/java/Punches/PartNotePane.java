@@ -14,10 +14,10 @@ import org.slf4j.LoggerFactory;
 
 import com.github.rjeschke.txtmark.Processor;
 /**
- * A JTextPane designed to contain Part notes.
+ * A Markdown-enabled JTextPane designed to contain Part notes.
  *
  * @author Vince Aquilina
- * @version 03/19/22
+ * @version 04/01/22
  */
 public class PartNotePane extends JTextPane
 {

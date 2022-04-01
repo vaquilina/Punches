@@ -1,12 +1,12 @@
 package Punches;
 
-//import java.awt.datatransfer.Clipboard;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.KeyboardFocusManager;
 import java.awt.Rectangle;
+//import java.awt.datatransfer.Clipboard;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -34,7 +34,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane; // for prompts
+//import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -56,7 +56,7 @@ import org.slf4j.LoggerFactory;
  * Punches Desktop GUI.
  *
  * @author Vince Aquilina
- * @version 03/25/22
+ * @version 04/01/22
  *
  * <b>Icons: </b>
  * <a href="https://www.famfamfam.com/lab/icons/silk">famfamfam</a>
@@ -78,22 +78,22 @@ public class PunchesFrame extends JFrame implements ComponentListener
   //private Clipboard externalClipboard;      // for yank/put text or image
 
   /** The Song title text field */
-  private JTextField txtSongTitle;
+  private final JTextField txtSongTitle;
   /** The "beats per bar" field */
-  private JTextField txtBeatsPerBar;
+  private final JTextField txtBeatsPerBar;
   /** The "value of a beat" dropdown */
-  private JComboBox<ImageIcon> cmbValueOfABeat;
+  private final JComboBox<ImageIcon> cmbValueOfABeat;
   /** The tempo text field */
-  private JTextField txtBpm;
+  private final JTextField txtBpm;
   /** Panel containing parts */
-  private SongPanel panSong;
+  private final SongPanel panSong;
   /** Layout manager for panSong */
   private InfiniteTableLayout itl;
   /** Scroll pane for panSong */
-  private JScrollPane scroller;
+  private final JScrollPane scroller;
 
   /** Bound Part cells */
-  List<PartPanelWrapper> cells;
+  private List<PartPanelWrapper> cells;
 
   /** Flags that there are unsaved changes */
   private boolean unsavedChanges;
@@ -436,7 +436,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
     getContentPane().add(scroller, "grow, w 100%, h 100%");
 
     // resize window to size of contents
-    pack();    // necessary in order to get size of frame
+    pack();
 
     int cellWidth = (int) (getContentPane().getSize().getWidth() - 
         ((Integer)(UIManager.get("ScrollBar.width"))).intValue());
