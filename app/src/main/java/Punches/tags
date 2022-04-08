@@ -1,0 +1,323 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/run/media/vince/vaquilinaHD/School/W2022/W2022_CIS354/Punches_desktop/app/src/main/java/Punches/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20220306.0/
+AboutDialog	AboutDialog.java	/^  public AboutDialog(Frame owner)$/;"	m	class:AboutDialog
+AboutDialog	AboutDialog.java	/^public class AboutDialog extends JDialog$/;"	c
+App	App.java	/^public class App $/;"	c
+BeatValue	BeatValue.java	/^  private BeatValue(double value) $/;"	m	class:BeatValue	file:
+BeatValue	BeatValue.java	/^public enum BeatValue $/;"	g
+COLUMN	PunchesFrame.java	/^  public static final int COLUMN = 0;$/;"	f	class:PunchesFrame
+COPYRIGHT	AboutDialog.java	/^  private final String COPYRIGHT = Character.toString(169);$/;"	f	class:AboutDialog	file:
+CellBounds	CellBounds.java	/^  public CellBounds(int x, int y, int width, int height) $/;"	m	class:CellBounds
+CellBounds	CellBounds.java	/^public class CellBounds implements Serializable$/;"	c
+EIGHTH	BeatValue.java	/^  EIGHTH(0.125),$/;"	e	enum:BeatValue	file:
+HALF	BeatValue.java	/^  HALF(0.5),$/;"	e	enum:BeatValue	file:
+HTMLNotRenderedException	PunchesPDFExporter.java	/^    public HTMLNotRenderedException(String errorMessage) {$/;"	m	class:PunchesPDFExporter.HTMLNotRenderedException
+HTMLNotRenderedException	PunchesPDFExporter.java	/^  public class HTMLNotRenderedException extends Exception$/;"	c	class:PunchesPDFExporter
+Metronome	Metronome.java	/^  public Metronome(double bpm, int beatsPerMeasure, int duration) $/;"	m	class:Metronome
+Metronome	Metronome.java	/^public class Metronome extends Thread$/;"	c
+MetronomeListener	MetronomeListener.java	/^public interface MetronomeListener$/;"	i
+ONE_TWENTY_EIGHTH	BeatValue.java	/^  ONE_TWENTY_EIGHTH(0.0078125);$/;"	e	enum:BeatValue	file:
+PUNCHES_RED	AboutDialog.java	/^  private final Color PUNCHES_RED = new Color(0x710028);$/;"	f	class:AboutDialog	file:
+Part	Part.java	/^  public Part()$/;"	m	class:Part
+Part	Part.java	/^  public Part(String name, int lengthInBars, String notes)$/;"	m	class:Part
+Part	Part.java	/^  public Part(String name, int lengthInBars, String notes, Image sheetSnippet)$/;"	m	class:Part
+Part	Part.java	/^  public Part(String name, int lengthInBars, String notes, String[] tabSnippet)$/;"	m	class:Part
+Part	Part.java	/^  public Part(String name, int lengthInBars, String notes,$/;"	m	class:Part
+Part	Part.java	/^public class Part implements Serializable$/;"	c
+PartNotePane	PartNotePane.java	/^  public PartNotePane()$/;"	m	class:PartNotePane
+PartNotePane	PartNotePane.java	/^public class PartNotePane extends JTextPane$/;"	c
+PartPanel	PartPanel.java	/^  public PartPanel(Part part)$/;"	m	class:PartPanel
+PartPanel	PartPanel.java	/^public class PartPanel extends JPanel$/;"	c
+PartPanelCustomizer	PartPanelCustomizer.java	/^  public PartPanelCustomizer(PartPanel partPanel) $/;"	m	class:PartPanelCustomizer
+PartPanelCustomizer	PartPanelCustomizer.java	/^public class PartPanelCustomizer $/;"	c
+PartPanelWrapper	PartPanelWrapper.java	/^  public PartPanelWrapper(Part part)$/;"	m	class:PartPanelWrapper
+PartPanelWrapper	PartPanelWrapper.java	/^public class PartPanelWrapper$/;"	c
+Punches	AboutDialog.java	/^package Punches;$/;"	p
+Punches	App.java	/^package Punches;$/;"	p
+Punches	BeatValue.java	/^package Punches;$/;"	p
+Punches	CellBounds.java	/^package Punches;$/;"	p
+Punches	Metronome.java	/^package Punches;$/;"	p
+Punches	MetronomeListener.java	/^package Punches;$/;"	p
+Punches	Part.java	/^package Punches;$/;"	p
+Punches	PartNotePane.java	/^package Punches;$/;"	p
+Punches	PartPanel.java	/^package Punches;$/;"	p
+Punches	PartPanelCustomizer.java	/^package Punches;$/;"	p
+Punches	PartPanelWrapper.java	/^package Punches;$/;"	p
+Punches	PunchesDialog.java	/^package Punches;$/;"	p
+Punches	PunchesFileHandler.java	/^package Punches;$/;"	p
+Punches	PunchesFrame.java	/^package Punches;$/;"	p
+Punches	PunchesPDFExporter.java	/^package Punches;$/;"	p
+Punches	Recorder.java	/^package Punches;$/;"	p
+Punches	Song.java	/^package Punches;$/;"	p
+Punches	SongPanel.java	/^package Punches;$/;"	p
+Punches	TimeSignature.java	/^package Punches;$/;"	p
+PunchesDialog	PunchesDialog.java	/^  public PunchesDialog(Frame owner, Song partOwner, Part relevantPart)$/;"	m	class:PunchesDialog
+PunchesDialog	PunchesDialog.java	/^public class PunchesDialog extends JDialog implements KeyListener$/;"	c
+PunchesFileHandler	PunchesFileHandler.java	/^  public PunchesFileHandler(Song songData,$/;"	m	class:PunchesFileHandler
+PunchesFileHandler	PunchesFileHandler.java	/^public class PunchesFileHandler implements Serializable$/;"	c
+PunchesFrame	PunchesFrame.java	/^  public PunchesFrame(String title)$/;"	m	class:PunchesFrame
+PunchesFrame	PunchesFrame.java	/^public class PunchesFrame extends JFrame implements ComponentListener$/;"	c
+PunchesPDFExporter	PunchesPDFExporter.java	/^  public PunchesPDFExporter(Song song)$/;"	m	class:PunchesPDFExporter
+PunchesPDFExporter	PunchesPDFExporter.java	/^public class PunchesPDFExporter$/;"	c
+QUARTER	BeatValue.java	/^  QUARTER(0.25),$/;"	e	enum:BeatValue	file:
+ROWHEIGHT	PunchesFrame.java	/^  private static final int ROWHEIGHT = 200;$/;"	f	class:PunchesFrame	file:
+Recorder	Recorder.java	/^  public Recorder()$/;"	m	class:Recorder
+Recorder	Recorder.java	/^  public Recorder(int tempo, TimeSignature signature) {$/;"	m	class:Recorder
+Recorder	Recorder.java	/^public class Recorder extends Rhythm implements MetronomeListener, KeyListener$/;"	c
+SIXTEENTH	BeatValue.java	/^  SIXTEENTH(0.0625),$/;"	e	enum:BeatValue	file:
+SIXTY_FOURTH	BeatValue.java	/^  SIXTY_FOURTH(0.015625),$/;"	e	enum:BeatValue	file:
+Song	Song.java	/^  public Song()$/;"	m	class:Song
+Song	Song.java	/^  public Song(List<Part> parts, String title, TimeSignature signature, int bpm)$/;"	m	class:Song
+Song	Song.java	/^  public Song(Song song)$/;"	m	class:Song
+Song	Song.java	/^public class Song implements Serializable$/;"	c
+SongPanel	SongPanel.java	/^  public SongPanel(Song song)$/;"	m	class:SongPanel
+SongPanel	SongPanel.java	/^public class SongPanel extends JCustomizerPane$/;"	c
+THIRTY_SECOND	BeatValue.java	/^  THIRTY_SECOND(0.03125),$/;"	e	enum:BeatValue	file:
+TimeSignature	TimeSignature.java	/^  public TimeSignature(int beatsPerBar, BeatValue valueOfABeat)$/;"	m	class:TimeSignature
+TimeSignature	TimeSignature.java	/^public class TimeSignature implements Serializable$/;"	c
+VALID_CHARS	PunchesDialog.java	/^  private final String VALID_CHARS = "crhtsf CRHTSF";$/;"	f	class:PunchesDialog	file:
+VALID_CHARS	Recorder.java	/^  private final String VALID_CHARS = "crhtsf CRHTSF";$/;"	f	class:Recorder	file:
+VoiceLabel	PunchesDialog.java	/^    public VoiceLabel(String label) $/;"	m	class:PunchesDialog.VoiceLabel
+VoiceLabel	PunchesDialog.java	/^  private class VoiceLabel extends JLabel$/;"	c	class:PunchesDialog
+WHOLE	BeatValue.java	/^  WHOLE(1.0),$/;"	e	enum:BeatValue	file:
+X	PartPanelWrapper.java	/^  private static final int X = 0;$/;"	f	class:PartPanelWrapper	file:
+accentTone	Metronome.java	/^  private Clip accentTone;$/;"	f	class:Metronome	file:
+activeBgColor	PunchesDialog.java	/^    private final Color activeBgColor = Color.BLACK;$/;"	f	class:PunchesDialog.VoiceLabel	file:
+activeFgColor	PunchesDialog.java	/^    private final Color activeFgColor = Color.WHITE;$/;"	f	class:PunchesDialog.VoiceLabel	file:
+addMetronomeListener	Metronome.java	/^  public void addMetronomeListener(MetronomeListener listener)$/;"	m	class:Metronome
+addPart	PunchesFrame.java	/^  public void addPart()$/;"	m	class:PunchesFrame
+addPart	Song.java	/^  public void addPart(Part part)$/;"	m	class:Song
+adjustCellWidth	PunchesFrame.java	/^  private int adjustCellWidth()$/;"	m	class:PunchesFrame	file:
+apricot	PartPanelWrapper.java	/^  private Color apricot = new Color(0xFFCCB3);$/;"	f	class:PartPanelWrapper	file:
+apricot	PunchesFrame.java	/^  private Color apricot = new Color(0xFFCCB3);$/;"	f	class:PunchesFrame	file:
+beatsPerBar	TimeSignature.java	/^  private int beatsPerBar;$/;"	f	class:TimeSignature	file:
+beatsPerMeasure	Metronome.java	/^  private int beatsPerMeasure;$/;"	f	class:Metronome	file:
+blink	PunchesDialog.java	/^    public void blink()$/;"	m	class:PunchesDialog.VoiceLabel
+bounds	PartPanelWrapper.java	/^  private Rectangle bounds;$/;"	f	class:PartPanelWrapper	file:
+bpm	Metronome.java	/^  private double bpm;$/;"	f	class:Metronome	file:
+bpm	Song.java	/^  private int bpm;$/;"	f	class:Song	file:
+btnDelete	PartPanel.java	/^  private JButton btnDelete;$/;"	f	class:PartPanel	file:
+btnPlay	PunchesDialog.java	/^  private final JButton btnPlay;$/;"	f	class:PunchesDialog	file:
+btnPunches	PartPanel.java	/^  private JButton btnPunches;$/;"	f	class:PartPanel	file:
+btnRec	PunchesDialog.java	/^  private final JButton btnRec;$/;"	f	class:PunchesDialog	file:
+btnStop	PunchesDialog.java	/^  private final JButton btnStop;$/;"	f	class:PunchesDialog	file:
+btnToSheet	PunchesDialog.java	/^  private final JButton btnToSheet;$/;"	f	class:PunchesDialog	file:
+btnToTab	PunchesDialog.java	/^  private final JButton btnToTab;$/;"	f	class:PunchesDialog	file:
+cellBounds	PunchesFileHandler.java	/^  List<CellBounds> cellBounds;$/;"	f	class:PunchesFileHandler
+cells	PunchesFrame.java	/^  private List<PartPanelWrapper> cells;$/;"	f	class:PunchesFrame	file:
+cleanExit	PunchesFrame.java	/^  private void cleanExit()$/;"	m	class:PunchesFrame	file:
+clearParts	Song.java	/^  public void clearParts()$/;"	m	class:Song
+cmbValueOfABeat	PunchesFrame.java	/^  private final JComboBox<ImageIcon> cmbValueOfABeat;$/;"	f	class:PunchesFrame	file:
+componentHidden	PunchesFrame.java	/^  public void componentHidden(ComponentEvent e) {};$/;"	m	class:PunchesFrame
+componentMoved	PunchesFrame.java	/^  public void componentMoved(ComponentEvent e)  {};$/;"	m	class:PunchesFrame
+componentResized	PunchesFrame.java	/^  public  void componentResized(ComponentEvent e) {$/;"	m	class:PunchesFrame
+componentShown	PunchesFrame.java	/^  public void componentShown(ComponentEvent e)  {};$/;"	m	class:PunchesFrame
+counter	Metronome.java	/^  private int counter;$/;"	f	class:Metronome	file:
+createSong	PunchesFrame.java	/^  public void createSong()$/;"	m	class:PunchesFrame
+customizer	PartPanelWrapper.java	/^  private PartPanelCustomizer customizer;  $/;"	f	class:PartPanelWrapper	file:
+customizerResetBoundsRel	PartPanelCustomizer.java	/^  public void customizerResetBoundsRel(CustomizerEvent e) {$/;"	m	class:PartPanelCustomizer
+customizerReshapeRel	PartPanelCustomizer.java	/^  public void customizerReshapeRel(CustomizerEvent e) {$/;"	m	class:PartPanelCustomizer
+dividerLocation	PartPanel.java	/^  private Integer dividerLocation = 10;$/;"	f	class:PartPanel	file:
+dividerLocations	PunchesFileHandler.java	/^  List<Integer> dividerLocations;$/;"	f	class:PunchesFileHandler
+duration	Metronome.java	/^  private int duration;$/;"	f	class:Metronome	file:
+end	Metronome.java	/^  public void end()$/;"	m	class:Metronome
+exportPDF	PunchesPDFExporter.java	/^  public void exportPDF(File file) throws IOException, HTMLNotRenderedException,$/;"	m	class:PunchesPDFExporter
+exportSong	PunchesFrame.java	/^  public void exportSong()$/;"	m	class:PunchesFrame
+fieldsPanel	PartPanel.java	/^  private JPanel fieldsPanel;$/;"	f	class:PartPanel	file:
+getBeatValue	PunchesFrame.java	/^  private BeatValue getBeatValue(int selectedIndex)$/;"	m	class:PunchesFrame	file:
+getBeatsPerBar	TimeSignature.java	/^  public int getBeatsPerBar()$/;"	m	class:TimeSignature
+getBpm	Song.java	/^  public int getBpm()$/;"	m	class:Song
+getCellBounds	CellBounds.java	/^  public int[] getCellBounds()$/;"	m	class:CellBounds
+getCellBounds	PunchesFileHandler.java	/^  public List<CellBounds> getCellBounds()$/;"	m	class:PunchesFileHandler
+getDeleteButton	PartPanel.java	/^  public JButton getDeleteButton()$/;"	m	class:PartPanel
+getDividerLocations	PunchesFileHandler.java	/^  public List<Integer> getDividerLocations()$/;"	m	class:PunchesFileHandler
+getHTML	PartNotePane.java	/^  public String getHTML()$/;"	m	class:PartNotePane
+getIndex	Part.java	/^  public int getIndex()$/;"	m	class:Part
+getLengthInBars	Part.java	/^  public int getLengthInBars()$/;"	m	class:Part
+getModifiedPattern	Recorder.java	/^  public Pattern getModifiedPattern()$/;"	m	class:Recorder
+getName	Part.java	/^  public String getName()$/;"	m	class:Part
+getNotePane	PartPanel.java	/^  public PartNotePane getNotePane()$/;"	m	class:PartPanel
+getNotes	Part.java	/^  public String getNotes()$/;"	m	class:Part
+getPart	PartPanel.java	/^  public Part getPart()$/;"	m	class:PartPanel
+getPart	PartPanelWrapper.java	/^  public Part getPart()$/;"	m	class:PartPanelWrapper
+getPartPanel	PartPanelWrapper.java	/^  public PartPanel getPartPanel()$/;"	m	class:PartPanelWrapper
+getPartPanelCustomizer	PartPanelWrapper.java	/^  public PartPanelCustomizer getPartPanelCustomizer()$/;"	m	class:PartPanelWrapper
+getParts	Song.java	/^  public List<Part> getParts()$/;"	m	class:Song
+getPlainText	PartNotePane.java	/^  public String getPlainText()$/;"	m	class:PartNotePane
+getPunchesButton	PartPanel.java	/^  public JButton getPunchesButton()$/;"	m	class:PartPanel
+getRow	PartPanelCustomizer.java	/^  public int getRow()$/;"	m	class:PartPanelCustomizer
+getRowSpan	PartPanelCustomizer.java	/^  public int getRowSpan()$/;"	m	class:PartPanelCustomizer
+getSheetSnippet	Part.java	/^  public Image getSheetSnippet()$/;"	m	class:Part
+getSignature	Song.java	/^  public TimeSignature getSignature()$/;"	m	class:Song
+getSong	SongPanel.java	/^  public Song getSong()$/;"	m	class:SongPanel
+getSongData	PunchesFileHandler.java	/^  public Song getSongData()$/;"	m	class:PunchesFileHandler
+getSplitDividerLocation	PartPanel.java	/^  public Integer getSplitDividerLocation()$/;"	m	class:PartPanel
+getStoredHeight	PartPanelCustomizer.java	/^  public int getStoredHeight() $/;"	m	class:PartPanelCustomizer
+getStoredPosition	PartPanelWrapper.java	/^  public Rectangle getStoredPosition()$/;"	m	class:PartPanelWrapper
+getStoredWidth	PartPanelCustomizer.java	/^  public int getStoredWidth() $/;"	m	class:PartPanelCustomizer
+getStoredYPos	PartPanelCustomizer.java	/^  public int getStoredYPos() $/;"	m	class:PartPanelCustomizer
+getTabSnippet	Part.java	/^  public String[] getTabSnippet()$/;"	m	class:Part
+getTitle	Song.java	/^  public String getTitle()$/;"	m	class:Song
+getValue	BeatValue.java	/^  public double getValue() $/;"	m	class:BeatValue
+getValueOfABeat	TimeSignature.java	/^  public BeatValue getValueOfABeat()$/;"	m	class:TimeSignature
+hasUnsavedChanges	PunchesFrame.java	/^  private boolean hasUnsavedChanges()$/;"	m	class:PunchesFrame	file:
+height	CellBounds.java	/^  public final int height;$/;"	f	class:CellBounds
+height	PartPanelCustomizer.java	/^  private int height;$/;"	f	class:PartPanelCustomizer	file:
+html	PartNotePane.java	/^  private String html;$/;"	f	class:PartNotePane	file:
+index	Part.java	/^  private int index;$/;"	f	class:Part	file:
+initMusicNoteIcons	PunchesFrame.java	/^  private Map<String, ImageIcon> initMusicNoteIcons()$/;"	m	class:PunchesFrame	file:
+initSongPanel	PunchesFrame.java	/^  private void initSongPanel()$/;"	m	class:PunchesFrame	file:
+initToolbarIcons	PunchesFrame.java	/^  private Map<String, ImageIcon> initToolbarIcons()$/;"	m	class:PunchesFrame	file:
+initialized	PunchesFrame.java	/^  private boolean initialized;$/;"	f	class:PunchesFrame	file:
+itl	PunchesFrame.java	/^  private InfiniteTableLayout itl;$/;"	f	class:PunchesFrame	file:
+keepRunning	Metronome.java	/^  private AtomicBoolean keepRunning;$/;"	f	class:Metronome	file:
+keyPressed	PunchesDialog.java	/^  public void keyPressed(KeyEvent e)$/;"	m	class:PunchesDialog
+keyPressed	Recorder.java	/^  public void keyPressed(KeyEvent e)$/;"	m	class:Recorder
+keyReleased	PunchesDialog.java	/^  public void keyReleased(KeyEvent e)$/;"	m	class:PunchesDialog
+keyReleased	Recorder.java	/^  public void keyReleased(KeyEvent e)$/;"	m	class:Recorder
+keyTyped	PunchesDialog.java	/^  public void keyTyped(KeyEvent e) { \/* not used *\/ }$/;"	m	class:PunchesDialog
+keyTyped	Recorder.java	/^  public void keyTyped(KeyEvent e) { \/* not used *\/ }$/;"	m	class:Recorder
+kfMgr	PunchesDialog.java	/^  KeyboardFocusManager kfMgr =$/;"	f	class:PunchesDialog
+layers	PunchesDialog.java	/^  private Map<String, Rhythm> layers;$/;"	f	class:PunchesDialog	file:
+layers	Recorder.java	/^  private StringBuilder[] layers;$/;"	f	class:Recorder	file:
+lblName	PartPanel.java	/^  private JLabel lblName;$/;"	f	class:PartPanel	file:
+lengthInBars	Part.java	/^  private int lengthInBars;$/;"	f	class:Part	file:
+listeners	Metronome.java	/^  private List<MetronomeListener> listeners = new ArrayList<>();$/;"	f	class:Metronome	file:
+loadSong	PunchesFrame.java	/^  public void loadSong()$/;"	m	class:PunchesFrame
+loadedSong	SongPanel.java	/^  public Song loadedSong;$/;"	f	class:SongPanel
+logger	App.java	/^  private static final Logger logger = LoggerFactory.getLogger(App.class);$/;"	f	class:App	file:
+logger	Metronome.java	/^  private final Logger logger = LoggerFactory.getLogger(Metronome.class);$/;"	f	class:Metronome	file:
+logger	Part.java	/^  private final Logger logger = LoggerFactory.getLogger(Part.class);$/;"	f	class:Part	file:
+logger	PartNotePane.java	/^  private final Logger logger = LoggerFactory.getLogger(PartNotePane.class);$/;"	f	class:PartNotePane	file:
+logger	PartPanel.java	/^  private final Logger logger = LoggerFactory.getLogger(PartPanel.class);$/;"	f	class:PartPanel	file:
+logger	PartPanelCustomizer.java	/^  private final Logger logger =$/;"	f	class:PartPanelCustomizer	file:
+logger	PunchesDialog.java	/^  private final static Logger logger =$/;"	f	class:PunchesDialog	file:
+logger	PunchesFrame.java	/^  private static final Logger logger =$/;"	f	class:PunchesFrame	file:
+logger	PunchesPDFExporter.java	/^  private static Logger logger =$/;"	f	class:PunchesPDFExporter	file:
+logger	Recorder.java	/^  private final Logger logger = LoggerFactory.getLogger(Recorder.class);$/;"	f	class:Recorder	file:
+logger	Song.java	/^  private final Logger logger = LoggerFactory.getLogger(Song.class);$/;"	f	class:Song	file:
+main	App.java	/^  public static void main(String[] args)$/;"	m	class:App
+makeEditable	PartPanelWrapper.java	/^  private void makeEditable()$/;"	m	class:PartPanelWrapper	file:
+metronome	PunchesDialog.java	/^  private Metronome metronome;$/;"	f	class:PunchesDialog	file:
+metronomeTicked	MetronomeListener.java	/^  void metronomeTicked();$/;"	m	interface:MetronomeListener
+metronomeTicked	Recorder.java	/^  public void metronomeTicked()$/;"	m	class:Recorder
+musicPanel	PartPanel.java	/^  private JPanel musicPanel;$/;"	f	class:PartPanel	file:
+name	Part.java	/^  private String name;$/;"	f	class:Part	file:
+normalBgColor	PunchesDialog.java	/^    private final Color normalBgColor = Color.LIGHT_GRAY;$/;"	f	class:PunchesDialog.VoiceLabel	file:
+normalFgColor	PunchesDialog.java	/^    private final Color normalFgColor = Color.BLACK;$/;"	f	class:PunchesDialog.VoiceLabel	file:
+notePane	PartPanel.java	/^  private PartNotePane notePane;$/;"	f	class:PartPanel	file:
+notes	Part.java	/^  private String notes;$/;"	f	class:Part	file:
+paintComponent	PartPanel.java	/^  protected void paintComponent(Graphics g)$/;"	m	class:PartPanel
+panSong	PunchesFrame.java	/^  private final SongPanel panSong;$/;"	f	class:PunchesFrame	file:
+panel	PartPanelWrapper.java	/^  private PartPanel panel;$/;"	f	class:PartPanelWrapper	file:
+panelGray	PartPanel.java	/^  private Color panelGray = new Color(0xDDDDDD);$/;"	f	class:PartPanel	file:
+panelGray	PartPanelWrapper.java	/^  private Color panelGray = new Color(0xDDDDDD);$/;"	f	class:PartPanelWrapper	file:
+panelGray	PunchesFrame.java	/^  private Color panelGray = new Color(0xDDDDDD);$/;"	f	class:PunchesFrame	file:
+part	PartPanel.java	/^  private Part part;$/;"	f	class:PartPanel	file:
+part	PartPanelWrapper.java	/^  private Part part;$/;"	f	class:PartPanelWrapper	file:
+partOwner	PunchesDialog.java	/^  private Song partOwner;$/;"	f	class:PunchesDialog	file:
+partPanel	PartPanelCustomizer.java	/^  private PartPanel partPanel;$/;"	f	class:PartPanelCustomizer	file:
+parts	Song.java	/^  private List<Part> parts;$/;"	f	class:Song	file:
+plainText	PartNotePane.java	/^  private String plainText;$/;"	f	class:PartNotePane	file:
+play	PunchesDialog.java	/^  private void play()$/;"	m	class:PunchesDialog	file:
+player	PunchesDialog.java	/^  private Player player;$/;"	f	class:PunchesDialog	file:
+pnlVoices	PunchesDialog.java	/^  private final JPanel pnlVoices;$/;"	f	class:PunchesDialog	file:
+positionDivider	PartPanel.java	/^  public void positionDivider()$/;"	m	class:PartPanel
+prepare	PunchesPDFExporter.java	/^  public void prepare() throws IOException$/;"	m	class:PunchesPDFExporter
+pressed	PunchesDialog.java	/^  private final Set<Character> pressed;$/;"	f	class:PunchesDialog	file:
+pressed	Recorder.java	/^  private final Set<Character> pressed = new HashSet<>();$/;"	f	class:Recorder	file:
+prgMetronome	PunchesDialog.java	/^  private static final JProgressBar prgMetronome =$/;"	f	class:PunchesDialog	file:
+processKeys	PunchesDialog.java	/^  private void processKeys()$/;"	m	class:PunchesDialog	file:
+processKeys	Recorder.java	/^  private void processKeys()$/;"	m	class:Recorder	file:
+progress	Metronome.java	/^  private int progress;$/;"	f	class:Metronome	file:
+rawHTML	PunchesPDFExporter.java	/^  String rawHTML;$/;"	f	class:PunchesPDFExporter
+readSongFromFile	PunchesFrame.java	/^  private void readSongFromFile(File file) $/;"	m	class:PunchesFrame	file:
+record	PunchesDialog.java	/^  private void record()$/;"	m	class:PunchesDialog	file:
+recorder	PunchesDialog.java	/^  private Recorder recorder;$/;"	f	class:PunchesDialog	file:
+refreshIndices	Song.java	/^  public void refreshIndices()$/;"	m	class:Song
+refreshTable	PunchesFrame.java	/^  private void refreshTable($/;"	m	class:PunchesFrame	file:
+regTone	Metronome.java	/^  private Clip regTone;$/;"	f	class:Metronome	file:
+registerComponentListener	PartPanelCustomizer.java	/^  public void registerComponentListener()$/;"	m	class:PartPanelCustomizer
+registerPropertyChangeListener	PartPanelCustomizer.java	/^  public void registerPropertyChangeListener()$/;"	m	class:PartPanelCustomizer
+relevantPart	PunchesDialog.java	/^  private Part relevantPart;$/;"	f	class:PunchesDialog	file:
+removePart	PunchesFrame.java	/^  public void removePart(int index)$/;"	m	class:PunchesFrame
+renderMarkdown	PartNotePane.java	/^  public void renderMarkdown(String md)$/;"	m	class:PartNotePane
+repositionDividers	PunchesFrame.java	/^  private void repositionDividers(List<Integer> dividerLocations) $/;"	m	class:PunchesFrame	file:
+rhythmKit	Recorder.java	/^  public Map<Character, String> rhythmKit;$/;"	f	class:Recorder
+row	PartPanelCustomizer.java	/^  private int row;$/;"	f	class:PartPanelCustomizer	file:
+rowSpan	PartPanelCustomizer.java	/^  private int rowSpan;$/;"	f	class:PartPanelCustomizer	file:
+run	Metronome.java	/^  public void run()$/;"	m	class:Metronome
+saveSong	PunchesFrame.java	/^  public void saveSong()$/;"	m	class:PunchesFrame
+scroller	PunchesFrame.java	/^  private final JScrollPane scroller;$/;"	f	class:PunchesFrame	file:
+setBeatsPerBar	TimeSignature.java	/^  public void setBeatsPerBar(int beatsPerBar)$/;"	m	class:TimeSignature
+setBpm	Song.java	/^  public void setBpm(int bpm)$/;"	m	class:Song
+setCellData	PunchesFileHandler.java	/^  public void setCellData(List<CellBounds> cellBounds)$/;"	m	class:PunchesFileHandler
+setDividerLocations	PunchesFileHandler.java	/^  public void setDividerLocations(List<Integer> dividerLocations)$/;"	m	class:PunchesFileHandler
+setIndex	Part.java	/^  public void setIndex(int index)$/;"	m	class:Part
+setLengthInBars	Part.java	/^  public void setLengthInBars(int lengthInBars)$/;"	m	class:Part
+setName	Part.java	/^  public void setName(String name)$/;"	m	class:Part
+setNotes	Part.java	/^  public void setNotes(String notes)$/;"	m	class:Part
+setPart	PartPanel.java	/^  public void setPart(Part part)$/;"	m	class:PartPanel
+setPart	PartPanelWrapper.java	/^  public void setPart(Part part)$/;"	m	class:PartPanelWrapper
+setPartPanel	PartPanelWrapper.java	/^  public void setPartPanel(PartPanel panel)$/;"	m	class:PartPanelWrapper
+setPartPanelCustomizer	PartPanelWrapper.java	/^  public void setPartPanelCustomizer(PartPanelCustomizer customizer)$/;"	m	class:PartPanelWrapper
+setParts	Song.java	/^  public void setParts(List<Part> parts)$/;"	m	class:Song
+setProgressMode	PunchesDialog.java	/^  public static synchronized void setProgressMode(boolean countingIn)$/;"	m	class:PunchesDialog
+setRowSpan	PartPanelCustomizer.java	/^  public void setRowSpan(int rowSpan)$/;"	m	class:PartPanelCustomizer
+setSheetSnippet	Part.java	/^  public void setSheetSnippet(Image sheetSnippet)$/;"	m	class:Part
+setSignature	Song.java	/^  public void setSignature(TimeSignature signature)$/;"	m	class:Song
+setSong	SongPanel.java	/^  public void setSong(Song song)$/;"	m	class:SongPanel
+setSongData	PunchesFileHandler.java	/^  public void setSongData(Song songData)$/;"	m	class:PunchesFileHandler
+setSplitDividerLocation	PartPanel.java	/^  public void setSplitDividerLocation(int dividerLocation)$/;"	m	class:PartPanel
+setStoredHeight	PartPanelCustomizer.java	/^  public void setStoredHeight(int height) $/;"	m	class:PartPanelCustomizer
+setStoredWidth	PartPanelCustomizer.java	/^  public void setStoredWidth(int width) $/;"	m	class:PartPanelCustomizer
+setStoredYPos	PartPanelCustomizer.java	/^  public void setStoredYPos(int yPos) $/;"	m	class:PartPanelCustomizer
+setTabSnippet	Part.java	/^  public void setTabSnippet(String[] tabSnippet)$/;"	m	class:Part
+setTitle	Song.java	/^  public void setTitle(String title)$/;"	m	class:Song
+setValueOfABeat	TimeSignature.java	/^  public void setValueOfABeat(BeatValue valueOfABeat)$/;"	m	class:TimeSignature
+sheetImage	PartPanel.java	/^  protected Image sheetImage;$/;"	f	class:PartPanel
+sheetSnippet	Part.java	/^  private Image sheetSnippet;$/;"	f	class:Part	file:
+showAboutDialog	PunchesFrame.java	/^  public void showAboutDialog()$/;"	m	class:PunchesFrame
+signature	Recorder.java	/^  private TimeSignature signature;$/;"	f	class:Recorder	file:
+signature	Song.java	/^  private TimeSignature signature;$/;"	f	class:Song	file:
+song	PunchesPDFExporter.java	/^  Song song;$/;"	f	class:PunchesPDFExporter
+songData	PunchesFileHandler.java	/^  private Song songData;$/;"	f	class:PunchesFileHandler	file:
+sound	Metronome.java	/^  public void sound(boolean isAccent) $/;"	m	class:Metronome
+split	PartPanel.java	/^  private JSplitPane split;$/;"	f	class:PartPanel	file:
+stop	PunchesDialog.java	/^  private void stop()$/;"	m	class:PunchesDialog	file:
+stopSound	Metronome.java	/^  public void stopSound()$/;"	m	class:Metronome
+storePosition	PartPanelWrapper.java	/^  public void storePosition()$/;"	m	class:PartPanelWrapper
+tabSnippet	Part.java	/^  private String[] tabSnippet;$/;"	f	class:Part	file:
+tempo	Recorder.java	/^  private int tempo;$/;"	f	class:Recorder	file:
+title	Song.java	/^  private String title;$/;"	f	class:Song	file:
+toString	CellBounds.java	/^  public String toString()$/;"	m	class:CellBounds
+toString	Song.java	/^  public String toString()$/;"	m	class:Song
+toString	TimeSignature.java	/^  public String toString()$/;"	m	class:TimeSignature
+totalBeats	Metronome.java	/^  private int totalBeats;$/;"	f	class:Metronome	file:
+txtBeatsPerBar	PunchesFrame.java	/^  private final JTextField txtBeatsPerBar;$/;"	f	class:PunchesFrame	file:
+txtBpm	PunchesFrame.java	/^  private final JTextField txtBpm;$/;"	f	class:PunchesFrame	file:
+txtPartLength	PartPanel.java	/^  private JTextField txtPartLength;$/;"	f	class:PartPanel	file:
+txtPartName	PartPanel.java	/^  private JTextField txtPartName;$/;"	f	class:PartPanel	file:
+txtSongTitle	PunchesFrame.java	/^  private final JTextField txtSongTitle;$/;"	f	class:PunchesFrame	file:
+unsavedChanges	PunchesFrame.java	/^  private boolean unsavedChanges;$/;"	f	class:PunchesFrame	file:
+updateIndex	PartPanel.java	/^  public void updateIndex(int index)$/;"	m	class:PartPanel
+updateProgress	PunchesDialog.java	/^  public static synchronized void updateProgress(int progress, int totalBeats)$/;"	m	class:PunchesDialog
+value	BeatValue.java	/^  private double value;$/;"	f	class:BeatValue	file:
+valueOfABeat	TimeSignature.java	/^  private BeatValue valueOfABeat;$/;"	f	class:TimeSignature	file:
+voices	PunchesDialog.java	/^  private final Map<String, VoiceLabel> voices;$/;"	f	class:PunchesDialog	file:
+width	CellBounds.java	/^  public final int width;$/;"	f	class:CellBounds
+width	PartPanelCustomizer.java	/^  private int width;$/;"	f	class:PartPanelCustomizer	file:
+writeSongToFile	PunchesFrame.java	/^  private void writeSongToFile(File file, PunchesFileHandler handler) $/;"	m	class:PunchesFrame	file:
+writeToPDF	PunchesFrame.java	/^  private void writeToPDF(File pdfFile) $/;"	m	class:PunchesFrame	file:
+x	CellBounds.java	/^  public final int x;$/;"	f	class:CellBounds
+y	CellBounds.java	/^  public final int y;$/;"	f	class:CellBounds
+yPos	PartPanelCustomizer.java	/^  private int yPos;$/;"	f	class:PartPanelCustomizer	file:

@@ -406,6 +406,10 @@ public class PunchesDialog extends JDialog implements KeyListener
    */
   private void processKeys()
   {
+    if (recorder != null) {
+      recorder.registerHit(pressed);
+    }
+
     for (Character c : pressed) {
       c = Character.toLowerCase(c);
       switch (c) {

@@ -1,12 +1,10 @@
 package Punches;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.HashSet;
 
 import org.jfugue.pattern.Pattern;
 import org.jfugue.rhythm.Rhythm;
@@ -17,9 +15,9 @@ import org.slf4j.LoggerFactory;
  * Used to assemble a Staccato string containing a percussion pattern.
  *
  * @author Vince Aquilina
- * @version 04/01/22
+ * @version 04/08/22
  */
-public class Recorder extends Rhythm implements MetronomeListener, KeyListener
+public class Recorder extends Rhythm implements MetronomeListener
 {
   private final Logger logger = LoggerFactory.getLogger(Recorder.class);
 
@@ -37,6 +35,8 @@ public class Recorder extends Rhythm implements MetronomeListener, KeyListener
    * 6 - Crash Cymbal
    */
   private StringBuilder[] layers;
+  /** The captured sequences */
+  private Map<String, List<Long>> captures;
 
   /** The tempo in bpm */
   private int tempo;
@@ -51,7 +51,8 @@ public class Recorder extends Rhythm implements MetronomeListener, KeyListener
     this(120, new TimeSignature(4, BeatValue.QUARTER));
   }
 
-  /** Construct a Recorder with given data
+  /**
+   * Construct a Recorder with given data
    * @param tempo the tempo in bpm
    * @param signature the TimeSignature
    */
@@ -60,7 +61,7 @@ public class Recorder extends Rhythm implements MetronomeListener, KeyListener
     this.signature = signature;
 
     rhythmKit = new LinkedHashMap<>() {{
-      put('.', "Rs");
+      put('.', "Rs"); // sixteenth rest
       put('o', "[ACOUSTIC_BASS_DRUM]s");
       put('s', "[ACOUSTIC_SNARE]s");
       put('`', "[CLOSED_HI_HAT]s");
@@ -71,7 +72,26 @@ public class Recorder extends Rhythm implements MetronomeListener, KeyListener
     }};
     setRhythmKit(rhythmKit);
 
-    layers = new StringBuilder[7];
+    layers = new StringBuilder[] {
+      new StringBuilder(""), // kick
+          new StringBuilder(""), // snare
+          new StringBuilder(""), // hi-hat
+          new StringBuilder(""), // crash
+          new StringBuilder(""), // ride
+          new StringBuilder(""), // rack tom
+          new StringBuilder("")  // floor tom
+    };
+
+    // key=voice, value=millis
+    captures = new LinkedHashMap<>() {{
+      put("kick",     new ArrayList<>());
+      put("snare",    new ArrayList<>());
+      put("hihat",    new ArrayList<>());
+      put("crash",    new ArrayList<>());
+      put("ride",     new ArrayList<>());
+      put("racktom",  new ArrayList<>());
+      put("floortom", new ArrayList<>());
+    }};
   }
 
   /**
@@ -86,87 +106,113 @@ public class Recorder extends Rhythm implements MetronomeListener, KeyListener
   }
 
   /**
-   * Iterate over the map of keys currently depressed and construct
-   * a Rhythm consisting of all the active voices
+   * Records a "hit"; the voice, and the time it occurred
+   * @param keys the set of keys currently depressed
    */
-  private void processKeys()
+  public void registerHit(Set<Character> keys)
   {
-    if (pressed.size() > 1) {
-      for (Character c : pressed) {
-        c = Character.toLowerCase(c);
-        switch (c) {
-          case 'c':
-            layers[6].append('*');
-            logger.debug("found crash");
-            break;
-          case 'r':
-            layers[5].append('r');
-            logger.debug("found ride");
-            break;
-          case 'h':
-            layers[4].append('`');
-            logger.debug("found hihat");
-            break;
-          case 't':
-            layers[3].append('t');
-            logger.debug("found racktom");
-            break;
-          case 's':
-            layers[2].append('s');
-            logger.debug("found snare");
-            break;
-          case 'f':
-            layers[1].append('f');
-            logger.debug("found floortom");
-            break;
-          case ' ':
-            layers[0].append(' ');
-            logger.debug("found kickdrum");
-            break;
-        }
+    long millis = System.currentTimeMillis() - barStart;
+    for (Character c : keys) {
+      c = Character.toLowerCase(c);
+      switch (c) {
+        case 'c':
+          captures.get("crash").add(millis);
+          logger.debug("recorded crash at {}", millis);
+          break;
+        case 'r':
+          captures.get("ride").add(millis);
+          logger.debug("recorded ride at {}", millis);
+          break;
+        case 'h':
+          captures.get("hihat").add(millis);
+          logger.debug("recorded hihat at {}", millis);
+          break;
+        case 't':
+          captures.get("racktom").add(millis);
+          logger.debug("recorded racktom at {}", millis);
+          break;
+        case 's':
+          captures.get("snare").add(millis);
+          logger.debug("recorded snare at {}", millis);
+          break;
+        case 'f':
+          captures.get("floortom").add(millis);
+          logger.debug("recorded floortom at {}", millis);
+          break;
+        case ' ':
+          captures.get("kick").add(millis);
+          logger.debug("recorded kickdrum at {}", millis);
+          break;
       }
-    } else {
-      for (StringBuilder layer : layers) {
-        layer.append('.');
-      }
-      logger.debug("found rest");
     }
   }
+
+  /**
+   * Convert captures to JFugue Rhythms
+   */
+  private void parseCaptures()
+  {
+    // TODO work out time of hit based on millis
+    // TODO replace rest in rhythmic layer with hit
+  }
+
   ///////////////////////////////
   // MetronomeListener Methods //
   ///////////////////////////////
 
+  /** the duration of a note in the current context, in millis */
+  private long noteDuration;
+  /** the total duration of the bar in the current context, in millis */
+  private long barDuration;
+
+  private long barStart = 0;
+  private long noteBegin = 0;
+  private long noteEnd = 0;
+
+  private int counter = 0;
+  private boolean isCountedIn;
+
   @Override
   public void metronomeTicked()
   {
-    // TODO figure out how to capture notes in time!!!!!
     logger.debug("metronome ticked");
-  }
 
-  /////////////////////////
-  // KeyListener Methods //
-  /////////////////////////
+    // calculate the note duration in millis while the metronome is counting in
+    if (counter == 0) {
+      noteBegin = System.currentTimeMillis();
+      barStart = noteBegin;
+    } else if (counter == 1) {
+      noteEnd = System.currentTimeMillis();
+      noteDuration = noteEnd - noteBegin;
+      barDuration = noteDuration * signature.getBeatsPerBar();
 
-  private final String VALID_CHARS = "crhtsf CRHTSF";
-  private final Set<Character> pressed = new HashSet<>();
+      logger.debug("note duration in millis: {}", noteDuration);
+    }
+    if (counter < signature.getBeatsPerBar()) {
+      counter++;
+    } else {
+      isCountedIn = true;
+    }
 
-  @Override
-  public void keyPressed(KeyEvent e)
-  {
-    // check for character of interest
-    if (! (VALID_CHARS.indexOf(String.valueOf(e.getKeyChar())) < 0))  {
-      pressed.add(e.getKeyChar());
+    if (isCountedIn) {
+      for (StringBuilder layer : layers) {
+        layer.append('.');
+      }
     }
   }
 
   @Override
-  public void keyReleased(KeyEvent e)
+  public void metronomeEnded()
   {
-    processKeys();
-    pressed.clear();
-  }
+    logger.debug("metronome ended");
 
-  @Override
-  public void keyTyped(KeyEvent e) { /* not used */ }
+    String[] compiledLayers = new String[7];
+    for (int i = 0; i < layers.length; i++) {
+      compiledLayers[i] = layers[i].toString();
+      logger.debug(compiledLayers[i]);
+    }
+
+    parseCaptures();
+  }
 }
 

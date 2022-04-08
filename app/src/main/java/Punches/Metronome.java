@@ -175,6 +175,9 @@ public class Metronome extends Thread
         stopSound();
         keepRunning.set(false);
 
+        for (MetronomeListener listener : listeners) {
+          listener.metronomeEnded();
+        }
         logger.debug("end");
       } else if (counter % beatsPerMeasure == 0) {
         // play accent tone
@@ -194,10 +197,9 @@ public class Metronome extends Thread
       counter++;
       if (! isCountingIn) {
         PunchesDialog.updateProgress(progress, totalBeats);
-
-        for (MetronomeListener listener : listeners) {
-          listener.metronomeTicked();
-        }
+      }
+      for (MetronomeListener listener : listeners) {
+        listener.metronomeTicked();
       }
     }
     progress = 0;

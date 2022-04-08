@@ -12,4 +12,9 @@ public interface MetronomeListener
    * The metronome has sounded a tick
    */
   void metronomeTicked();
+
+  /**
+   * The metronome has stopped sounding
+   */
+  void metronomeEnded();
 }

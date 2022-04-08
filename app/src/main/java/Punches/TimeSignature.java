@@ -75,6 +75,29 @@ public class TimeSignature implements Serializable
   @Override
   public String toString()
   {
-    return beatsPerBar + "/" + valueOfABeat.getValue();
+    StringBuilder builder = new StringBuilder();
+    builder.append(beatsPerBar + "/");
+
+    switch (valueOfABeat) {
+      case WHOLE:
+        builder.append("1");
+        break;
+      case HALF:
+        builder.append("2");
+        break;
+      case QUARTER:
+        builder.append("4");
+        break;
+      case EIGHTH:
+        builder.append("8");
+        break;
+      case SIXTEENTH:
+        builder.append("16");
+        break;
+      default:
+        builder.append("4");
+    }
+
+    return builder.toString();
   }
 }
