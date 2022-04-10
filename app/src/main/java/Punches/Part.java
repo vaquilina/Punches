@@ -10,14 +10,10 @@ import org.slf4j.LoggerFactory;
  * Encapsulates information about sections of a Song.
  *
  * @author Vince Aquilina
- * @version 03/17/22
+ * @version 04/09/22
  */
 public class Part implements Serializable
 {
-  /*
-   * TODO: chain constuctors
-   */
-
   private final Logger logger = LoggerFactory.getLogger(Part.class);
 
   /** Part name */
@@ -39,11 +35,7 @@ public class Part implements Serializable
    */
   public Part()
   {
-    name = "intro";
-    lengthInBars = 4;
-    this.notes = "";
-    sheetSnippet = null;
-    tabSnippet = null;
+    this("intro", 4, "");
   }
 
   /**

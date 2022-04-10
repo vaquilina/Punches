@@ -1,6 +1,7 @@
 package Punches;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,40 +16,35 @@ import org.slf4j.LoggerFactory;
  * Used to assemble a Staccato string containing a percussion pattern.
  *
  * @author Vince Aquilina
- * @version 04/08/22
+ * @version 04/09/22
  */
 public class Recorder extends Rhythm implements MetronomeListener
 {
   private final Logger logger = LoggerFactory.getLogger(Recorder.class);
 
+  /** The number of notes per beat */
+  private final int RESOLUTION = 4;
+
   /** The rhythm kit for this drumkit */
   public Map<Character, String> rhythmKit;
-  /** The rhythmic "layers" (zero-based)
-   *
-   * Layers:
-   * 0 - Kick/Bass Drum
-   * 1 - Floor Tom
-   * 2 - Snare Drum
-   * 3 - Rack Tom
-   * 4 - Hi-hat
-   * 5 - Ride Cymbal
-   * 6 - Crash Cymbal
-   */
+  /** The rhythmic "layers" (zero-based) */
   private StringBuilder[] layers;
   /** The captured sequences */
   private Map<String, List<Long>> captures;
 
   /** The tempo in bpm */
-  private int tempo;
+  private final int tempo;
   /** The time signature */
-  private TimeSignature signature;
+  private final TimeSignature signature;
+  /** The duration of the phrase, in bars */
+  private final int numOfBars;
 
   /**
    * Construct a Recorder
    */
   public Recorder()
   {
-    this(120, new TimeSignature(4, BeatValue.QUARTER));
+    this(120, new TimeSignature(4, BeatValue.QUARTER), 4);
   }
 
   /**
@@ -56,9 +52,10 @@ public class Recorder extends Rhythm implements MetronomeListener
    * @param tempo the tempo in bpm
    * @param signature the TimeSignature
    */
-  public Recorder(int tempo, TimeSignature signature) {
+  public Recorder(int tempo, TimeSignature signature, int numOfBars) {
     this.tempo = tempo;
     this.signature = signature;
+    this.numOfBars = numOfBars;
 
     rhythmKit = new LinkedHashMap<>() {{
       put('.', "Rs"); // sixteenth rest
@@ -73,13 +70,13 @@ public class Recorder extends Rhythm implements MetronomeListener
     setRhythmKit(rhythmKit);
 
     layers = new StringBuilder[] {
-      new StringBuilder(""), // kick
-          new StringBuilder(""), // snare
-          new StringBuilder(""), // hi-hat
-          new StringBuilder(""), // crash
-          new StringBuilder(""), // ride
-          new StringBuilder(""), // rack tom
-          new StringBuilder("")  // floor tom
+      new StringBuilder(""), // 0 kick
+      new StringBuilder(""), // 1 snare
+      new StringBuilder(""), // 2 hi-hat
+      new StringBuilder(""), // 3 crash
+      new StringBuilder(""), // 4 ride
+      new StringBuilder(""), // 5 rack tom
+      new StringBuilder("")  // 6 floor tom
     };
 
     // key=voice, value=millis
@@ -111,7 +108,7 @@ public class Recorder extends Rhythm implements MetronomeListener
    */
   public void registerHit(Set<Character> keys)
   {
-    long millis = System.currentTimeMillis() - barStart;
+    long millis = System.currentTimeMillis() - captureStartMillis;
     for (Character c : keys) {
       c = Character.toLowerCase(c);
       switch (c) {
@@ -152,8 +149,117 @@ public class Recorder extends Rhythm implements MetronomeListener
    */
   private void parseCaptures()
   {
-    // TODO work out time of hit based on millis
-    // TODO replace rest in rhythmic layer with hit
+    if (noteDuration > 0) {
+      // mark timestamp of each note position
+      final int totalNotes =
+        (signature.getBeatsPerBar() * RESOLUTION) * numOfBars;
+
+      final long[] notePositions = new long[totalNotes];
+      for (int i = 0; i < notePositions.length; i++) {
+        notePositions[i] = (i * noteDuration) / RESOLUTION;
+      }
+      logger.debug("note positions: {}", Arrays.toString(notePositions));
+
+      /* place notes in rhythm layers */
+
+      // KICK layer
+      List<Long> timestamps = captures.get("kick");
+      logger.debug("kick timestamps: {}", timestamps.toString());
+      StringBuilder layer = layers[0];
+      for (int i = 0; i < totalNotes; i++) {
+        for (Long timestamp : timestamps) {
+          if (timestamp >= notePositions[i] &&
+              timestamp < notePositions[i + 1]) {
+            layer.setCharAt(i, 'o');
+            logger.debug("placed kick @ position {}", i);
+          }
+        }
+      }
+
+      // SNARE layer
+      timestamps = captures.get("snare");
+      logger.debug("snare timestamps: {}", timestamps.toString());
+      layer = layers[1];
+      for (int i = 0; i < totalNotes; i++) {
+        for (Long timestamp : timestamps) {
+          if (timestamp >= notePositions[i] &&
+              timestamp < notePositions[i + 1]) {
+            layer.setCharAt(i, 's');
+            logger.debug("placed snare @ position {}", i);
+          }
+        }
+      }
+
+      // HIHAT layer
+      timestamps = captures.get("hihat");
+      logger.debug("hihat timestamps: {}", timestamps.toString());
+      layer = layers[2];
+      for (int i = 0; i < totalNotes; i++) {
+        for (Long timestamp : timestamps) {
+          if (timestamp >= notePositions[i] &&
+              timestamp < notePositions[i + 1]) {
+            layer.setCharAt(i, '`');
+            logger.debug("placed hihat @ position {}", i);
+          }
+        }
+      }
+
+      // CRASH layer
+      timestamps = captures.get("crash");
+      logger.debug("crash timestamps: {}", timestamps.toString());
+      layer = layers[3];
+      for (int i = 0; i < totalNotes; i++) {
+        for (Long timestamp : timestamps) {
+          if (timestamp >= notePositions[i] &&
+              timestamp < notePositions[i + 1]) {
+            layer.setCharAt(i, '*');
+            logger.debug("placed crash @ position {}", i);
+          }
+        }
+      }
+
+      // RIDE layer
+      timestamps = captures.get("ride");
+      logger.debug("ride timestamps: {}", timestamps.toString());
+      layer = layers[4];
+      for (int i = 0; i < totalNotes; i++) {
+        for (Long timestamp : timestamps) {
+          if (timestamp >= notePositions[i] &&
+              timestamp < notePositions[i + 1]) {
+            layer.setCharAt(i, 'r');
+            logger.debug("placed ride @ position {}", i);
+          }
+        }
+      }
+
+      // RACKTOM layer
+      timestamps = captures.get("racktom");
+      logger.debug("racktom timestamps: {}", timestamps.toString());
+      layer = layers[5];
+      for (int i = 0; i < totalNotes; i++) {
+        for (Long timestamp : timestamps) {
+          if (timestamp >= notePositions[i] &&
+              timestamp < notePositions[i + 1]) {
+            layer.setCharAt(i, 't');
+            logger.debug("placed racktom @ position {}", i);
+          }
+        }
+      }
+
+      // FLOORTOM layer
+      timestamps = captures.get("floortom");
+      logger.debug("floortom timestamps: {}", timestamps.toString());
+      layer = layers[6];
+      for (int i = 0; i < totalNotes; i++) {
+        for (Long timestamp : timestamps) {
+          if (timestamp >= notePositions[i] &&
+              timestamp < notePositions[i + 1]) {
+            layer.setCharAt(i, 'f');
+            logger.debug("placed floortom @ position {}", i);
+          }
+        }
+      }
+    }
   }
 
   ///////////////////////////////
@@ -162,10 +268,9 @@ public class Recorder extends Rhythm implements MetronomeListener
 
   /** the duration of a note in the current context, in millis */
   private long noteDuration;
-  /** the total duration of the bar in the current context, in millis */
-  private long barDuration;
 
-  private long barStart = 0;
+  private long captureStartMillis = 0;
+
   private long noteBegin = 0;
   private long noteEnd = 0;
 
@@ -180,11 +285,11 @@ public class Recorder extends Rhythm implements MetronomeListener
     // calculate the note duration in millis while the metronome is counting in
     if (counter == 0) {
       noteBegin = System.currentTimeMillis();
-      barStart = noteBegin;
     } else if (counter == 1) {
       noteEnd = System.currentTimeMillis();
       noteDuration = noteEnd - noteBegin;
-      barDuration = noteDuration * signature.getBeatsPerBar();
+      captureStartMillis =
+        noteBegin + noteDuration * signature.getBeatsPerBar(); 
 
       logger.debug("note duration in millis: {}", noteDuration);
     }
@@ -196,7 +301,9 @@ public class Recorder extends Rhythm implements MetronomeListener
 
     if (isCountedIn) {
       for (StringBuilder layer : layers) {
-        layer.append('.');
+        for (int i = 0; i < RESOLUTION; i++) {
+          layer.append('.');
+        }
       }
     }
   }
@@ -206,13 +313,25 @@ public class Recorder extends Rhythm implements MetronomeListener
   {
     logger.debug("metronome ended");
 
-    String[] compiledLayers = new String[7];
-    for (int i = 0; i < layers.length; i++) {
-      compiledLayers[i] = layers[i].toString();
-      logger.debug(compiledLayers[i]);
+    StringBuilder countGuide = new StringBuilder();
+
+    for (int i = 0; i < numOfBars; i++) {
+      for (int j = 1; j <= signature.getBeatsPerBar(); j++) {
+        countGuide.append(Character.forDigit(j, 10));
+        countGuide.append("e&a");
+      }
     }
 
     parseCaptures();
+
+    logger.debug(countGuide.toString());
+    List<String> compiledLayers = new ArrayList<>();
+    for (int i = 0; i < layers.length; i++) {
+      compiledLayers.add(layers[i].toString());
+      logger.debug(compiledLayers.get(i));
+    }
+
+    setLayers(compiledLayers);
   }
 }
 

@@ -69,14 +69,14 @@ import org.slf4j.LoggerFactory;
  * <hr />
  *
  * @author Vince Aquilina
- * @version 04/01/22
+ * @version 04/09/22
  */
 public class PunchesDialog extends JDialog implements KeyListener
 {
-  /*
-   * TODO: capture
-   * TODO: conversion
+  /* TODO: capture ends one 16th too early
+   * TODO: Play/stop buttons are unwieldy
    */
+
   private final static Logger logger =
     LoggerFactory.getLogger(PunchesDialog.class);
 
@@ -117,7 +117,6 @@ public class PunchesDialog extends JDialog implements KeyListener
   private Recorder recorder;
   /** The collection of assembled rhythmic layers */
   private Map<String, Rhythm> layers;
-  // TODO construct layers, add to map
 
   /**
    * Construct a PunchesDialog
@@ -154,7 +153,6 @@ public class PunchesDialog extends JDialog implements KeyListener
     btnPlay.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        //TODO playback recording
         play();
       }
     });
@@ -166,7 +164,6 @@ public class PunchesDialog extends JDialog implements KeyListener
     btnRec.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        //TODO: start recording
         record();
       }
     });
@@ -177,8 +174,7 @@ public class PunchesDialog extends JDialog implements KeyListener
     btnStop.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        //TODO: discard recording
-		stop();
+        stop();
       }
     });
     btnStop.setEnabled(false); // disabled until metronome is started
@@ -337,7 +333,6 @@ public class PunchesDialog extends JDialog implements KeyListener
   // */
   //private String[] toTab(Rhythm rhythm)
   //{
-  //  //TODO: implement method
   //  return new String[] {};
   //}
   
@@ -353,10 +348,9 @@ public class PunchesDialog extends JDialog implements KeyListener
    */
   private void play()
   {
-    if (Objects.isNull(recorder) ||
-        Objects.isNull(recorder.getModifiedPattern())) {
-      player.play(recorder.getModifiedPattern());
-    }
+    Pattern pattern = recorder.getModifiedPattern();
+    player.play(pattern);
+    player.getManagedPlayer().finish();
   }
 
   /**
@@ -364,10 +358,12 @@ public class PunchesDialog extends JDialog implements KeyListener
    */
   private void record()
   {
-    metronome = new Metronome(
-          (double) partOwner.getBpm(),
-          partOwner.getSignature().getBeatsPerBar(),
-          relevantPart.getLengthInBars());
+    TimeSignature signature = partOwner.getSignature();
+    double bpm = (double) partOwner.getBpm();
+    int beatsPerBar = signature.getBeatsPerBar();
+    int numOfBars = relevantPart.getLengthInBars();
+
+    metronome = new Metronome(bpm, beatsPerBar, numOfBars);
 
     Thread t = new Thread(metronome);
     t.start();
@@ -375,7 +371,7 @@ public class PunchesDialog extends JDialog implements KeyListener
     btnRec.setEnabled(false);
     btnStop.setEnabled(true);
 
-    recorder = new Recorder();
+    recorder = new Recorder((int) bpm, signature, numOfBars);
     metronome.addMetronomeListener(recorder);
   }
 
@@ -392,10 +388,7 @@ public class PunchesDialog extends JDialog implements KeyListener
     btnRec.setEnabled(true);
     btnStop.setEnabled(false);
 
-    if (Objects.isNull(recorder) ||
-        Objects.isNull(recorder.getModifiedPattern())) {
-      btnPlay.setEnabled(true);
-    }
+    btnPlay.setEnabled(true);
   }
 
   /**
