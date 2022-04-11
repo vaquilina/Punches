@@ -56,7 +56,7 @@ import org.slf4j.LoggerFactory;
  * Punches Desktop GUI.
  *
  * @author Vince Aquilina
- * @version 04/01/22
+ * @version 04/11/22
  *
  * <b>Icons: </b>
  * <a href="https://www.famfamfam.com/lab/icons/silk">famfamfam</a>
@@ -111,7 +111,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
   /**
    * Construct the main content pane
-   *
    * @param title the window title
    */
   public PunchesFrame(String title)
@@ -464,7 +463,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
   /**
    * Load toolbar icon resources
-   *
    * @return A Map containing toolbar icon resources
    */
   private Map<String, ImageIcon> initToolbarIcons()
@@ -501,7 +499,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
   /**
    * Load music note icon resources 
-   *
    * @return A Map containing music note icon resources
    */
   private Map<String, ImageIcon> initMusicNoteIcons()
@@ -530,9 +527,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
   }
 
   /**
-   * Initialize PartPanels
-   *
-   * @param parts a List containing the Song's Parts
+   * Initialize the SongPanel
    */
   private void initSongPanel()
   {
@@ -645,7 +640,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
   /**
    * Re-layout Part cells
-   *
    * @param bounds the cells' bounds
    * @param dividerLocations the cell's divider locations
    */
@@ -754,7 +748,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
   /**
    * Re-position the split pane divider of each cell
-   *
    * @param dividerLocations the list of divider locations
    */
   private void repositionDividers(List<Integer> dividerLocations) 
@@ -770,7 +763,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
   /**
    * Process beat value combo box selection
-   *
    * @param selectedIndex the index of the selected item from the combo box
    * @return beat value associated with selection
    */
@@ -804,7 +796,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
   /**
    * Adjust Part cells width to fill horizontal space
-   *
    * @return the new cell width
    */
   private int adjustCellWidth()
@@ -835,9 +826,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
   /**
    * Check for unsaved changes
-   *
    * TODO implement function
-   *
    * @return TRUE if there are unsaved changes; otherwise FALSE
    */
   private boolean hasUnsavedChanges()
@@ -853,8 +842,8 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
   /**
    * Write Song to selected file
-   *
    * @param file the file to write to
+   * @param handler the PunchesFileHandler object
    */
   private void writeSongToFile(File file, PunchesFileHandler handler) 
   {
@@ -876,7 +865,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
   /**
    * Read Song from File
-   *
    * @param file the file to read from
    */
   private void readSongFromFile(File file) 
@@ -906,8 +894,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
   /**
    * Write Song to PDF file
-   *
-   * @param pdfFile the Adobe PDF file to write to
+   * @param pdfFile the file to write to
    */
   private void writeToPDF(File pdfFile) 
   {
@@ -1158,7 +1145,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
   /**
    * Remove a Part from the Song
-   *
    * @param index the index of the Part to remove
    */
   public void removePart(int index)
@@ -1202,13 +1188,11 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
   /**
    * Dynamically resizes Part cells when frame is resized
-   *
    * @param e the resize event
    */
   @Override
   /**
    * Fire a ComponentEvent when the frame is resized
-   *
    * @param e - the ComponentEvent
    */
   public  void componentResized(ComponentEvent e) {

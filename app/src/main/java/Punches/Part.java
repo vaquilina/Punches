@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
  * Encapsulates information about sections of a Song.
  *
  * @author Vince Aquilina
- * @version 04/09/22
+ * @version 04/11/22
  */
 public class Part implements Serializable
 {
@@ -40,7 +40,6 @@ public class Part implements Serializable
 
   /**
    * Construct a Part with the given metadata
-   *
    * @param name name of section
    * @param lengthInBars length of the part, in bars
    * @param notes sidenotes about the part
@@ -56,7 +55,6 @@ public class Part implements Serializable
 
   /**
    * Construct a Part with the given metadata, with a sheet music snippet
-   *
    * @param name name of section
    * @param lengthInBars length of the part, in bars
    * @param notes sidenotes about the part
@@ -73,7 +71,6 @@ public class Part implements Serializable
 
   /**
    * Construct a Part with the given metadata, with a tabulature snippet
-   *
    * @param name name of section
    * @param lengthInBars length of the part, in bars
    * @param notes sidenotes about the part
@@ -90,7 +87,6 @@ public class Part implements Serializable
 
   /**
    * Construct a Part with all fields set
-   *
    * @param name name of section
    * @param lengthInBars length of the part, in bars
    * @param notes sidenotes about the part
@@ -109,7 +105,6 @@ public class Part implements Serializable
 
   /**
    * Set the name of the part
-   *
    * @param name the part name
    */
   public void setName(String name)
@@ -119,7 +114,6 @@ public class Part implements Serializable
 
   /**
    * Set the length of the part
-   *
    * @param lengthInBars the length of the part, in bars
    */
   public void setLengthInBars(int lengthInBars)
@@ -129,7 +123,6 @@ public class Part implements Serializable
 
   /**
    * Set the part notes
-   *
    * @param notes the part notes
    */
   public void setNotes(String notes)
@@ -139,7 +132,6 @@ public class Part implements Serializable
 
   /**
    * Set the sheet music snippet
-   *
    * @param sheetSnippet the sheet music snippet
    */
   public void setSheetSnippet(Image sheetSnippet)
@@ -149,7 +141,6 @@ public class Part implements Serializable
 
   /**
    * Set the tabulature snippet
-   *
    * @param tabSnippet the tabulature snippet
    */
   public void setTabSnippet(String[] tabSnippet)
@@ -159,7 +150,6 @@ public class Part implements Serializable
 
   /**
    * Set the position in the part list
-   *
    * @param index the Part's index in the parts array
    */
   public void setIndex(int index)
@@ -169,7 +159,6 @@ public class Part implements Serializable
 
   /**
    * Get the part name
-   *
    * @return the part name
    */
   public String getName()
@@ -179,7 +168,6 @@ public class Part implements Serializable
 
   /**
    * Get the length in bars
-   *
    * @return the length of the part, in bars
    */
   public int getLengthInBars()
@@ -189,8 +177,7 @@ public class Part implements Serializable
 
   /**
    * Get the part notes
-   *
-   * @return the part noteSs
+   * @return the part notes
    */
   public String getNotes()
   {
@@ -199,7 +186,6 @@ public class Part implements Serializable
 
   /**
    * Get the sheet music snippet
-   *
    * @return the sheet music snippet
    */
   public Image getSheetSnippet()
@@ -209,7 +195,6 @@ public class Part implements Serializable
 
   /**
    * Get the tabulature snippet
-   *
    * @return the tabulature snippet
    */
   public String[] getTabSnippet()
@@ -219,7 +204,6 @@ public class Part implements Serializable
 
   /**
    * Get the position in the part list
-   *
    * @return the Part's index in the parts array
    */
   public int getIndex()

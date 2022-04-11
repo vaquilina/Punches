@@ -15,7 +15,7 @@ import net.miginfocom.swing.MigLayout;
  * A Dialog that displays the project's copyright information and attributions.
  *
  * @author Vince Aquilina
- * @version 04/01/22
+ * @version 04/11/22
  */
 public class AboutDialog extends JDialog
 {

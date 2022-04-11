@@ -117,7 +117,6 @@ public class PartNotePane extends JTextPane
 
   /**
    * Render markdown/html text
-   *
    * @param md the text to render
    */
   public void renderMarkdown(String md)
@@ -134,7 +133,6 @@ public class PartNotePane extends JTextPane
 
   /**
    * Get the part notes
-   *
    * @return the part notes
    */
   public String getPlainText()
@@ -144,7 +142,6 @@ public class PartNotePane extends JTextPane
 
   /**
    * Get the processed html code
-   *
    * @return the html code
    */
   public String getHTML()

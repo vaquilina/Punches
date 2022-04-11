@@ -5,7 +5,7 @@ import java.io.Serializable;
  * Represents a Part cell's bounds.
  *
  * @author Vince Aquilina
- * @version 04/01/22
+ * @version 04/11/22
  */
 public class CellBounds implements Serializable
 {
@@ -36,7 +36,6 @@ public class CellBounds implements Serializable
 
   /**
    * Get an array of the cell's bounds
-   *
    * @return an array of the cell's bounds
    */
   public int[] getCellBounds()
@@ -46,7 +45,6 @@ public class CellBounds implements Serializable
 
   /**
    * Get a string representation of the cell bounds
-   *
    * @return a string representation of the cell bounds
    */
   @Override

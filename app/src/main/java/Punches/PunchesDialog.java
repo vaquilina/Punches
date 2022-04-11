@@ -69,7 +69,7 @@ import org.slf4j.LoggerFactory;
  * <hr />
  *
  * @author Vince Aquilina
- * @version 04/10/22
+ * @version 04/11/22
  */
 public class PunchesDialog extends JDialog implements KeyListener
 {
@@ -119,7 +119,6 @@ public class PunchesDialog extends JDialog implements KeyListener
 
   /**
    * Construct a PunchesDialog
-   *
    * @param owner the Frame owner of this dialog
    * @param partOwner the Song to which the Part belongs to
    * @param relevantPart the Part to which the result will be assigned
@@ -296,8 +295,8 @@ public class PunchesDialog extends JDialog implements KeyListener
 
   /**
    * Update the progress bar
-   *
    * @param progress the progress value
+   * @param totalBeats the total number of beats in the part
    */
   public static synchronized void updateProgress(int progress, int totalBeats)
   {
@@ -311,7 +310,6 @@ public class PunchesDialog extends JDialog implements KeyListener
 
   /**
    * Toggle progress bar text for metronome count-in
-   *
    * @param countingIn whether the metronome is counting in
    */
   public static synchronized void setProgressMode(boolean countingIn)
@@ -348,6 +346,7 @@ public class PunchesDialog extends JDialog implements KeyListener
   private void play()
   {
     Pattern pattern = recorder.getModifiedPattern();
+    // TODO save to midi file for inspection
     logger.debug(pattern.toString());
 
     Timer timer = new Timer();
@@ -400,10 +399,7 @@ public class PunchesDialog extends JDialog implements KeyListener
   }
 
   /**
-   * Iterate over the map of keys currently depressed and highlight
-   * the corresponding voices
-   *
-   * @param pressed the set of keys that were pressed
+   * Highlight the voices corresponding to the keys that were just depressed
    */
   private void processKeys()
   {
@@ -497,7 +493,7 @@ public class PunchesDialog extends JDialog implements KeyListener
 
     /**
      * Construct a VoiceLabel
-     * @param text the button text
+     * @param label the label text
      */
     public VoiceLabel(String label) 
     {
@@ -515,8 +511,7 @@ public class PunchesDialog extends JDialog implements KeyListener
     }
 
     /**
-     * Visually indicate that the voice is "active". 
-     * Simulates a button press.
+     * Visually indicate that the voice is active 
      */
     public void blink()
     {

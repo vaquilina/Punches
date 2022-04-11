@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;;
  * Metronome for the Punches Interface.
  *
  * @author Vince Aquilina
- * @version 04/01/22
+ * @version 04/11/22
  */
 public class Metronome extends Thread
 {
@@ -52,7 +52,6 @@ public class Metronome extends Thread
 
   /**
    * Construct a Metronome.
-   *
    * @param bpm the number of beats per minutes
    * @param beatsPerMeasure the number of beats per measure
    * @param duration the number of bars for metronome to play
@@ -98,7 +97,6 @@ public class Metronome extends Thread
 
   /**
    * Adds a metronome listener
-   *
    * @param listener the listener to add
    */
   public void addMetronomeListener(MetronomeListener listener)
@@ -108,7 +106,6 @@ public class Metronome extends Thread
 
   /**
    * Sound the metronome beep
-   *
    * @param isAccent whether or not this beep should be an accent
    */
   public void sound(boolean isAccent) 
@@ -122,6 +119,9 @@ public class Metronome extends Thread
     }
   }
 
+  /**
+   * Stop the metronome from sounding
+   */
   public void stopSound()
   {
     if (accentTone.isRunning()) accentTone.stop();
@@ -137,7 +137,7 @@ public class Metronome extends Thread
   }
 
   /**
-   * The Main task
+   * The Main metronome task
    */
   @Override
   public void run()

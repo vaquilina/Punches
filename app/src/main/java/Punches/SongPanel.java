@@ -2,10 +2,10 @@ package Punches;
 
 import org.softsmithy.lib.swing.customizer.JCustomizerPane;
 /**
- * An extended JPanel designed to contain the parts of a Song.
+ * A JCustomizerPane with extended behaviour.
  *
  * @author Vince Aquilina
- * @version 03/20/22
+ * @version 04/11/22
  */
 public class SongPanel extends JCustomizerPane
 {
@@ -18,7 +18,6 @@ public class SongPanel extends JCustomizerPane
 
   /**
    * Constructs a SongPanel with the given Song
-   *
    * @param song the song to be loaded
    */
   public SongPanel(Song song)
@@ -28,7 +27,6 @@ public class SongPanel extends JCustomizerPane
 
   /**
    * Set the song to assign to this panel
-   *
    * @param song the song to be assigned
    */
   public void setSong(Song song)
@@ -38,7 +36,6 @@ public class SongPanel extends JCustomizerPane
 
   /**
    * Get the song assigned to this panel
-   *
    * @return the Song assigned to this panel
    */
   public Song getSong()

@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
  * Allows for exporting of Punches data in PDF format.
  *
  * @author Vince Aquilina
- * @version 03/22/22
+ * @version 04/11/22
  */
 public class PunchesPDFExporter
 {
@@ -34,7 +34,6 @@ public class PunchesPDFExporter
 
   /**
    * Construct an initialized PunchesPDFExporter
-   *
    * @param song the Song data
    */
   public PunchesPDFExporter(Song song)
@@ -44,8 +43,7 @@ public class PunchesPDFExporter
 
   /**
    * Prepare HTML data from Song data
-   *
-   * @throws IOException
+   * @throws IOException in case of I/O problems
    */
   public void prepare() throws IOException
   {
@@ -121,13 +119,11 @@ public class PunchesPDFExporter
   }
 
   /**
-   * Convert HTML to PDF data and write to disk
-   *
+   * Convert HTML to PDF data and write to disk<br />
    * @param file the file to write to
-   * @throws IOException
+   * @throws IOException in case of I/O problems
    * @throws HTMLNotRenderedException if a call to prepare() is not made first
    * @throws Exception in case of parsing errors
-   *
    * TODO: image processing
    */
   public void exportPDF(File file) throws IOException, HTMLNotRenderedException,
@@ -146,6 +142,9 @@ public class PunchesPDFExporter
     }
   }
 
+  /**
+   * Custom Exception indicating the underlying HTML has not been prepared.
+   */
   public class HTMLNotRenderedException extends Exception
   {
     public HTMLNotRenderedException(String errorMessage) {
@@ -153,3 +152,4 @@ public class PunchesPDFExporter
     }
   }
 }
+

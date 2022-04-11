@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
  * Encapsulates the outline of a song, made up of Parts and metadata.
  *
  * @author Vince Aquilina
- * @version 03/18/22
+ * @version 04/11/22
  */
 public class Song implements Serializable
 {
@@ -40,7 +40,6 @@ public class Song implements Serializable
 
   /**
    * Copy Constructor
-   *
    * @param song the Song object with which to initialize the new object
    */
   public Song(Song song)
@@ -53,7 +52,6 @@ public class Song implements Serializable
 
   /**
    * Construct a song with given values
-   *
    * @param parts the collection of parts that comprise the song
    * @param title the song title
    * @param signature the TimeSignature of the song
@@ -69,7 +67,6 @@ public class Song implements Serializable
 
   /**
    * Add an existing part to the Song (Useful when putting/pasting)
-   *
    * @param part the existing part
    */
   public void addPart(Part part)
@@ -79,7 +76,6 @@ public class Song implements Serializable
 
   /**
    * Clears the list of Parts
-   */
   public void clearParts()
   {
     parts.clear();
@@ -87,7 +83,6 @@ public class Song implements Serializable
 
   /**
    * Assign a new collection of parts to the Song
-   *
    * @param parts the new list of parts
    */
   public void setParts(List<Part> parts)
@@ -97,7 +92,6 @@ public class Song implements Serializable
 
   /**
    * Set the song title
-   *
    * @param title the song title
    */
   public void setTitle(String title)
@@ -107,7 +101,6 @@ public class Song implements Serializable
 
   /**
    * Set the time signature
-   *
    * @param signature the time signature
    */
   public void setSignature(TimeSignature signature)
@@ -117,7 +110,6 @@ public class Song implements Serializable
 
   /**
    * Set the song's tempo (beats per minute)
-   *
    * @param bpm the song's tempo (bpm) 
    */
   public void setBpm(int bpm)
@@ -127,7 +119,6 @@ public class Song implements Serializable
 
   /**
    * Get the list of parts
-   *
    * @return the list of parts
    */
   public List<Part> getParts()
@@ -137,7 +128,6 @@ public class Song implements Serializable
 
   /**
    * Get the song title
-   *
    * @return the song title
    */
   public String getTitle()
@@ -147,7 +137,6 @@ public class Song implements Serializable
 
   /**
    * Get the time signature
-   *
    * @return the time signature
    */
   public TimeSignature getSignature()
@@ -157,7 +146,6 @@ public class Song implements Serializable
 
   /**
    * Get the song's tempo (beats per minute)
-   *
    * @return the song's tempo (bpm)
    */
   public int getBpm()
@@ -182,9 +170,8 @@ public class Song implements Serializable
   }
 
   /**
-   * Produce a String representation of the Song
-   *
-   * @return a String representation of the Song
+   * Produce a String representation of the Song's metadata
+   * @return a String representation of the Song's metadata
    */
   @Override
   public String toString()

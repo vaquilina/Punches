@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
  * Extended JCustomizer with custom behaviour.
  *
  * @author Vince Aquilina
- * @version 03/20/22
+ * @version 04/11/22
  */
 public class PartPanelCustomizer 
   extends JCustomizer 
@@ -44,7 +44,6 @@ public class PartPanelCustomizer
 
   /**
    * Construct a default PartPanelCustomizer
-   *
    * @param partPanel the PartPanel to wrap
    */
   public PartPanelCustomizer(PartPanel partPanel) 
@@ -65,7 +64,6 @@ public class PartPanelCustomizer
 
   /**
    * Set the value for stored y position
-   *
    * @param yPos last known y position of the component
    */
   public void setStoredYPos(int yPos) 
@@ -75,7 +73,6 @@ public class PartPanelCustomizer
 
   /**
    * Set the value for stored width
-   *
    * @param width the last known width of the component
    */
   public void setStoredWidth(int width) 
@@ -85,7 +82,6 @@ public class PartPanelCustomizer
 
   /**
    * Set the value for stored width
-   *
    * @param height the last known height of the component
    */
   public void setStoredHeight(int height) 
@@ -95,7 +91,6 @@ public class PartPanelCustomizer
 
   /**
    * Set the row span
-   *
    * @param rowSpan the number of rows this component occupies
    */
   public void setRowSpan(int rowSpan)
@@ -105,7 +100,6 @@ public class PartPanelCustomizer
 
   /**
    * Get the stored y position
-   *
    * @return the last known y position
    */
   public int getStoredYPos() 
@@ -115,7 +109,6 @@ public class PartPanelCustomizer
 
   /**
    * Get the stored width
-   *
    * @return the last known width of the component
    */
   public int getStoredWidth() 
@@ -125,7 +118,6 @@ public class PartPanelCustomizer
 
   /**
    * Get the stored height
-   *
    * @return the last known height of the component
    */
   public int getStoredHeight() 
@@ -135,7 +127,6 @@ public class PartPanelCustomizer
 
   /**
    * Get the row
-   *
    * @return the first row on which this component resides
    */
   public int getRow()
@@ -145,7 +136,6 @@ public class PartPanelCustomizer
 
   /**
    * Get the row span
-   * 
    * @return the number of rows this component occupies
    */
   public int getRowSpan()
@@ -153,16 +143,6 @@ public class PartPanelCustomizer
     return rowSpan;
   }
   
-  ///**
-  // * Get the PartPanel
-  // *
-  // * @return the PartPanel this component wraps
-  // */
-  //public PartPanel getPartPanel()
-  //{
-  //  return partPanel;
-  //}
-
   /**
    * Register a PropertyChangeListener to this component
    */

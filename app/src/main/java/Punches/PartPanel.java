@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
  * A Part component that represents a cell in the Song.
  *
  * @author Vince Aquilina
- * @version 03/20/22
+ * @version 04/11/22
  */
 public class PartPanel extends JPanel
 {
@@ -71,7 +71,6 @@ public class PartPanel extends JPanel
 
   /**
    * Construct the component with the given Part data
-   *
    * @param part the Part object assigned to the component
    */
   public PartPanel(Part part)
@@ -226,7 +225,6 @@ public class PartPanel extends JPanel
 
   /**
    * Get the part assigned to this component
-   *
    * @return the part assigned to this component
    */
   public Part getPart()
@@ -236,7 +234,6 @@ public class PartPanel extends JPanel
 
   /**
    * Get the split pane's divider location
-   *
    * @return the spit pane divider's location
    */
   public Integer getSplitDividerLocation()
@@ -246,7 +243,6 @@ public class PartPanel extends JPanel
 
   /**
    * Get the panel's note pane
-   *
    * @return the panel's note pane
    */
   public PartNotePane getNotePane()
@@ -256,7 +252,6 @@ public class PartPanel extends JPanel
 
   /**
    * Assign a new part to this component
-   *
    * @param part the new part to be assigned
    */
   public void setPart(Part part)
@@ -266,7 +261,6 @@ public class PartPanel extends JPanel
 
   /**
    * Set the split pane divider location
-   *
    * @param dividerLocation the new divider location
    */
   public void setSplitDividerLocation(int dividerLocation)
@@ -286,7 +280,6 @@ public class PartPanel extends JPanel
 
   /**
    * Update the index in the fields panel
-   *
    * @param index the part index
    */
   public void updateIndex(int index)
@@ -296,7 +289,6 @@ public class PartPanel extends JPanel
 
   /**
    * Get the delete button
-   *
    * @return the delete button
    */
   public JButton getDeleteButton()
@@ -306,7 +298,6 @@ public class PartPanel extends JPanel
 
   /**
    * Get the punches button
-   *
    * @return the punches button
    */
   public JButton getPunchesButton()
@@ -316,7 +307,6 @@ public class PartPanel extends JPanel
 
   /**
    * Define how the component is to be painted.
-   *
    * @param g graphics
    */
   @Override

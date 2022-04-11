@@ -6,7 +6,7 @@ import java.io.Serializable;
  * made up of a numerator and a denominator.
  *
  * @author Vince Aquilina
- * @version 03/17/22
+ * @version 04/11/22
  */
 public class TimeSignature implements Serializable
 {
@@ -17,7 +17,6 @@ public class TimeSignature implements Serializable
 
   /**
    * Construct a TimeSignature with given values
-   *
    * @param beatsPerBar the number of beats per bar
    * @param valueOfABeat the value of one beat
    */
@@ -29,7 +28,6 @@ public class TimeSignature implements Serializable
 
   /**
    * Set the number of beats per bar
-   *
    * @param beatsPerBar the number of beats per bar
    */
   public void setBeatsPerBar(int beatsPerBar)
@@ -39,7 +37,6 @@ public class TimeSignature implements Serializable
 
   /**
    * Set the value of a beat
-   *
    * @param valueOfABeat the value of one beat
    */
   public void setValueOfABeat(BeatValue valueOfABeat)
@@ -49,7 +46,6 @@ public class TimeSignature implements Serializable
 
   /**
    * Get the number of beats per bar
-   *
    * @return the number of beats per bar
    */
   public int getBeatsPerBar()
@@ -59,7 +55,6 @@ public class TimeSignature implements Serializable
 
   /**
    * Get the value of a beat
-   *
    * @return the value of one beat
    */
   public BeatValue getValueOfABeat()
@@ -69,8 +64,7 @@ public class TimeSignature implements Serializable
 
   /**
    * Get String representation of the TimeSignature
-   *
-   * @return a string representation of the TimeSignature
+   * @return a String representation of the TimeSignature
    */
   @Override
   public String toString()
@@ -101,3 +95,4 @@ public class TimeSignature implements Serializable
     return builder.toString();
   }
 }
+

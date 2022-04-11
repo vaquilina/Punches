@@ -10,15 +10,14 @@ import org.slf4j.LoggerFactory;
  * Launches Punches app.
  *
  * @author Vince Aquilina
- * @version 03/18/22
+ * @version 04/11/22
  */
 public class App 
 {
   private static final Logger logger = LoggerFactory.getLogger(App.class);
 
   /**
-   * The main method
-   *
+   * The app's launchpoint
    * @param args command line arguments
    */
   public static void main(String[] args)

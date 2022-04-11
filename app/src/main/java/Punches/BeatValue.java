@@ -3,7 +3,7 @@ package Punches;
  * Possible beat values as per JFugue.
  *
  * @author Vince Aquilina
- * @version 04/01/22
+ * @version 04/11/22
  */
 public enum BeatValue 
 {
@@ -29,7 +29,6 @@ public enum BeatValue
 
   /**
    * Binds the name of each BeatValue to its actual value
-   *
    * @param value the numeric beat value
    */
   private BeatValue(double value) 
@@ -39,7 +38,6 @@ public enum BeatValue
 
   /**
    * Get the actual value
-   *
    * @return the numeric beat value 
    */
   public double getValue() 

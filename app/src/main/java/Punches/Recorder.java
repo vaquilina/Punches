@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
  * Used to assemble a Staccato string containing a percussion pattern.
  *
  * @author Vince Aquilina
- * @version 04/10/22
+ * @version 04/11/22
  */
 public class Recorder extends Rhythm implements MetronomeListener
 {
@@ -51,6 +51,7 @@ public class Recorder extends Rhythm implements MetronomeListener
    * Construct a Recorder with given data
    * @param tempo the tempo in bpm
    * @param signature the TimeSignature
+   * @param numOfBars the total number of bars in the part
    */
   public Recorder(int tempo, TimeSignature signature, int numOfBars) {
     this.tempo = tempo;
@@ -157,13 +158,13 @@ public class Recorder extends Rhythm implements MetronomeListener
   {
     if (beatDuration > 0) {
       // mark timestamp of each note position
-	  // add 1 to prevent out of bounds access
+      // add 1 to prevent out of bounds access
       final int totalNotes =
         (signature.getBeatsPerBar() * RESOLUTION) * numOfBars + 1;
-	  
+
       final long[] notePositions = new long[totalNotes];
-	  for (int i = 0; i < notePositions.length; i++) {
-		notePositions[i] = (i * beatDuration) / RESOLUTION;
+      for (int i = 0; i < notePositions.length; i++) {
+        notePositions[i] = (i * beatDuration) / RESOLUTION;
       }
       logger.debug("note positions: {}", Arrays.toString(notePositions));
 
@@ -179,7 +180,7 @@ public class Recorder extends Rhythm implements MetronomeListener
               timestamp < notePositions[i + 1]) {
             layer.setCharAt(i, 'o');
             logger.debug("placed kick @ position {}", i);
-          }
+              }
         }
       }
 
@@ -193,7 +194,7 @@ public class Recorder extends Rhythm implements MetronomeListener
               timestamp < notePositions[i + 1]) {
             layer.setCharAt(i, 's');
             logger.debug("placed snare @ position {}", i);
-          }
+              }
         }
       }
 
@@ -207,7 +208,7 @@ public class Recorder extends Rhythm implements MetronomeListener
               timestamp < notePositions[i + 1]) {
             layer.setCharAt(i, '`');
             logger.debug("placed hihat @ position {}", i);
-          }
+              }
         }
       }
 
@@ -221,7 +222,7 @@ public class Recorder extends Rhythm implements MetronomeListener
               timestamp < notePositions[i + 1]) {
             layer.setCharAt(i, '*');
             logger.debug("placed crash @ position {}", i);
-          }
+              }
         }
       }
 
@@ -235,7 +236,7 @@ public class Recorder extends Rhythm implements MetronomeListener
               timestamp < notePositions[i + 1]) {
             layer.setCharAt(i, 'r');
             logger.debug("placed ride @ position {}", i);
-          }
+              }
         }
       }
 
@@ -249,7 +250,7 @@ public class Recorder extends Rhythm implements MetronomeListener
               timestamp < notePositions[i + 1]) {
             layer.setCharAt(i, 't');
             logger.debug("placed racktom @ position {}", i);
-          }
+              }
         }
       }
 
@@ -263,16 +264,16 @@ public class Recorder extends Rhythm implements MetronomeListener
               timestamp < notePositions[i + 1]) {
             layer.setCharAt(i, 'f');
             logger.debug("placed floortom @ position {}", i);
-          }
+              }
         }
       }
-    		
+
       // shift rhythm back by one position
       for (StringBuilder line : layers) {
         line.deleteCharAt(0);
-		line.append('.');
-	  }
-	}
+        line.append('.');
+      }
+    }
   }
 
   ///////////////////////////////
@@ -281,12 +282,11 @@ public class Recorder extends Rhythm implements MetronomeListener
 
   /** the duration of a note in the current context, in millis */
   private long beatDuration;
-
+  /** the starting point for capture, in millis */
   private long captureStartMillis = 0;
 
   private long noteBegin = 0;
   private long noteEnd = 0;
-
   private int counter = 0;
   private boolean isCountedIn;
 
@@ -317,7 +317,7 @@ public class Recorder extends Rhythm implements MetronomeListener
         for (int i = 0; i < RESOLUTION; i++) {
           layer.append('.');
         }      
-	  }
+      }
     }
   }
 

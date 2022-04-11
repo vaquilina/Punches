@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 import java.util.List;
 /**
- * Encapsulates Song and layout data to be saved/loaded to/from files.
+ * Punches file handler.
  *
  * @author Vince Aquilina
- * @version 03/17/22
+ * @version 04/11/22
  */
 public class PunchesFileHandler implements Serializable
 {
@@ -20,7 +20,6 @@ public class PunchesFileHandler implements Serializable
 
   /**
    * Constructs a complete PunchesFileHandler
-   *
    * @param songData the Song object
    * @param cellBounds the collection of cell bounds
    * @param dividerLocations the collection of cell divider locations
@@ -35,7 +34,6 @@ public class PunchesFileHandler implements Serializable
 
   /**
    * Set the Song object
-   *
    * @param songData the Song object 
    */
   public void setSongData(Song songData)
@@ -45,7 +43,6 @@ public class PunchesFileHandler implements Serializable
 
   /**
    * Set the cell bounds
-   *
    * @param cellBounds the collection of cell bounds
    */
   public void setCellData(List<CellBounds> cellBounds)
@@ -55,7 +52,6 @@ public class PunchesFileHandler implements Serializable
 
   /**
    * Set the divider locations
-   *
    * @param dividerLocations the collection of divider locations
    */
   public void setDividerLocations(List<Integer> dividerLocations)
@@ -65,7 +61,6 @@ public class PunchesFileHandler implements Serializable
 
   /**
    * Get the Song object
-   *
    * @return the Song object
    */
   public Song getSongData()
@@ -75,7 +70,6 @@ public class PunchesFileHandler implements Serializable
 
   /**
    * Get the cell bounds
-   *
    * @return the cell bounds
    */
   public List<CellBounds> getCellBounds()
@@ -85,7 +79,6 @@ public class PunchesFileHandler implements Serializable
 
   /**
    * Get the divider locations
-   *
    * @return the divider locations
    */
   public List<Integer> getDividerLocations()

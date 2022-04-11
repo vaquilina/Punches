@@ -8,7 +8,7 @@ import java.awt.Rectangle;
  * Binds a Part to PartPanel to a PartPanelCustomizer.
  *
  * @author Vince Aquilina
- * @version 04/01/22
+ * @version 04/11/22
  */
 public class PartPanelWrapper
 {
@@ -33,7 +33,6 @@ public class PartPanelWrapper
 
   /**
    * Constructs a bound PartPanelWrapper
-   *
    * @param part the Part to wrap
    */
   public PartPanelWrapper(Part part)
@@ -90,7 +89,6 @@ public class PartPanelWrapper
 
   /**
    * Set the PartPanel
-   *
    * @param panel the PartPanel
    */
   public void setPartPanel(PartPanel panel)
@@ -100,7 +98,6 @@ public class PartPanelWrapper
 
   /**
    * Set the PartPanelCustomizer
-   *
    * @param customizer the PartPanelCustomizer
    */
   public void setPartPanelCustomizer(PartPanelCustomizer customizer)
@@ -110,7 +107,6 @@ public class PartPanelWrapper
 
   /**
    * Set the Part
-   *
    * @param part the Part
    */
   public void setPart(Part part)
@@ -120,7 +116,6 @@ public class PartPanelWrapper
 
   /**
    * Get the PartPanel
-   *
    * @return the PartPanel
    */
   public PartPanel getPartPanel()
@@ -130,7 +125,6 @@ public class PartPanelWrapper
 
   /**
    * Get the PartPanelCustomizer
-   *
    * @return the PartPanelCustomizer
    */
   public PartPanelCustomizer getPartPanelCustomizer()
@@ -140,7 +134,6 @@ public class PartPanelWrapper
 
   /**
    * Get the Part
-   *
    * @return the Part
    */
   public Part getPart()
@@ -150,7 +143,6 @@ public class PartPanelWrapper
 
   /**
    * Get the stored bounds
-   *
    * @return the stored bounds
    */
   public Rectangle getStoredPosition()
