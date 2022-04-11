@@ -69,12 +69,11 @@ import org.slf4j.LoggerFactory;
  * <hr />
  *
  * @author Vince Aquilina
- * @version 04/09/22
+ * @version 04/10/22
  */
 public class PunchesDialog extends JDialog implements KeyListener
 {
   /* TODO: capture ends one 16th too early
-   * TODO: Play/stop buttons are unwieldy
    */
 
   private final static Logger logger =
@@ -264,7 +263,7 @@ public class PunchesDialog extends JDialog implements KeyListener
     btnCancel.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        if (Objects.isNull(metronome)) {
+        if (! Objects.isNull(metronome)) {
           metronome.end();
         }
         dispose();
@@ -349,8 +348,17 @@ public class PunchesDialog extends JDialog implements KeyListener
   private void play()
   {
     Pattern pattern = recorder.getModifiedPattern();
-    player.play(pattern);
-    player.getManagedPlayer().finish();
+    logger.debug(pattern.toString());
+
+    Timer timer = new Timer();
+    TimerTask playerTask = new TimerTask() {
+      @Override
+      public void run() {
+        player = new Player();
+        player.delayPlay(100, pattern);
+      }
+    };
+    timer.schedule(playerTask, 0);
   }
 
   /**

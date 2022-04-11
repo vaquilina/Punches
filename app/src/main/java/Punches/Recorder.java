@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
  * Used to assemble a Staccato string containing a percussion pattern.
  *
  * @author Vince Aquilina
- * @version 04/09/22
+ * @version 04/10/22
  */
 public class Recorder extends Rhythm implements MetronomeListener
 {
@@ -98,8 +98,14 @@ public class Recorder extends Rhythm implements MetronomeListener
   public Pattern getModifiedPattern()
   {
     // TODO modify pattern with appropriate tempo & time signature
-    logger.debug(getPattern().toString());
-    return getPattern();
+    StringBuilder patternBuilder = new StringBuilder(getPattern().toString());
+    patternBuilder.insert(0, "T" + tempo + " ");
+    patternBuilder.insert(0, "TIME:" + signature.toString() + " ");
+    String patternString = patternBuilder.toString();
+
+    Pattern pattern = new Pattern(patternString);
+
+    return pattern;
   }
 
   /**
@@ -149,14 +155,15 @@ public class Recorder extends Rhythm implements MetronomeListener
    */
   private void parseCaptures()
   {
-    if (noteDuration > 0) {
+    if (beatDuration > 0) {
       // mark timestamp of each note position
+	  // add 1 to prevent out of bounds access
       final int totalNotes =
-        (signature.getBeatsPerBar() * RESOLUTION) * numOfBars;
-
+        (signature.getBeatsPerBar() * RESOLUTION) * numOfBars + 1;
+	  
       final long[] notePositions = new long[totalNotes];
-      for (int i = 0; i < notePositions.length; i++) {
-        notePositions[i] = (i * noteDuration) / RESOLUTION;
+	  for (int i = 0; i < notePositions.length; i++) {
+		notePositions[i] = (i * beatDuration) / RESOLUTION;
       }
       logger.debug("note positions: {}", Arrays.toString(notePositions));
 
@@ -259,7 +266,13 @@ public class Recorder extends Rhythm implements MetronomeListener
           }
         }
       }
-    }
+    		
+      // shift rhythm back by one position
+      for (StringBuilder line : layers) {
+        line.deleteCharAt(0);
+		line.append('.');
+	  }
+	}
   }
 
   ///////////////////////////////
@@ -267,7 +280,7 @@ public class Recorder extends Rhythm implements MetronomeListener
   ///////////////////////////////
 
   /** the duration of a note in the current context, in millis */
-  private long noteDuration;
+  private long beatDuration;
 
   private long captureStartMillis = 0;
 
@@ -286,12 +299,12 @@ public class Recorder extends Rhythm implements MetronomeListener
     if (counter == 0) {
       noteBegin = System.currentTimeMillis();
     } else if (counter == 1) {
-      noteEnd = System.currentTimeMillis();
-      noteDuration = noteEnd - noteBegin;
+      noteEnd = System.currentTimeMillis() - 1;
+      beatDuration = noteEnd - noteBegin;
       captureStartMillis =
-        noteBegin + noteDuration * signature.getBeatsPerBar(); 
+        noteBegin + beatDuration * signature.getBeatsPerBar(); 
 
-      logger.debug("note duration in millis: {}", noteDuration);
+      logger.debug("note duration in millis: {}", beatDuration);
     }
     if (counter < signature.getBeatsPerBar()) {
       counter++;
@@ -303,8 +316,8 @@ public class Recorder extends Rhythm implements MetronomeListener
       for (StringBuilder layer : layers) {
         for (int i = 0; i < RESOLUTION; i++) {
           layer.append('.');
-        }
-      }
+        }      
+	  }
     }
   }
 
@@ -313,14 +326,15 @@ public class Recorder extends Rhythm implements MetronomeListener
   {
     logger.debug("metronome ended");
 
+    // DEBUG {{{
     StringBuilder countGuide = new StringBuilder();
-
     for (int i = 0; i < numOfBars; i++) {
       for (int j = 1; j <= signature.getBeatsPerBar(); j++) {
         countGuide.append(Character.forDigit(j, 10));
         countGuide.append("e&a");
       }
     }
+    // }}}
 
     parseCaptures();
 
