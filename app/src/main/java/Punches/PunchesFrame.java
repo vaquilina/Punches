@@ -1101,6 +1101,17 @@ public class PunchesFrame extends JFrame implements ComponentListener
           removePart(cell.getPart().getIndex());
         }
       });
+	  
+    JFrame parent = this;
+    cell.getPartPanel().getPunchesButton().
+      addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          PunchesDialog punchesDialog =
+            new PunchesDialog(parent, song, cell.getPart());
+          punchesDialog.setVisible(true);
+        }
+      });
 
     cell.getPartPanelCustomizer().registerComponentListener();
     cell.getPartPanelCustomizer().registerPropertyChangeListener();
