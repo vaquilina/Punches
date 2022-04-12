@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
  * Used to assemble a Staccato string containing a percussion pattern.
  *
  * @author Vince Aquilina
- * @version 04/11/22
+ * @version 04/12/22
  */
 public class Recorder extends Rhythm implements MetronomeListener
 {
@@ -106,6 +106,15 @@ public class Recorder extends Rhythm implements MetronomeListener
     Pattern pattern = new Pattern(patternString);
 
     return pattern;
+  }
+
+  /**
+   * Get the note resolution
+   * @return the note resolution
+   */
+  public int getResolution()
+  {
+    return RESOLUTION;
   }
 
   /**

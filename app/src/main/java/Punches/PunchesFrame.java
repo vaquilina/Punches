@@ -553,6 +553,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
           PunchesDialog punchesDialog =
             new PunchesDialog(parent, song, cell.getPart());
           punchesDialog.setVisible(true);
+          addPunchesToPart(cell);
         }
       });
 	  
@@ -631,12 +632,41 @@ public class PunchesFrame extends JFrame implements ComponentListener
   /**
    * Show the About dialog
    */
-  public void showAboutDialog()
+  private void showAboutDialog()
   {
     AboutDialog aboutDialog = new AboutDialog(this);
 
     aboutDialog.setLocationRelativeTo(null);
     aboutDialog.setVisible(true);
+  }
+
+  /**
+   * Display resulting tab/sheet snippet in the part panel
+   * @param cell the wrapper for the part panel in which to place the snippet
+   */
+  private void addPunchesToPart(PartPanelWrapper cell)
+  {
+    // tabulature snippet
+    if (cell.getPart().getTabSnippet() != null) {
+      StringBuilder tabText = new StringBuilder("<html>");
+      for (String line : cell.getPart().getTabSnippet()) {
+        tabText.append(line + "<br />");
+      }
+      tabText.append("</html>");
+
+      JLabel tabSnippet = new JLabel();
+      tabSnippet.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 10));
+      tabSnippet.setText(tabText.toString());
+
+      cell.getPartPanel().getMusicPanel().removeAll();
+      cell.getPartPanel().getMusicPanel().add(tabSnippet);
+
+      revalidate();
+      repaint();
+    }
+
+    // sheet music snippet
+    // TODO
   }
 
   /**

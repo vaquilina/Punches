@@ -73,7 +73,7 @@ import org.slf4j.LoggerFactory;
  * <hr />
  *
  * @author Vince Aquilina
- * @version 04/11/22
+ * @version 04/12/22
  */
 public class PunchesDialog extends JDialog implements KeyListener
 {
@@ -240,8 +240,8 @@ public class PunchesDialog extends JDialog implements KeyListener
     btnToTab.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        //TODO tab is created, registered to part
         toTab();
+        dispose();
       }
     });
     btnToTab.setEnabled(false); // disabled until Sequence captured
@@ -266,6 +266,7 @@ public class PunchesDialog extends JDialog implements KeyListener
       public void actionPerformed(ActionEvent e) {
         if (! Objects.isNull(metronome)) {
           metronome.end();
+          player.getManagedPlayer().reset();
         }
         dispose();
       }
@@ -290,6 +291,7 @@ public class PunchesDialog extends JDialog implements KeyListener
 
     pack();
 
+    setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     setMinimumSize(new Dimension(getWidth(), getHeight()));
     setAlwaysOnTop(true);
     setLocationRelativeTo(null);
@@ -355,31 +357,42 @@ public class PunchesDialog extends JDialog implements KeyListener
 
     // count guide
     int numOfBars = relevantPart.getLengthInBars();
-    StringBuilder countGuide = new StringBuilder();
+    StringBuilder countGuide = new StringBuilder(" ");
     for (int i = 0; i < numOfBars; i++) {
       for (int j = 1; j <= partOwner.getSignature().getBeatsPerBar(); j++) {
         countGuide.append(Character.forDigit(j, 10)); // 10=decimal radix
         countGuide.append("e&a");
       }
+      if (i < numOfBars - 1) {
+        countGuide.append(" ");
+      }
     }
-    countGuide.insert(0, "    ");
+    countGuide.insert(0, "## ");
     tabSnippet[0] = countGuide.toString();
 
-    // boilerplate
-    layers[3].insert(0, "CR |"); // crash
-    layers[3].append("|");
-    layers[4].insert(0, "RD |"); // ride
-    layers[4].append("|");
-    layers[2].insert(0, "HH |"); // hihat
-    layers[2].append("|");
-    layers[5].insert(0, "RT |"); // racktom
-    layers[5].append("|");
-    layers[1].insert(0, "SN |"); // snare
-    layers[1].append("|");
-    layers[6].insert(0, "FT |"); // floortom
-    layers[6].append("|");
-    layers[0].insert(0, "BD |"); // kick
-    layers[0].append("|");
+    /* bar lines */
+
+    for (StringBuilder layer : layers) {
+      layer.insert(0, '|');
+      int j = 1;
+      for (int i = 0; i < layer.length(); i++) {
+        if (i > 0 &&
+            i % (partOwner.getSignature().getBeatsPerBar()
+             * recorder.getResolution()) == 0) {
+          layer.insert(i + j, '|');
+          j++;
+        }
+      }
+    }
+
+    // labels
+    layers[3].insert(0, "CR "); // crash
+    layers[4].insert(0, "RD "); // ride
+    layers[2].insert(0, "HH "); // hihat
+    layers[5].insert(0, "RT "); // racktom
+    layers[1].insert(0, "SN "); // snare
+    layers[6].insert(0, "FT "); // floortom
+    layers[0].insert(0, "BD "); // kick
 
     /* replace symbols */
 
@@ -440,7 +453,7 @@ public class PunchesDialog extends JDialog implements KeyListener
     tabSnippet[7] = layers[0].toString(); // kick
 
     // DEBUG
-    logger.debug("Generated tab snippet");
+    logger.info("Generated tab snippet");
     for (String line : tabSnippet) {
       logger.debug(line);
     }
@@ -520,7 +533,6 @@ public class PunchesDialog extends JDialog implements KeyListener
     prgMetronome.setValue(0);
 
     btnRec.setEnabled(true);
-    btnStop.setEnabled(false);
     btnPlay.setEnabled(true);
     btnToTab.setEnabled(true);
   }

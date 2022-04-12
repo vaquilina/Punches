@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
  * A Part component that represents a cell in the Song.
  *
  * @author Vince Aquilina
- * @version 04/11/22
+ * @version 04/12/22
  */
 public class PartPanel extends JPanel
 {
@@ -50,12 +50,12 @@ public class PartPanel extends JPanel
   private JPanel fieldsPanel;
   /** The panel containing sheet music/tab snippets */
   private JPanel musicPanel;
-  /** The split pane containing the fieldsPanel and musicPanel */
+  /** The text pane containing Part notes */
+  private PartNotePane notePane;
+  /** The split pane containing the musicPanel and notePane */
   private JSplitPane split;
   /** The Part data */
   private Part part;
-  /** The text pane containing Part notes */
-  private PartNotePane notePane;
 
   /** The part length field */
   private JTextField txtPartLength;
@@ -250,6 +250,15 @@ public class PartPanel extends JPanel
   public PartNotePane getNotePane()
   {
     return notePane;
+  }
+
+  /**
+   * Get the panel's musicPanel
+   * @return the panel's musicPanel
+   */
+  public JPanel getMusicPanel()
+  {
+    return musicPanel;
   }
 
   /**
