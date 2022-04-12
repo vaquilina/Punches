@@ -106,7 +106,8 @@ public class PunchesFrame extends JFrame implements ComponentListener
   public static final int COLUMN = 0;
 
   // Colors
-  private Color panelGray = new Color(0xDDDDDD);
+  private Color panelGray =
+    UIManager.getLookAndFeelDefaults().getColor("Panel.background");
   private Color apricot = new Color(0xFFCCB3);
 
   /**

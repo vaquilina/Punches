@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Rectangle;
+import javax.swing.UIManager;
 /**
  * Binds a Part to PartPanel to a PartPanelCustomizer.
  *
@@ -28,7 +29,8 @@ public class PartPanelWrapper
   private static final int X = 0;
 
   // Colors
-  private Color panelGray = new Color(0xDDDDDD);
+  private Color panelGray =
+    UIManager.getLookAndFeelDefaults().getColor("Panel.background");
   private Color apricot = new Color(0xFFCCB3);
 
   /**

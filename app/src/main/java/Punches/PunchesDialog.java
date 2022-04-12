@@ -22,6 +22,9 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
+//import java.io.File;
+//import java.io.IOException;
+
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -32,6 +35,7 @@ import java.util.TimerTask;
 
 import net.miginfocom.swing.MigLayout;
 
+//import org.jfugue.midi.MidiFileManager;
 import org.jfugue.pattern.Pattern;
 import org.jfugue.player.Player;
 import org.jfugue.rhythm.Rhythm;
@@ -73,7 +77,7 @@ import org.slf4j.LoggerFactory;
  */
 public class PunchesDialog extends JDialog implements KeyListener
 {
-  /* TODO: capture ends one 16th too early
+  /* TODO: playback ends one 16th too early
    */
 
   private final static Logger logger =
@@ -114,8 +118,6 @@ public class PunchesDialog extends JDialog implements KeyListener
   private Player player;
   /** Manages the sequence as it is constructed */
   private Recorder recorder;
-  /** The collection of assembled rhythmic layers */
-  private Map<String, Rhythm> layers;
 
   /**
    * Construct a PunchesDialog
@@ -239,7 +241,7 @@ public class PunchesDialog extends JDialog implements KeyListener
       @Override
       public void actionPerformed(ActionEvent e) {
         //TODO tab is created, registered to part
-        //toTab(rhythm);
+        toTab();
       }
     });
     btnToTab.setEnabled(false); // disabled until Sequence captured
@@ -325,13 +327,127 @@ public class PunchesDialog extends JDialog implements KeyListener
   // HELPER METHODS //
   ////////////////////
 
-  ///**
-  // * Get a tabulature representation of a Pattern
-  // */
-  //private String[] toTab(Rhythm rhythm)
-  //{
-  //  return new String[] {};
-  //}
+  /**
+   * Generate a tabulature representation of a Rhythm.
+   *
+   * Tabulature Format
+   *
+   * 0 - count guide
+   * 1 - crash    - CR
+   * 2 - ride     - RD
+   * 3 - hihat    - HH
+   * 4 - racktom  - RT
+   * 5 - snare    - SN
+   * 6 - floortom - FT
+   * 8 - kick     - BD
+   */
+  private void toTab()
+  {
+    String[] tabSnippet = new String[8];
+    StringBuilder[] layers = recorder.getLayerBuilders();
+
+    // HACK ------------------------------
+    // where is the extra beat coming from?
+    for (StringBuilder line : layers) {
+      line.delete(line.length() - 4, line.length());
+    }
+    // -----------------------------------
+
+    // count guide
+    int numOfBars = relevantPart.getLengthInBars();
+    StringBuilder countGuide = new StringBuilder();
+    for (int i = 0; i < numOfBars; i++) {
+      for (int j = 1; j <= partOwner.getSignature().getBeatsPerBar(); j++) {
+        countGuide.append(Character.forDigit(j, 10)); // 10=decimal radix
+        countGuide.append("e&a");
+      }
+    }
+    countGuide.insert(0, "    ");
+    tabSnippet[0] = countGuide.toString();
+
+    // boilerplate
+    layers[3].insert(0, "CR |"); // crash
+    layers[3].append("|");
+    layers[4].insert(0, "RD |"); // ride
+    layers[4].append("|");
+    layers[2].insert(0, "HH |"); // hihat
+    layers[2].append("|");
+    layers[5].insert(0, "RT |"); // racktom
+    layers[5].append("|");
+    layers[1].insert(0, "SN |"); // snare
+    layers[1].append("|");
+    layers[6].insert(0, "FT |"); // floortom
+    layers[6].append("|");
+    layers[0].insert(0, "BD |"); // kick
+    layers[0].append("|");
+
+    /* replace symbols */
+
+    // rests '.' -> '-'
+    for (StringBuilder layer : layers) {
+      while (layer.indexOf(".") > -1) {
+        int cursor = layer.indexOf(".");
+        layer.setCharAt(cursor, '-');
+      }
+    }
+
+    // crash layer '*' -> 'X'
+    while (layers[3].indexOf("*") > -1) {
+      int cursor = layers[3].indexOf("*");
+      layers[3].setCharAt(cursor, 'X');
+    }
+
+    // ride layer 'r' -> 'x'
+    while (layers[4].indexOf("r") > -1) {
+      int cursor = layers[4].indexOf("r");
+      layers[4].setCharAt(cursor, 'x');
+    }
+
+    // hihat layer '`' -> 'x'
+    while (layers[2].indexOf("`") > -1) {
+      int cursor = layers[2].indexOf("`");
+      layers[2].setCharAt(cursor, 'x');
+    }
+
+    // racktom layer 't' -> 'o'
+    while (layers[5].indexOf("t") > -1) {
+      int cursor = layers[5].indexOf("t");
+      layers[5].setCharAt(cursor, 'o');
+    }
+
+    // snare layer 's' -> 'o'
+    while (layers[1].indexOf("s") > -1) {
+      int cursor = layers[1].indexOf("s");
+      layers[1].setCharAt(cursor, 'o');
+    }
+
+    // floortom layer 'f' -> 'o'
+    while (layers[6].indexOf("f") > -1) {
+      int cursor = layers[6].indexOf("f");
+      layers[6].setCharAt(cursor, 'o');
+    }
+
+    // kick layer
+    // already uses correct symbol
+
+    /* finalize strings */
+    tabSnippet[1] = layers[3].toString(); // crash
+    tabSnippet[2] = layers[4].toString(); // ride
+    tabSnippet[3] = layers[2].toString(); // hihat
+    tabSnippet[4] = layers[5].toString(); // racktom
+    tabSnippet[5] = layers[1].toString(); // snare
+    tabSnippet[6] = layers[6].toString(); // floortom
+    tabSnippet[7] = layers[0].toString(); // kick
+
+    // DEBUG
+    logger.debug("Generated tab snippet");
+    for (String line : tabSnippet) {
+      logger.debug(line);
+    }
+
+    /* assign to part */
+    relevantPart.setTabSnippet(tabSnippet);
+  }
   
   ///**
   // * Get a sheet music representation of a Rhythm
@@ -346,7 +462,18 @@ public class PunchesDialog extends JDialog implements KeyListener
   private void play()
   {
     Pattern pattern = recorder.getModifiedPattern();
-    // TODO save to midi file for inspection
+
+    //// DEBUG
+    //try {
+    //  File midiFile = new File("/home/vince/punches_output.mid");
+    //  if (! midiFile.exists()) {
+    //    midiFile.createNewFile();
+    //  }
+    //  MidiFileManager.savePatternToMidi(pattern, midiFile);
+    //} catch (IOException ex) {
+    //  logger.error(ex.getMessage());
+    //  ex.printStackTrace();
+    //}
     logger.debug(pattern.toString());
 
     Timer timer = new Timer();
@@ -394,8 +521,8 @@ public class PunchesDialog extends JDialog implements KeyListener
 
     btnRec.setEnabled(true);
     btnStop.setEnabled(false);
-
     btnPlay.setEnabled(true);
+    btnToTab.setEnabled(true);
   }
 
   /**

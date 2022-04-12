@@ -98,7 +98,6 @@ public class Recorder extends Rhythm implements MetronomeListener
    */
   public Pattern getModifiedPattern()
   {
-    // TODO modify pattern with appropriate tempo & time signature
     StringBuilder patternBuilder = new StringBuilder(getPattern().toString());
     patternBuilder.insert(0, "T" + tempo + " ");
     patternBuilder.insert(0, "TIME:" + signature.toString() + " ");
@@ -107,6 +106,15 @@ public class Recorder extends Rhythm implements MetronomeListener
     Pattern pattern = new Pattern(patternString);
 
     return pattern;
+  }
+
+  /**
+   * Get the constructed Rhythmic layers
+   * @return the array of StringBuilders representing the rhythmic layers
+   */
+  public StringBuilder[] getLayerBuilders()
+  {
+    return layers;
   }
 
   /**
@@ -180,7 +188,7 @@ public class Recorder extends Rhythm implements MetronomeListener
               timestamp < notePositions[i + 1]) {
             layer.setCharAt(i, 'o');
             logger.debug("placed kick @ position {}", i);
-              }
+          }
         }
       }
 
@@ -194,7 +202,7 @@ public class Recorder extends Rhythm implements MetronomeListener
               timestamp < notePositions[i + 1]) {
             layer.setCharAt(i, 's');
             logger.debug("placed snare @ position {}", i);
-              }
+          }
         }
       }
 
@@ -208,7 +216,7 @@ public class Recorder extends Rhythm implements MetronomeListener
               timestamp < notePositions[i + 1]) {
             layer.setCharAt(i, '`');
             logger.debug("placed hihat @ position {}", i);
-              }
+          }
         }
       }
 
@@ -222,7 +230,7 @@ public class Recorder extends Rhythm implements MetronomeListener
               timestamp < notePositions[i + 1]) {
             layer.setCharAt(i, '*');
             logger.debug("placed crash @ position {}", i);
-              }
+          }
         }
       }
 
@@ -236,7 +244,7 @@ public class Recorder extends Rhythm implements MetronomeListener
               timestamp < notePositions[i + 1]) {
             layer.setCharAt(i, 'r');
             logger.debug("placed ride @ position {}", i);
-              }
+          }
         }
       }
 
@@ -250,7 +258,7 @@ public class Recorder extends Rhythm implements MetronomeListener
               timestamp < notePositions[i + 1]) {
             layer.setCharAt(i, 't');
             logger.debug("placed racktom @ position {}", i);
-              }
+          }
         }
       }
 
@@ -264,15 +272,15 @@ public class Recorder extends Rhythm implements MetronomeListener
               timestamp < notePositions[i + 1]) {
             layer.setCharAt(i, 'f');
             logger.debug("placed floortom @ position {}", i);
-              }
+          }
         }
       }
 
-      // shift rhythm back by one position
-      for (StringBuilder line : layers) {
-        line.deleteCharAt(0);
-        line.append('.');
-      }
+      //// shift rhythm back by one position
+      //for (StringBuilder line : layers) {
+      //  line.deleteCharAt(0);
+      //  line.append('.');
+      //}
     }
   }
 

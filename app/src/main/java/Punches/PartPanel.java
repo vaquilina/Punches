@@ -23,6 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.border.EtchedBorder;
 
 import net.miginfocom.swing.MigLayout;
@@ -67,7 +68,8 @@ public class PartPanel extends JPanel
   /** The Punches button */
   private JButton btnPunches;
 
-  private Color panelGray = new Color(0xDDDDDD);
+  private Color panelGray =
+    UIManager.getLookAndFeelDefaults().getColor("Panel.background");
 
   /**
    * Construct the component with the given Part data
