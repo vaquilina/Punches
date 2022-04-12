@@ -661,8 +661,9 @@ public class PunchesFrame extends JFrame implements ComponentListener
       cell.getPartPanel().getMusicPanel().removeAll();
       cell.getPartPanel().getMusicPanel().add(tabSnippet);
 
-      revalidate();
-      repaint();
+      panSong.revalidate();
+      panSong.repaint();
+      // TODO tab does not appear to be assigned when not on first part!?
     }
 
     // sheet music snippet

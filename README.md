@@ -1,10 +1,8 @@
 # Punches
 
-A graphical app designed to make creating shorthand song charts easier for drummers.
+A Java Swing app designed to make creating shorthand song charts easier for drummers.
 
 **__currently in development__**
-
-![Screenshot](https://github.com/vaquilina/Punches/raw/main/screenshot.png "Screenshot")
 
 ## Overview
 
@@ -17,9 +15,10 @@ The intended purpose of the sheet/tab snippet is to provide a snapshot of the "e
 ## Features
 
 - Import/export Song from file (`.pnc`)
-- Add/remove/edit the "Parts" of a "Song"
+- Customizable Part cells
 - Add "punches" to a Part by keying in a Rhythm (via keyboard) and converting it to a tabulature snippet, or sheet music snippet via [Lilypond](https://lilypond.org/)
-- Write expressive notes for Parts using Markdown via [txtmark](https://github.com/rjeschke/txtmark)
+  - Playback the rhythm you've just keyed in
+- Write expressive notes for Parts using Markdown/basic HTML
 - Generate neat Song charts and export as PDF
 
 ## Goals
@@ -27,18 +26,20 @@ The intended purpose of the sheet/tab snippet is to provide a snapshot of the "e
 - Re-order parts using drag-and-drop
 - Import existing sheet or tabulature snippet
 - Duplicate/copy Parts
-- Implement undo/redo
-- Develop companion mobile app (Android & iOS)
+- Intuitive undo/redo
+- Companion mobile app (Android & iOS)
 - Allow use of real MIDI instrument to key in rhythms
-  - Add support for pitch
+- Allow for more complex rhythm input 
+- A lightweight editor for keyed-in rhythms
 
 ## Credits
 
+- music programming API: [JFugue](http://www.jfugue.org)
 - toolbar icons: [famfamfam](http://www.famfamfam.com/lab/icons/)
-- [txtmark](https://github.com/rjeschke/txtmark) 
-- [openhtmltopdf](https://github.com/danfickle/openhtmltopdf)
-- [MigLayout](https://miglayout.com/)
-- [SoftSmithy Swing Library](https://www.softsmithy.org/)
-- [LilyPond](https://lilypond.org/)
+- markdown processor: [txtmark](https://github.com/rjeschke/txtmark) 
+- PDF renderer: [openhtmltopdf](https://github.com/danfickle/openhtmltopdf)
+- super-powered layout manager: [MigLayout](https://miglayout.com/)
+- Swing utility framework: [SoftSmithy Swing Library](https://www.softsmithy.org/)
+- GNU music engraver: [LilyPond](https://lilypond.org/)
 
 
