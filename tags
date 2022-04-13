@@ -1,0 +1,590 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/run/media/vince/vaquilinaHD/School/W2022/W2022_CIS354/Punches_desktop/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20220306.0/
+#content	app/build/reports/tests/test/css/base-style.css	/^#content {$/;"	i
+#content h1	app/build/reports/tests/test/css/base-style.css	/^#content h1 {$/;"	s
+#duration	app/build/reports/tests/test/css/style.css	/^#duration {$/;"	i
+#footer	app/build/reports/tests/test/css/base-style.css	/^#footer {$/;"	i
+#footer	app/build/reports/tests/test/css/base-style.css	/^#footer, #footer a {$/;"	i
+#footer a	app/build/reports/tests/test/css/base-style.css	/^#footer, #footer a {$/;"	s
+#label-for-line-wrapping-toggle	app/build/reports/tests/test/css/base-style.css	/^#label-for-line-wrapping-toggle {$/;"	i
+#line-wrapping-toggle	app/build/reports/tests/test/css/base-style.css	/^#line-wrapping-toggle {$/;"	i
+#successRate	app/build/reports/tests/test/css/style.css	/^#successRate {$/;"	i
+#successRate	app/build/reports/tests/test/css/style.css	/^#successRate, .summaryGroup {$/;"	i
+#successRate .percent	app/build/reports/tests/test/css/style.css	/^#successRate .percent {$/;"	c
+#successRate.failures	app/build/reports/tests/test/css/style.css	/^div.failures, #successRate.failures {$/;"	c
+#successRate.success	app/build/reports/tests/test/css/style.css	/^div.success, #successRate.success {$/;"	c
+#summary	app/build/reports/tests/test/css/style.css	/^#summary {$/;"	i
+#summary table	app/build/reports/tests/test/css/style.css	/^#summary table {$/;"	s
+#summary td	app/build/reports/tests/test/css/style.css	/^#summary td {$/;"	s
+$partName	app/bin/main/templates/row.html	/^<h3>$partName<\/h3>$/;"	j
+$partName	app/build/resources/main/templates/row.html	/^<h3>$partName<\/h3>$/;"	j
+$partName	app/src/main/resources/templates/row.html	/^<h3>$partName<\/h3>$/;"	j
+$songTitle	app/bin/main/templates/outline.html	/^<h1>$songTitle<\/h1>$/;"	h
+$songTitle	app/bin/main/templates/outline.html	/^<title>$songTitle<\/title>$/;"	j
+$songTitle	app/build/resources/main/templates/outline.html	/^<h1>$songTitle<\/h1>$/;"	h
+$songTitle	app/build/resources/main/templates/outline.html	/^<title>$songTitle<\/title>$/;"	j
+$songTitle	app/src/main/resources/templates/outline.html	/^<h1>$songTitle<\/h1>$/;"	h
+$songTitle	app/src/main/resources/templates/outline.html	/^<title>$songTitle<\/title>$/;"	j
+.breadcrumbs	app/build/reports/tests/test/css/style.css	/^.breadcrumbs, .breadcrumbs a {$/;"	c
+.breadcrumbs a	app/build/reports/tests/test/css/style.css	/^.breadcrumbs, .breadcrumbs a {$/;"	s
+.counter	app/build/reports/tests/test/css/style.css	/^.counter, .percent {$/;"	c
+.failures	app/build/reports/tests/test/css/style.css	/^.failures, .failures a {$/;"	c
+.failures a	app/build/reports/tests/test/css/style.css	/^.failures, .failures a {$/;"	s
+.infoBox	app/build/reports/tests/test/css/style.css	/^.infoBox {$/;"	c
+.infoBox p	app/build/reports/tests/test/css/style.css	/^.infoBox p {$/;"	s
+.percent	app/build/reports/tests/test/css/style.css	/^.counter, .percent {$/;"	c
+.skipped	app/build/reports/tests/test/css/style.css	/^.skipped, .skipped a {$/;"	c
+.skipped a	app/build/reports/tests/test/css/style.css	/^.skipped, .skipped a {$/;"	s
+.success	app/build/reports/tests/test/css/style.css	/^.success, .success a {$/;"	c
+.success a	app/build/reports/tests/test/css/style.css	/^.success, .success a {$/;"	s
+.summaryGroup	app/build/reports/tests/test/css/style.css	/^#successRate, .summaryGroup {$/;"	c
+265OeB8WvMnru1lBYGgfWmuRUgX	.idea/workspace.xml	/^  <component name="ProjectId" id="265OeB8WvMnru1lBYGgfWmuRUgX" \/>$/;"	i
+2df9c985-d666-44d6-8844-3b8b11ceb97f	.idea/workspace.xml	/^      <changelist id="2df9c985-d666-44d6-8844-3b8b11ceb97f" name="Changes" comment="" \/>$/;"	i
+2df9c985-d666-44d6-8844-3b8b11ceb97f	.idea/workspace.xml	/^    <list default="true" id="2df9c985-d666-44d6-8844-3b8b11ceb97f" name="Changes" comment="">$/;"	i
+APP_BASE_NAME	app/build/scripts/app.bat	/^set APP_BASE_NAME=%~n0$/;"	v
+APP_BASE_NAME	gradlew.bat	/^set APP_BASE_NAME=%~n0$/;"	v
+APP_HOME	app/build/scripts/app.bat	/^for %%i in ("%APP_HOME%") do set APP_HOME=%%~fi$/;"	v
+APP_HOME	app/build/scripts/app.bat	/^set APP_HOME=%DIRNAME%..$/;"	v
+APP_HOME	gradlew.bat	/^for %%i in ("%APP_HOME%") do set APP_HOME=%%~fi$/;"	v
+APP_HOME	gradlew.bat	/^set APP_HOME=%DIRNAME%$/;"	v
+AboutDialog	app/src/main/java/Punches/AboutDialog.java	/^  public AboutDialog(Frame owner)$/;"	m	class:AboutDialog
+AboutDialog	app/src/main/java/Punches/AboutDialog.java	/^public class AboutDialog extends JDialog$/;"	c
+App	app/src/main/java/Punches/App.java	/^public class App $/;"	c
+AppTest	app/src/test/java/Punches/AppTest.java	/^class AppTest {$/;"	c
+BeatValue	app/src/main/java/Punches/BeatValue.java	/^  private BeatValue(double value) $/;"	m	class:BeatValue	file:
+BeatValue	app/src/main/java/Punches/BeatValue.java	/^public enum BeatValue $/;"	g
+CLASSPATH	app/build/scripts/app.bat	/^set CLASSPATH=%APP_HOME%\\lib\\app.jar;%APP_HOME%\\lib\\slf4j-simple-1.7.36.jar;%APP_HOME%\\lib\\/;"	v
+CLASSPATH	gradlew.bat	/^set CLASSPATH=%APP_HOME%\\gradle\\wrapper\\gradle-wrapper.jar$/;"	v
+COLUMN	app/src/main/java/Punches/PunchesFrame.java	/^  public static final int COLUMN = 0;$/;"	f	class:PunchesFrame
+COPYRIGHT	app/src/main/java/Punches/AboutDialog.java	/^  private final String COPYRIGHT = Character.toString(169);$/;"	f	class:AboutDialog	file:
+CellBounds	app/src/main/java/Punches/CellBounds.java	/^  public CellBounds(int x, int y, int width, int height) $/;"	m	class:CellBounds
+CellBounds	app/src/main/java/Punches/CellBounds.java	/^public class CellBounds implements Serializable$/;"	c
+Classes	app/build/reports/tests/test/index.html	/^<h2>Classes<\/h2>$/;"	i
+Classes	app/build/reports/tests/test/packages/Punches.html	/^<h2>Classes<\/h2>$/;"	i
+Credits	README.md	/^## Credits$/;"	s	chapter:Punches
+DEFAULT_JVM_OPTS	app/build/scripts/app.bat	/^set DEFAULT_JVM_OPTS=$/;"	v
+DEFAULT_JVM_OPTS	gradlew.bat	/^set DEFAULT_JVM_OPTS="-Xmx64m" "-Xms64m"$/;"	v
+DIRNAME	app/build/scripts/app.bat	/^if "%DIRNAME%" == "" set DIRNAME=.$/;"	v
+DIRNAME	app/build/scripts/app.bat	/^set DIRNAME=%~dp0$/;"	v
+DIRNAME	gradlew.bat	/^if "%DIRNAME%" == "" set DIRNAME=.$/;"	v
+DIRNAME	gradlew.bat	/^set DIRNAME=%~dp0$/;"	v
+Default	.idea/workspace.xml	/^    <task active="true" id="Default" summary="Default task">$/;"	i
+EIGHTH	app/src/main/java/Punches/BeatValue.java	/^  EIGHTH(0.125),$/;"	e	enum:BeatValue	file:
+Features	README.md	/^## Features$/;"	s	chapter:Punches
+Goals	README.md	/^## Goals$/;"	s	chapter:Punches
+HALF	app/src/main/java/Punches/BeatValue.java	/^  HALF(0.5),$/;"	e	enum:BeatValue	file:
+HTMLNotRenderedException	app/src/main/java/Punches/PunchesPDFExporter.java	/^    public HTMLNotRenderedException(String errorMessage) {$/;"	m	class:PunchesPDFExporter.HTMLNotRenderedException
+HTMLNotRenderedException	app/src/main/java/Punches/PunchesPDFExporter.java	/^  public class HTMLNotRenderedException extends Exception$/;"	c	class:PunchesPDFExporter
+JAVA_EXE	app/build/scripts/app.bat	/^set JAVA_EXE=%JAVA_HOME%\/bin\/java.exe$/;"	v
+JAVA_EXE	app/build/scripts/app.bat	/^set JAVA_EXE=java.exe$/;"	v
+JAVA_EXE	gradlew.bat	/^set JAVA_EXE=%JAVA_HOME%\/bin\/java.exe$/;"	v
+JAVA_EXE	gradlew.bat	/^set JAVA_EXE=java.exe$/;"	v
+JAVA_HOME	app/build/scripts/app.bat	/^set JAVA_HOME=%JAVA_HOME:"=%$/;"	v
+JAVA_HOME	gradlew.bat	/^set JAVA_HOME=%JAVA_HOME:"=%$/;"	v
+Metronome	app/src/main/java/Punches/Metronome.java	/^  public Metronome(double bpm, int beatsPerMeasure, int duration) $/;"	m	class:Metronome
+Metronome	app/src/main/java/Punches/Metronome.java	/^public class Metronome extends Thread$/;"	c
+MetronomeListener	app/src/main/java/Punches/MetronomeListener.java	/^public interface MetronomeListener$/;"	i
+ONE_TWENTY_EIGHTH	app/src/main/java/Punches/BeatValue.java	/^  ONE_TWENTY_EIGHTH(0.0078125);$/;"	e	enum:BeatValue	file:
+Overview	README.md	/^## Overview$/;"	s	chapter:Punches
+PUNCHES_RED	app/src/main/java/Punches/AboutDialog.java	/^  private final Color PUNCHES_RED = new Color(0x710028);$/;"	f	class:AboutDialog	file:
+Package Punches	app/build/reports/tests/test/packages/Punches.html	/^<h1>Package Punches<\/h1>$/;"	h
+Packages	app/build/reports/tests/test/index.html	/^<h2>Packages<\/h2>$/;"	i
+Part	app/src/main/java/Punches/Part.java	/^  public Part()$/;"	m	class:Part
+Part	app/src/main/java/Punches/Part.java	/^  public Part(String name, int lengthInBars, String notes)$/;"	m	class:Part
+Part	app/src/main/java/Punches/Part.java	/^  public Part(String name, int lengthInBars, String notes, Image sheetSnippet)$/;"	m	class:Part
+Part	app/src/main/java/Punches/Part.java	/^  public Part(String name, int lengthInBars, String notes, String[] tabSnippet)$/;"	m	class:Part
+Part	app/src/main/java/Punches/Part.java	/^  public Part(String name, int lengthInBars, String notes,$/;"	m	class:Part
+Part	app/src/main/java/Punches/Part.java	/^public class Part implements Serializable$/;"	c
+PartNotePane	app/src/main/java/Punches/PartNotePane.java	/^  public PartNotePane()$/;"	m	class:PartNotePane
+PartNotePane	app/src/main/java/Punches/PartNotePane.java	/^public class PartNotePane extends JTextPane$/;"	c
+PartPanel	app/src/main/java/Punches/PartPanel.java	/^  public PartPanel(Part part)$/;"	m	class:PartPanel
+PartPanel	app/src/main/java/Punches/PartPanel.java	/^public class PartPanel extends JPanel$/;"	c
+PartPanelCustomizer	app/src/main/java/Punches/PartPanelCustomizer.java	/^  public PartPanelCustomizer(PartPanel partPanel) $/;"	m	class:PartPanelCustomizer
+PartPanelCustomizer	app/src/main/java/Punches/PartPanelCustomizer.java	/^public class PartPanelCustomizer $/;"	c
+PartPanelWrapper	app/src/main/java/Punches/PartPanelWrapper.java	/^  public PartPanelWrapper(Part part)$/;"	m	class:PartPanelWrapper
+PartPanelWrapper	app/src/main/java/Punches/PartPanelWrapper.java	/^public class PartPanelWrapper$/;"	c
+PartTest	app/build/reports/tests/test/classes/Punches.PartTest.html	/^<h1>PartTest<\/h1>$/;"	h
+PartTest	app/src/test/java/Punches/PartTest.java	/^class PartTest$/;"	c
+Punches	README.md	/^# Punches$/;"	c
+Punches	app/src/main/java/Punches/AboutDialog.java	/^package Punches;$/;"	p
+Punches	app/src/main/java/Punches/App.java	/^package Punches;$/;"	p
+Punches	app/src/main/java/Punches/BeatValue.java	/^package Punches;$/;"	p
+Punches	app/src/main/java/Punches/CellBounds.java	/^package Punches;$/;"	p
+Punches	app/src/main/java/Punches/Metronome.java	/^package Punches;$/;"	p
+Punches	app/src/main/java/Punches/MetronomeListener.java	/^package Punches;$/;"	p
+Punches	app/src/main/java/Punches/Part.java	/^package Punches;$/;"	p
+Punches	app/src/main/java/Punches/PartNotePane.java	/^package Punches;$/;"	p
+Punches	app/src/main/java/Punches/PartPanel.java	/^package Punches;$/;"	p
+Punches	app/src/main/java/Punches/PartPanelCustomizer.java	/^package Punches;$/;"	p
+Punches	app/src/main/java/Punches/PartPanelWrapper.java	/^package Punches;$/;"	p
+Punches	app/src/main/java/Punches/PunchesDialog.java	/^package Punches;$/;"	p
+Punches	app/src/main/java/Punches/PunchesFileHandler.java	/^package Punches;$/;"	p
+Punches	app/src/main/java/Punches/PunchesFrame.java	/^package Punches;$/;"	p
+Punches	app/src/main/java/Punches/PunchesPDFExporter.java	/^package Punches;$/;"	p
+Punches	app/src/main/java/Punches/Recorder.java	/^package Punches;$/;"	p
+Punches	app/src/main/java/Punches/Song.java	/^package Punches;$/;"	p
+Punches	app/src/main/java/Punches/SongPanel.java	/^package Punches;$/;"	p
+Punches	app/src/main/java/Punches/TimeSignature.java	/^package Punches;$/;"	p
+Punches	app/src/test/java/Punches/AppTest.java	/^package Punches;$/;"	p
+Punches	app/src/test/java/Punches/PartTest.java	/^package Punches;$/;"	p
+Punches	app/src/test/java/Punches/PunchesFrameTest.java	/^package Punches;$/;"	p
+Punches	app/src/test/java/Punches/SongTest.java	/^package Punches;$/;"	p
+Punches	app/src/test/java/Punches/TimeSignatureTest.java	/^package Punches;$/;"	p
+PunchesDialog	app/src/main/java/Punches/PunchesDialog.java	/^  public PunchesDialog(Frame owner, Song partOwner, Part relevantPart)$/;"	m	class:PunchesDialog
+PunchesDialog	app/src/main/java/Punches/PunchesDialog.java	/^public class PunchesDialog extends JDialog implements KeyListener$/;"	c
+PunchesFileHandler	app/src/main/java/Punches/PunchesFileHandler.java	/^  public PunchesFileHandler(Song songData,$/;"	m	class:PunchesFileHandler
+PunchesFileHandler	app/src/main/java/Punches/PunchesFileHandler.java	/^public class PunchesFileHandler implements Serializable$/;"	c
+PunchesFrame	app/src/main/java/Punches/PunchesFrame.java	/^  public PunchesFrame(String title)$/;"	m	class:PunchesFrame
+PunchesFrame	app/src/main/java/Punches/PunchesFrame.java	/^public class PunchesFrame extends JFrame implements ComponentListener$/;"	c
+PunchesFrameTest	app/src/test/java/Punches/PunchesFrameTest.java	/^public class PunchesFrameTest$/;"	c
+PunchesPDFExporter	app/src/main/java/Punches/PunchesPDFExporter.java	/^  public PunchesPDFExporter(Song song)$/;"	m	class:PunchesPDFExporter
+PunchesPDFExporter	app/src/main/java/Punches/PunchesPDFExporter.java	/^public class PunchesPDFExporter$/;"	c
+QUARTER	app/src/main/java/Punches/BeatValue.java	/^  QUARTER(0.25),$/;"	e	enum:BeatValue	file:
+RESOLUTION	app/src/main/java/Punches/Recorder.java	/^  private final int RESOLUTION = 4;$/;"	f	class:Recorder	file:
+ROWHEIGHT	app/src/main/java/Punches/PunchesFrame.java	/^  private static final int ROWHEIGHT = 200;$/;"	f	class:PunchesFrame	file:
+Recorder	app/src/main/java/Punches/Recorder.java	/^  public Recorder()$/;"	m	class:Recorder
+Recorder	app/src/main/java/Punches/Recorder.java	/^  public Recorder(int tempo, TimeSignature signature, int numOfBars) {$/;"	m	class:Recorder
+Recorder	app/src/main/java/Punches/Recorder.java	/^public class Recorder extends Rhythm implements MetronomeListener$/;"	c
+SIXTEENTH	app/src/main/java/Punches/BeatValue.java	/^  SIXTEENTH(0.0625),$/;"	e	enum:BeatValue	file:
+SIXTY_FOURTH	app/src/main/java/Punches/BeatValue.java	/^  SIXTY_FOURTH(0.015625),$/;"	e	enum:BeatValue	file:
+Song	app/src/main/java/Punches/Song.java	/^  public Song()$/;"	m	class:Song
+Song	app/src/main/java/Punches/Song.java	/^  public Song(List<Part> parts, String title, TimeSignature signature, int bpm)$/;"	m	class:Song
+Song	app/src/main/java/Punches/Song.java	/^  public Song(Song song)$/;"	m	class:Song
+Song	app/src/main/java/Punches/Song.java	/^public class Song implements Serializable$/;"	c
+SongPanel	app/src/main/java/Punches/SongPanel.java	/^  public SongPanel(Song song)$/;"	m	class:SongPanel
+SongPanel	app/src/main/java/Punches/SongPanel.java	/^public class SongPanel extends JCustomizerPane$/;"	c
+SongTest	app/build/reports/tests/test/classes/Punches.SongTest.html	/^<h1>SongTest<\/h1>$/;"	h
+SongTest	app/src/test/java/Punches/SongTest.java	/^class SongTest$/;"	c
+THIRTY_SECOND	app/src/main/java/Punches/BeatValue.java	/^  THIRTY_SECOND(0.03125),$/;"	e	enum:BeatValue	file:
+Test Summary	app/build/reports/tests/test/index.html	/^<h1>Test Summary<\/h1>$/;"	h
+Test results - Package Punches	app/build/reports/tests/test/packages/Punches.html	/^<title>Test results - Package Punches<\/title>$/;"	j
+Test results - PartTest	app/build/reports/tests/test/classes/Punches.PartTest.html	/^<title>Test results - PartTest<\/title>$/;"	j
+Test results - SongTest	app/build/reports/tests/test/classes/Punches.SongTest.html	/^<title>Test results - SongTest<\/title>$/;"	j
+Test results - Test Summary	app/build/reports/tests/test/index.html	/^<title>Test results - Test Summary<\/title>$/;"	j
+Test results - TimeSignatureTest	app/build/reports/tests/test/classes/Punches.TimeSignatureTest.html	/^<title>Test results - TimeSignatureTest<\/title>$/;"	j
+Tests	app/build/reports/tests/test/classes/Punches.PartTest.html	/^<h2>Tests<\/h2>$/;"	i
+Tests	app/build/reports/tests/test/classes/Punches.SongTest.html	/^<h2>Tests<\/h2>$/;"	i
+Tests	app/build/reports/tests/test/classes/Punches.TimeSignatureTest.html	/^<h2>Tests<\/h2>$/;"	i
+TimeSignature	app/src/main/java/Punches/TimeSignature.java	/^  public TimeSignature(int beatsPerBar, BeatValue valueOfABeat)$/;"	m	class:TimeSignature
+TimeSignature	app/src/main/java/Punches/TimeSignature.java	/^public class TimeSignature implements Serializable$/;"	c
+TimeSignatureTest	app/build/reports/tests/test/classes/Punches.TimeSignatureTest.html	/^<h1>TimeSignatureTest<\/h1>$/;"	h
+TimeSignatureTest	app/src/test/java/Punches/TimeSignatureTest.java	/^class TimeSignatureTest$/;"	c
+VALID_CHARS	app/src/main/java/Punches/PunchesDialog.java	/^  private final String VALID_CHARS = "crhtsf CRHTSF";$/;"	f	class:PunchesDialog	file:
+VoiceLabel	app/src/main/java/Punches/PunchesDialog.java	/^    public VoiceLabel(String label) $/;"	m	class:PunchesDialog.VoiceLabel
+VoiceLabel	app/src/main/java/Punches/PunchesDialog.java	/^  private class VoiceLabel extends JLabel$/;"	c	class:PunchesDialog
+WHOLE	app/src/main/java/Punches/BeatValue.java	/^  WHOLE(1.0),$/;"	e	enum:BeatValue	file:
+X	app/src/main/java/Punches/PartPanelWrapper.java	/^  private static final int X = 0;$/;"	f	class:PartPanelWrapper	file:
+a	app/build/reports/tests/test/css/base-style.css	/^body, a, a:visited {$/;"	s
+a:visited	app/build/reports/tests/test/css/base-style.css	/^body, a, a:visited {$/;"	s
+accentTone	app/src/main/java/Punches/Metronome.java	/^  private Clip accentTone;$/;"	f	class:Metronome	file:
+activeBgColor	app/src/main/java/Punches/PunchesDialog.java	/^    private final Color activeBgColor = Color.BLACK;$/;"	f	class:PunchesDialog.VoiceLabel	file:
+activeFgColor	app/src/main/java/Punches/PunchesDialog.java	/^    private final Color activeFgColor = Color.WHITE;$/;"	f	class:PunchesDialog.VoiceLabel	file:
+addClass	app/build/reports/tests/test/js/report.js	/^    function addClass(element, classValue) {$/;"	f
+addMetronomeListener	app/src/main/java/Punches/Metronome.java	/^  public void addMetronomeListener(MetronomeListener listener)$/;"	m	class:Metronome
+addPart	app/src/main/java/Punches/PunchesFrame.java	/^  public void addPart()$/;"	m	class:PunchesFrame
+addPart	app/src/main/java/Punches/Song.java	/^  public void addPart(Part part)$/;"	m	class:Song
+addPunchesToPart	app/src/main/java/Punches/PunchesFrame.java	/^  private void addPunchesToPart(PartPanelWrapper cell)$/;"	m	class:PunchesFrame	file:
+adjustCellWidth	app/src/main/java/Punches/PunchesFrame.java	/^  private int adjustCellWidth()$/;"	m	class:PunchesFrame	file:
+apricot	app/src/main/java/Punches/PartPanelWrapper.java	/^  private Color apricot = new Color(0xFFCCB3);$/;"	f	class:PartPanelWrapper	file:
+apricot	app/src/main/java/Punches/PunchesFrame.java	/^  private Color apricot = new Color(0xFFCCB3);$/;"	f	class:PunchesFrame	file:
+beatDuration	app/src/main/java/Punches/Recorder.java	/^  private long beatDuration;$/;"	f	class:Recorder	file:
+beatsPerBar	app/src/main/java/Punches/TimeSignature.java	/^  private int beatsPerBar;$/;"	f	class:TimeSignature	file:
+beatsPerMeasure	app/src/main/java/Punches/Metronome.java	/^  private int beatsPerMeasure;$/;"	f	class:Metronome	file:
+blink	app/src/main/java/Punches/PunchesDialog.java	/^    public void blink()$/;"	m	class:PunchesDialog.VoiceLabel
+body	app/build/reports/tests/test/css/base-style.css	/^body {$/;"	s
+body	app/build/reports/tests/test/css/base-style.css	/^body, a, a:visited {$/;"	s
+bounds	app/src/main/java/Punches/PartPanelWrapper.java	/^  private Rectangle bounds;$/;"	f	class:PartPanelWrapper	file:
+bpm	app/src/main/java/Punches/Metronome.java	/^  private double bpm;$/;"	f	class:Metronome	file:
+bpm	app/src/main/java/Punches/Song.java	/^  private int bpm;$/;"	f	class:Song	file:
+btnDelete	app/src/main/java/Punches/PartPanel.java	/^  private JButton btnDelete;$/;"	f	class:PartPanel	file:
+btnPlay	app/src/main/java/Punches/PunchesDialog.java	/^  private final JButton btnPlay;$/;"	f	class:PunchesDialog	file:
+btnPunches	app/src/main/java/Punches/PartPanel.java	/^  private JButton btnPunches;$/;"	f	class:PartPanel	file:
+btnRec	app/src/main/java/Punches/PunchesDialog.java	/^  private final JButton btnRec;$/;"	f	class:PunchesDialog	file:
+btnStop	app/src/main/java/Punches/PunchesDialog.java	/^  private final JButton btnStop;$/;"	f	class:PunchesDialog	file:
+btnToSheet	app/src/main/java/Punches/PunchesDialog.java	/^  private final JButton btnToSheet;$/;"	f	class:PunchesDialog	file:
+btnToTab	app/src/main/java/Punches/PunchesDialog.java	/^  private final JButton btnToTab;$/;"	f	class:PunchesDialog	file:
+captureStartMillis	app/src/main/java/Punches/Recorder.java	/^  private long captureStartMillis = 0;$/;"	f	class:Recorder	file:
+captures	app/src/main/java/Punches/Recorder.java	/^  private Map<String, List<Long>> captures;$/;"	f	class:Recorder	file:
+cellBounds	app/src/main/java/Punches/PunchesFileHandler.java	/^  List<CellBounds> cellBounds;$/;"	f	class:PunchesFileHandler
+cells	app/src/main/java/Punches/PunchesFrame.java	/^  private List<PartPanelWrapper> cells;$/;"	f	class:PunchesFrame	file:
+changeElementClass	app/build/reports/tests/test/js/report.js	/^    function changeElementClass(element, classValue) {$/;"	f
+cleanExit	app/src/main/java/Punches/PunchesFrame.java	/^  private void cleanExit()$/;"	m	class:PunchesFrame	file:
+cmbValueOfABeat	app/src/main/java/Punches/PunchesFrame.java	/^  private final JComboBox<ImageIcon> cmbValueOfABeat;$/;"	f	class:PunchesFrame	file:
+componentHidden	app/src/main/java/Punches/PunchesFrame.java	/^  public void componentHidden(ComponentEvent e) {};$/;"	m	class:PunchesFrame
+componentMoved	app/src/main/java/Punches/PunchesFrame.java	/^  public void componentMoved(ComponentEvent e)  {};$/;"	m	class:PunchesFrame
+componentResized	app/src/main/java/Punches/PunchesFrame.java	/^  public  void componentResized(ComponentEvent e) {$/;"	m	class:PunchesFrame
+componentShown	app/src/main/java/Punches/PunchesFrame.java	/^  public void componentShown(ComponentEvent e)  {};$/;"	m	class:PunchesFrame
+content	app/build/reports/tests/test/classes/Punches.PartTest.html	/^<div id="content">$/;"	I
+content	app/build/reports/tests/test/classes/Punches.SongTest.html	/^<div id="content">$/;"	I
+content	app/build/reports/tests/test/classes/Punches.TimeSignatureTest.html	/^<div id="content">$/;"	I
+content	app/build/reports/tests/test/index.html	/^<div id="content">$/;"	I
+content	app/build/reports/tests/test/packages/Punches.html	/^<div id="content">$/;"	I
+counter	app/src/main/java/Punches/Metronome.java	/^  private int counter;$/;"	f	class:Metronome	file:
+counter	app/src/main/java/Punches/Recorder.java	/^  private int counter = 0;$/;"	f	class:Recorder	file:
+createSong	app/src/main/java/Punches/PunchesFrame.java	/^  public void createSong()$/;"	m	class:PunchesFrame
+customPartWithSheetSnippetShouldBeCreated	app/src/test/java/Punches/PartTest.java	/^  void customPartWithSheetSnippetShouldBeCreated() throws IOException$/;"	m	class:PartTest
+customPartWithTabSnippetShouldBeCreated	app/src/test/java/Punches/PartTest.java	/^  void customPartWithTabSnippetShouldBeCreated() throws IOException$/;"	m	class:PartTest
+customPartWithoutSnippetShouldBeCreated	app/src/test/java/Punches/PartTest.java	/^  void customPartWithoutSnippetShouldBeCreated()$/;"	m	class:PartTest
+customSongShouldBeCreated	app/src/test/java/Punches/SongTest.java	/^  void customSongShouldBeCreated()$/;"	m	class:SongTest
+customizer	app/src/main/java/Punches/PartPanelWrapper.java	/^  private PartPanelCustomizer customizer;  $/;"	f	class:PartPanelWrapper	file:
+customizerResetBoundsRel	app/src/main/java/Punches/PartPanelCustomizer.java	/^  public void customizerResetBoundsRel(CustomizerEvent e) {$/;"	m	class:PartPanelCustomizer
+customizerReshapeRel	app/src/main/java/Punches/PartPanelCustomizer.java	/^  public void customizerReshapeRel(CustomizerEvent e) {$/;"	m	class:PartPanelCustomizer
+defaultPartShouldBeCreated	app/src/test/java/Punches/PartTest.java	/^  void defaultPartShouldBeCreated()$/;"	m	class:PartTest
+defaultSongObjectShouldBeCreated	app/src/test/java/Punches/SongTest.java	/^  void defaultSongObjectShouldBeCreated()$/;"	m	class:SongTest
+defaultTimeSignatureShouldBeCreated	app/src/test/java/Punches/TimeSignatureTest.java	/^  void defaultTimeSignatureShouldBeCreated()$/;"	m	class:TimeSignatureTest
+deselectAll	app/build/reports/tests/test/js/report.js	/^    function deselectAll() {$/;"	f
+die	app/build/scripts/app	/^die () {$/;"	f
+die	gradlew	/^die () {$/;"	f
+distributionBase	gradle/wrapper/gradle-wrapper.properties	/^distributionBase=GRADLE_USER_HOME$/;"	k
+distributionPath	gradle/wrapper/gradle-wrapper.properties	/^distributionPath=wrapper\/dists$/;"	k
+distributionUrl	gradle/wrapper/gradle-wrapper.properties	/^distributionUrl=https\\:\/\/services.gradle.org\/distributions\/gradle-7.4.2-bin.zip$/;"	k
+div.deselected	app/build/reports/tests/test/css/base-style.css	/^div.deselected {$/;"	c
+div.failures	app/build/reports/tests/test/css/style.css	/^div.failures, #successRate.failures {$/;"	c
+div.selected	app/build/reports/tests/test/css/base-style.css	/^div.selected {$/;"	c
+div.success	app/build/reports/tests/test/css/style.css	/^div.success, #successRate.success {$/;"	c
+div.tab	app/build/reports/tests/test/css/base-style.css	/^div.tab {$/;"	c
+div.tab table	app/build/reports/tests/test/css/base-style.css	/^div.tab table {$/;"	s
+div.tab table	app/build/reports/tests/test/css/base-style.css	/^div.tab th, div.tab table {$/;"	s
+div.tab td	app/build/reports/tests/test/css/base-style.css	/^div.tab td {$/;"	s
+div.tab td.numeric	app/build/reports/tests/test/css/base-style.css	/^div.tab td.numeric, div.tab th.numeric {$/;"	c
+div.tab td:first-child	app/build/reports/tests/test/css/base-style.css	/^div.tab td:first-child {$/;"	s
+div.tab th	app/build/reports/tests/test/css/base-style.css	/^div.tab th {$/;"	s
+div.tab th	app/build/reports/tests/test/css/base-style.css	/^div.tab th, div.tab table {$/;"	s
+div.tab th.numeric	app/build/reports/tests/test/css/base-style.css	/^div.tab td.numeric, div.tab th.numeric {$/;"	c
+div.tab th:first-child	app/build/reports/tests/test/css/base-style.css	/^div.tab th:first-child {$/;"	s
+dividerLocation	app/src/main/java/Punches/PartPanel.java	/^  private Integer dividerLocation = 10;$/;"	f	class:PartPanel	file:
+dividerLocations	app/src/main/java/Punches/PunchesFileHandler.java	/^  List<Integer> dividerLocations;$/;"	f	class:PunchesFileHandler
+duration	app/build/reports/tests/test/classes/Punches.PartTest.html	/^<div class="infoBox" id="duration">$/;"	I
+duration	app/build/reports/tests/test/classes/Punches.SongTest.html	/^<div class="infoBox" id="duration">$/;"	I
+duration	app/build/reports/tests/test/classes/Punches.TimeSignatureTest.html	/^<div class="infoBox" id="duration">$/;"	I
+duration	app/build/reports/tests/test/index.html	/^<div class="infoBox" id="duration">$/;"	I
+duration	app/build/reports/tests/test/packages/Punches.html	/^<div class="infoBox" id="duration">$/;"	I
+duration	app/src/main/java/Punches/Metronome.java	/^  private int duration;$/;"	f	class:Metronome	file:
+end	app/build/scripts/app.bat	/^:end$/;"	l
+end	app/src/main/java/Punches/Metronome.java	/^  public void end()$/;"	m	class:Metronome
+end	gradlew.bat	/^:end$/;"	l
+execute	app/build/scripts/app.bat	/^:execute$/;"	l
+execute	gradlew.bat	/^:execute$/;"	l
+existingPartShouldBeAdded	app/src/test/java/Punches/SongTest.java	/^  void existingPartShouldBeAdded()$/;"	m	class:SongTest
+exportPDF	app/src/main/java/Punches/PunchesPDFExporter.java	/^  public void exportPDF(File file) throws IOException, HTMLNotRenderedException,$/;"	m	class:PunchesPDFExporter
+exportSong	app/src/main/java/Punches/PunchesFrame.java	/^  public void exportSong()$/;"	m	class:PunchesFrame
+fail	app/build/scripts/app.bat	/^:fail$/;"	l
+fail	gradlew.bat	/^:fail$/;"	l
+failures	app/build/reports/tests/test/classes/Punches.PartTest.html	/^<div class="infoBox" id="failures">$/;"	I
+failures	app/build/reports/tests/test/classes/Punches.SongTest.html	/^<div class="infoBox" id="failures">$/;"	I
+failures	app/build/reports/tests/test/classes/Punches.TimeSignatureTest.html	/^<div class="infoBox" id="failures">$/;"	I
+failures	app/build/reports/tests/test/index.html	/^<div class="infoBox" id="failures">$/;"	I
+failures	app/build/reports/tests/test/packages/Punches.html	/^<div class="infoBox" id="failures">$/;"	I
+fieldsPanel	app/src/main/java/Punches/PartPanel.java	/^  private JPanel fieldsPanel;$/;"	f	class:PartPanel	file:
+findChildElements	app/build/reports/tests/test/js/report.js	/^    function findChildElements(container, name, targetClass) {$/;"	f
+findCodeBlocks	app/build/reports/tests/test/js/report.js	/^    function findCodeBlocks() {$/;"	f
+findHeaders	app/build/reports/tests/test/js/report.js	/^    function findHeaders(container) {$/;"	f
+findJavaFromJavaHome	app/build/scripts/app.bat	/^:findJavaFromJavaHome$/;"	l
+findJavaFromJavaHome	gradlew.bat	/^:findJavaFromJavaHome$/;"	l
+findTabs	app/build/reports/tests/test/js/report.js	/^    function findTabs(container) {$/;"	f
+findTitles	app/build/reports/tests/test/js/report.js	/^    function findTitles(tabs) {$/;"	f
+footer	app/build/reports/tests/test/classes/Punches.PartTest.html	/^<div id="footer">$/;"	I
+footer	app/build/reports/tests/test/classes/Punches.SongTest.html	/^<div id="footer">$/;"	I
+footer	app/build/reports/tests/test/classes/Punches.TimeSignatureTest.html	/^<div id="footer">$/;"	I
+footer	app/build/reports/tests/test/index.html	/^<div id="footer">$/;"	I
+footer	app/build/reports/tests/test/packages/Punches.html	/^<div id="footer">$/;"	I
+forAllCodeBlocks	app/build/reports/tests/test/js/report.js	/^    function forAllCodeBlocks(operation) {$/;"	f
+getBeatValue	app/src/main/java/Punches/PunchesFrame.java	/^  private BeatValue getBeatValue(int selectedIndex)$/;"	m	class:PunchesFrame	file:
+getBeatsPerBar	app/src/main/java/Punches/TimeSignature.java	/^  public int getBeatsPerBar()$/;"	m	class:TimeSignature
+getBpm	app/src/main/java/Punches/Song.java	/^  public int getBpm()$/;"	m	class:Song
+getCellBounds	app/src/main/java/Punches/CellBounds.java	/^  public int[] getCellBounds()$/;"	m	class:CellBounds
+getCellBounds	app/src/main/java/Punches/PunchesFileHandler.java	/^  public List<CellBounds> getCellBounds()$/;"	m	class:PunchesFileHandler
+getCheckBox	app/build/reports/tests/test/js/report.js	/^    function getCheckBox() {$/;"	f
+getClassAttribute	app/build/reports/tests/test/js/report.js	/^    function getClassAttribute(element) {$/;"	f
+getDeleteButton	app/src/main/java/Punches/PartPanel.java	/^  public JButton getDeleteButton()$/;"	m	class:PartPanel
+getDividerLocations	app/src/main/java/Punches/PunchesFileHandler.java	/^  public List<Integer> getDividerLocations()$/;"	m	class:PunchesFileHandler
+getHTML	app/src/main/java/Punches/PartNotePane.java	/^  public String getHTML()$/;"	m	class:PartNotePane
+getIndex	app/src/main/java/Punches/Part.java	/^  public int getIndex()$/;"	m	class:Part
+getLabelForCheckBox	app/build/reports/tests/test/js/report.js	/^    function getLabelForCheckBox() {$/;"	f
+getLayerBuilders	app/src/main/java/Punches/Recorder.java	/^  public StringBuilder[] getLayerBuilders()$/;"	m	class:Recorder
+getLengthInBars	app/src/main/java/Punches/Part.java	/^  public int getLengthInBars()$/;"	m	class:Part
+getModifiedPattern	app/src/main/java/Punches/Recorder.java	/^  public Pattern getModifiedPattern()$/;"	m	class:Recorder
+getMusicPanel	app/src/main/java/Punches/PartPanel.java	/^  public JPanel getMusicPanel()$/;"	m	class:PartPanel
+getName	app/src/main/java/Punches/Part.java	/^  public String getName()$/;"	m	class:Part
+getNotePane	app/src/main/java/Punches/PartPanel.java	/^  public PartNotePane getNotePane()$/;"	m	class:PartPanel
+getNotes	app/src/main/java/Punches/Part.java	/^  public String getNotes()$/;"	m	class:Part
+getPart	app/src/main/java/Punches/PartPanel.java	/^  public Part getPart()$/;"	m	class:PartPanel
+getPart	app/src/main/java/Punches/PartPanelWrapper.java	/^  public Part getPart()$/;"	m	class:PartPanelWrapper
+getPartPanel	app/src/main/java/Punches/PartPanelWrapper.java	/^  public PartPanel getPartPanel()$/;"	m	class:PartPanelWrapper
+getPartPanelCustomizer	app/src/main/java/Punches/PartPanelWrapper.java	/^  public PartPanelCustomizer getPartPanelCustomizer()$/;"	m	class:PartPanelWrapper
+getParts	app/src/main/java/Punches/Song.java	/^  public List<Part> getParts()$/;"	m	class:Song
+getPlainText	app/src/main/java/Punches/PartNotePane.java	/^  public String getPlainText()$/;"	m	class:PartNotePane
+getPunchesButton	app/src/main/java/Punches/PartPanel.java	/^  public JButton getPunchesButton()$/;"	m	class:PartPanel
+getResolution	app/src/main/java/Punches/Recorder.java	/^  public int getResolution()$/;"	m	class:Recorder
+getRow	app/src/main/java/Punches/PartPanelCustomizer.java	/^  public int getRow()$/;"	m	class:PartPanelCustomizer
+getRowSpan	app/src/main/java/Punches/PartPanelCustomizer.java	/^  public int getRowSpan()$/;"	m	class:PartPanelCustomizer
+getSheetSnippet	app/src/main/java/Punches/Part.java	/^  public Image getSheetSnippet()$/;"	m	class:Part
+getSignature	app/src/main/java/Punches/Song.java	/^  public TimeSignature getSignature()$/;"	m	class:Song
+getSong	app/src/main/java/Punches/SongPanel.java	/^  public Song getSong()$/;"	m	class:SongPanel
+getSongData	app/src/main/java/Punches/PunchesFileHandler.java	/^  public Song getSongData()$/;"	m	class:PunchesFileHandler
+getSplitDividerLocation	app/src/main/java/Punches/PartPanel.java	/^  public Integer getSplitDividerLocation()$/;"	m	class:PartPanel
+getStoredHeight	app/src/main/java/Punches/PartPanelCustomizer.java	/^  public int getStoredHeight() $/;"	m	class:PartPanelCustomizer
+getStoredPosition	app/src/main/java/Punches/PartPanelWrapper.java	/^  public Rectangle getStoredPosition()$/;"	m	class:PartPanelWrapper
+getStoredWidth	app/src/main/java/Punches/PartPanelCustomizer.java	/^  public int getStoredWidth() $/;"	m	class:PartPanelCustomizer
+getStoredYPos	app/src/main/java/Punches/PartPanelCustomizer.java	/^  public int getStoredYPos() $/;"	m	class:PartPanelCustomizer
+getTabSnippet	app/src/main/java/Punches/Part.java	/^  public String[] getTabSnippet()$/;"	m	class:Part
+getTitle	app/src/main/java/Punches/Song.java	/^  public String getTitle()$/;"	m	class:Song
+getValue	app/src/main/java/Punches/BeatValue.java	/^  public double getValue() $/;"	m	class:BeatValue
+getValueOfABeat	app/src/main/java/Punches/TimeSignature.java	/^  public BeatValue getValueOfABeat()$/;"	m	class:TimeSignature
+gradle.version	.gradle/buildOutputCleanup/cache.properties	/^gradle.version=7.4.2$/;"	k
+h1	app/build/reports/tests/test/css/base-style.css	/^h1, h2, h3 {$/;"	s
+h2	app/build/reports/tests/test/css/base-style.css	/^h1, h2, h3 {$/;"	s
+h2	app/build/reports/tests/test/css/base-style.css	/^h2 {$/;"	s
+h3	app/build/reports/tests/test/css/base-style.css	/^h1, h2, h3 {$/;"	s
+hasUnsavedChanges	app/src/main/java/Punches/PunchesFrame.java	/^  private boolean hasUnsavedChanges()$/;"	m	class:PunchesFrame	file:
+height	app/src/main/java/Punches/CellBounds.java	/^  public final int height;$/;"	f	class:CellBounds
+height	app/src/main/java/Punches/PartPanelCustomizer.java	/^  private int height;$/;"	f	class:PartPanelCustomizer	file:
+html	app/src/main/java/Punches/PartNotePane.java	/^  private String html;$/;"	f	class:PartNotePane	file:
+ignored	app/build/reports/tests/test/classes/Punches.PartTest.html	/^<div class="infoBox" id="ignored">$/;"	I
+ignored	app/build/reports/tests/test/classes/Punches.SongTest.html	/^<div class="infoBox" id="ignored">$/;"	I
+ignored	app/build/reports/tests/test/classes/Punches.TimeSignatureTest.html	/^<div class="infoBox" id="ignored">$/;"	I
+ignored	app/build/reports/tests/test/index.html	/^<div class="infoBox" id="ignored">$/;"	I
+ignored	app/build/reports/tests/test/packages/Punches.html	/^<div class="infoBox" id="ignored">$/;"	I
+index	app/src/main/java/Punches/Part.java	/^  private int index;$/;"	f	class:Part	file:
+initControls	app/build/reports/tests/test/js/report.js	/^    function initControls() {$/;"	f
+initMusicNoteIcons	app/src/main/java/Punches/PunchesFrame.java	/^  private Map<String, ImageIcon> initMusicNoteIcons()$/;"	m	class:PunchesFrame	file:
+initSongPanel	app/src/main/java/Punches/PunchesFrame.java	/^  private void initSongPanel()$/;"	m	class:PunchesFrame	file:
+initTabs	app/build/reports/tests/test/js/report.js	/^    function initTabs() {$/;"	f
+initToolbarIcons	app/src/main/java/Punches/PunchesFrame.java	/^  private Map<String, ImageIcon> initToolbarIcons()$/;"	m	class:PunchesFrame	file:
+initialized	app/src/main/java/Punches/PunchesFrame.java	/^  private boolean initialized;$/;"	f	class:PunchesFrame	file:
+isCountedIn	app/src/main/java/Punches/Recorder.java	/^  private boolean isCountedIn;$/;"	f	class:Recorder	file:
+itl	app/src/main/java/Punches/PunchesFrame.java	/^  private InfiniteTableLayout itl;$/;"	f	class:PunchesFrame	file:
+keepRunning	app/src/main/java/Punches/Metronome.java	/^  private AtomicBoolean keepRunning;$/;"	f	class:Metronome	file:
+keyPressed	app/src/main/java/Punches/PunchesDialog.java	/^  public void keyPressed(KeyEvent e)$/;"	m	class:PunchesDialog
+keyReleased	app/src/main/java/Punches/PunchesDialog.java	/^  public void keyReleased(KeyEvent e)$/;"	m	class:PunchesDialog
+keyTyped	app/src/main/java/Punches/PunchesDialog.java	/^  public void keyTyped(KeyEvent e) { \/* not used *\/ }$/;"	m	class:PunchesDialog
+kfMgr	app/src/main/java/Punches/PunchesDialog.java	/^  KeyboardFocusManager kfMgr =$/;"	f	class:PunchesDialog
+label-for-line-wrapping-toggle	app/build/reports/tests/test/classes/Punches.PartTest.html	/^<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines$/;"	I
+label-for-line-wrapping-toggle	app/build/reports/tests/test/classes/Punches.SongTest.html	/^<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines$/;"	I
+label-for-line-wrapping-toggle	app/build/reports/tests/test/classes/Punches.TimeSignatureTest.html	/^<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines$/;"	I
+label-for-line-wrapping-toggle	app/build/reports/tests/test/index.html	/^<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines$/;"	I
+label-for-line-wrapping-toggle	app/build/reports/tests/test/packages/Punches.html	/^<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines$/;"	I
+label.hidden	app/build/reports/tests/test/css/base-style.css	/^label.hidden {$/;"	c
+layers	app/src/main/java/Punches/Recorder.java	/^  private StringBuilder[] layers;$/;"	f	class:Recorder	file:
+lblName	app/src/main/java/Punches/PartPanel.java	/^  private JLabel lblName;$/;"	f	class:PartPanel	file:
+lengthInBars	app/src/main/java/Punches/Part.java	/^  private int lengthInBars;$/;"	f	class:Part	file:
+line-wrapping-toggle	app/build/reports/tests/test/classes/Punches.PartTest.html	/^<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"\/>$/;"	I
+line-wrapping-toggle	app/build/reports/tests/test/classes/Punches.SongTest.html	/^<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"\/>$/;"	I
+line-wrapping-toggle	app/build/reports/tests/test/classes/Punches.TimeSignatureTest.html	/^<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"\/>$/;"	I
+line-wrapping-toggle	app/build/reports/tests/test/index.html	/^<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"\/>$/;"	I
+line-wrapping-toggle	app/build/reports/tests/test/packages/Punches.html	/^<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"\/>$/;"	I
+listeners	app/src/main/java/Punches/Metronome.java	/^  private List<MetronomeListener> listeners = new ArrayList<>();$/;"	f	class:Metronome	file:
+loadSong	app/src/main/java/Punches/PunchesFrame.java	/^  public void loadSong()$/;"	m	class:PunchesFrame
+loadedSong	app/src/main/java/Punches/SongPanel.java	/^  public Song loadedSong;$/;"	f	class:SongPanel
+loader	app/src/test/java/Punches/PartTest.java	/^  ClassLoader loader = getClass().getClassLoader();$/;"	f	class:PartTest
+logger	app/src/main/java/Punches/App.java	/^  private static final Logger logger = LoggerFactory.getLogger(App.class);$/;"	f	class:App	file:
+logger	app/src/main/java/Punches/Metronome.java	/^  private final Logger logger = LoggerFactory.getLogger(Metronome.class);$/;"	f	class:Metronome	file:
+logger	app/src/main/java/Punches/Part.java	/^  private final Logger logger = LoggerFactory.getLogger(Part.class);$/;"	f	class:Part	file:
+logger	app/src/main/java/Punches/PartNotePane.java	/^  private final Logger logger = LoggerFactory.getLogger(PartNotePane.class);$/;"	f	class:PartNotePane	file:
+logger	app/src/main/java/Punches/PartPanel.java	/^  private final Logger logger = LoggerFactory.getLogger(PartPanel.class);$/;"	f	class:PartPanel	file:
+logger	app/src/main/java/Punches/PartPanelCustomizer.java	/^  private final Logger logger =$/;"	f	class:PartPanelCustomizer	file:
+logger	app/src/main/java/Punches/PunchesDialog.java	/^  private final static Logger logger =$/;"	f	class:PunchesDialog	file:
+logger	app/src/main/java/Punches/PunchesFrame.java	/^  private static final Logger logger =$/;"	f	class:PunchesFrame	file:
+logger	app/src/main/java/Punches/PunchesPDFExporter.java	/^  private static Logger logger =$/;"	f	class:PunchesPDFExporter	file:
+logger	app/src/main/java/Punches/Recorder.java	/^  private final Logger logger = LoggerFactory.getLogger(Recorder.class);$/;"	f	class:Recorder	file:
+logger	app/src/main/java/Punches/Song.java	/^  private final Logger logger = LoggerFactory.getLogger(Song.class);$/;"	f	class:Song	file:
+main	app/src/main/java/Punches/App.java	/^  public static void main(String[] args)$/;"	m	class:App
+mainEnd	app/build/scripts/app.bat	/^:mainEnd$/;"	l
+mainEnd	gradlew.bat	/^:mainEnd$/;"	l
+makeEditable	app/src/main/java/Punches/PartPanelWrapper.java	/^  private void makeEditable()$/;"	m	class:PartPanelWrapper	file:
+metronome	app/src/main/java/Punches/PunchesDialog.java	/^  private Metronome metronome;$/;"	f	class:PunchesDialog	file:
+metronomeEnded	app/src/main/java/Punches/MetronomeListener.java	/^  void metronomeEnded();$/;"	m	interface:MetronomeListener
+metronomeEnded	app/src/main/java/Punches/Recorder.java	/^  public void metronomeEnded()$/;"	m	class:Recorder
+metronomeTicked	app/src/main/java/Punches/MetronomeListener.java	/^  void metronomeTicked();$/;"	m	interface:MetronomeListener
+metronomeTicked	app/src/main/java/Punches/Recorder.java	/^  public void metronomeTicked()$/;"	m	class:Recorder
+musicPanel	app/src/main/java/Punches/PartPanel.java	/^  private JPanel musicPanel;$/;"	f	class:PartPanel	file:
+name	app/src/main/java/Punches/Part.java	/^  private String name;$/;"	f	class:Part	file:
+newPartShouldBeAdded	app/src/test/java/Punches/SongTest.java	/^  void newPartShouldBeAdded()$/;"	m	class:SongTest
+normalBgColor	app/src/main/java/Punches/PunchesDialog.java	/^    private final Color normalBgColor = Color.LIGHT_GRAY;$/;"	f	class:PunchesDialog.VoiceLabel	file:
+normalFgColor	app/src/main/java/Punches/PunchesDialog.java	/^    private final Color normalFgColor = Color.BLACK;$/;"	f	class:PunchesDialog.VoiceLabel	file:
+noteBegin	app/src/main/java/Punches/Recorder.java	/^  private long noteBegin = 0;$/;"	f	class:Recorder	file:
+noteEnd	app/src/main/java/Punches/Recorder.java	/^  private long noteEnd = 0;$/;"	f	class:Recorder	file:
+notePane	app/src/main/java/Punches/PartPanel.java	/^  private PartNotePane notePane;$/;"	f	class:PartPanel	file:
+notes	app/src/main/java/Punches/Part.java	/^  private String notes;$/;"	f	class:Part	file:
+numOfBars	app/src/main/java/Punches/Recorder.java	/^  private final int numOfBars;$/;"	f	class:Recorder	file:
+omega	app/build/scripts/app.bat	/^:omega$/;"	l
+omega	gradlew.bat	/^:omega$/;"	l
+onload	app/build/reports/tests/test/js/report.js	/^    window.onload = function() {$/;"	f	function:window
+org.slf4j.simpleLogger.defaultLogLevel	app/bin/main/simplelogger.properties	/^org.slf4j.simpleLogger.defaultLogLevel=debug$/;"	k
+org.slf4j.simpleLogger.defaultLogLevel	app/build/resources/main/simplelogger.properties	/^org.slf4j.simpleLogger.defaultLogLevel=debug$/;"	k
+org.slf4j.simpleLogger.defaultLogLevel	app/src/main/resources/simplelogger.properties	/^org.slf4j.simpleLogger.defaultLogLevel=debug$/;"	k
+org.slf4j.simpleLogger.showDateTime	app/bin/main/simplelogger.properties	/^org.slf4j.simpleLogger.showDateTime=true$/;"	k
+org.slf4j.simpleLogger.showDateTime	app/build/resources/main/simplelogger.properties	/^org.slf4j.simpleLogger.showDateTime=true$/;"	k
+org.slf4j.simpleLogger.showDateTime	app/src/main/resources/simplelogger.properties	/^org.slf4j.simpleLogger.showDateTime=true$/;"	k
+org.slf4j.simpleLogger.showLogName	app/bin/main/simplelogger.properties	/^org.slf4j.simpleLogger.showLogName=true$/;"	k
+org.slf4j.simpleLogger.showLogName	app/build/resources/main/simplelogger.properties	/^org.slf4j.simpleLogger.showLogName=true$/;"	k
+org.slf4j.simpleLogger.showLogName	app/src/main/resources/simplelogger.properties	/^org.slf4j.simpleLogger.showLogName=true$/;"	k
+org.slf4j.simpleLogger.showThreadName	app/bin/main/simplelogger.properties	/^org.slf4j.simpleLogger.showThreadName=true$/;"	k
+org.slf4j.simpleLogger.showThreadName	app/build/resources/main/simplelogger.properties	/^org.slf4j.simpleLogger.showThreadName=true$/;"	k
+org.slf4j.simpleLogger.showThreadName	app/src/main/resources/simplelogger.properties	/^org.slf4j.simpleLogger.showThreadName=true$/;"	k
+paintComponent	app/src/main/java/Punches/PartPanel.java	/^  protected void paintComponent(Graphics g)$/;"	m	class:PartPanel
+panSong	app/src/main/java/Punches/PunchesFrame.java	/^  private final SongPanel panSong;$/;"	f	class:PunchesFrame	file:
+panel	app/src/main/java/Punches/PartPanelWrapper.java	/^  private PartPanel panel;$/;"	f	class:PartPanelWrapper	file:
+panelGray	app/src/main/java/Punches/PartPanel.java	/^  private Color panelGray =$/;"	f	class:PartPanel	file:
+panelGray	app/src/main/java/Punches/PartPanelWrapper.java	/^  private Color panelGray =$/;"	f	class:PartPanelWrapper	file:
+panelGray	app/src/main/java/Punches/PunchesFrame.java	/^  private Color panelGray =$/;"	f	class:PunchesFrame	file:
+parseCaptures	app/src/main/java/Punches/Recorder.java	/^  private void parseCaptures()$/;"	m	class:Recorder	file:
+part	app/src/main/java/Punches/PartPanel.java	/^  private Part part;$/;"	f	class:PartPanel	file:
+part	app/src/main/java/Punches/PartPanelWrapper.java	/^  private Part part;$/;"	f	class:PartPanelWrapper	file:
+part	app/src/test/java/Punches/PartTest.java	/^  Part part = new Part();$/;"	f	class:PartTest
+partOwner	app/src/main/java/Punches/PunchesDialog.java	/^  private Song partOwner;$/;"	f	class:PunchesDialog	file:
+partPanel	app/src/main/java/Punches/PartPanelCustomizer.java	/^  private PartPanel partPanel;$/;"	f	class:PartPanelCustomizer	file:
+parts	app/src/main/java/Punches/Song.java	/^  private List<Part> parts;$/;"	f	class:Song	file:
+plainText	app/src/main/java/Punches/PartNotePane.java	/^  private String plainText;$/;"	f	class:PartNotePane	file:
+play	app/src/main/java/Punches/PunchesDialog.java	/^  private void play()$/;"	m	class:PunchesDialog	file:
+player	app/src/main/java/Punches/PunchesDialog.java	/^  private Player player;$/;"	f	class:PunchesDialog	file:
+pnlVoices	app/src/main/java/Punches/PunchesDialog.java	/^  private final JPanel pnlVoices;$/;"	f	class:PunchesDialog	file:
+positionDivider	app/src/main/java/Punches/PartPanel.java	/^  public void positionDivider()$/;"	m	class:PartPanel
+prepare	app/src/main/java/Punches/PunchesPDFExporter.java	/^  public void prepare() throws IOException$/;"	m	class:PunchesPDFExporter
+pressed	app/src/main/java/Punches/PunchesDialog.java	/^  private final Set<Character> pressed;$/;"	f	class:PunchesDialog	file:
+prgMetronome	app/src/main/java/Punches/PunchesDialog.java	/^  private static final JProgressBar prgMetronome =$/;"	f	class:PunchesDialog	file:
+processKeys	app/src/main/java/Punches/PunchesDialog.java	/^  private void processKeys()$/;"	m	class:PunchesDialog	file:
+progress	app/src/main/java/Punches/Metronome.java	/^  private int progress;$/;"	f	class:Metronome	file:
+rawHTML	app/src/main/java/Punches/PunchesPDFExporter.java	/^  String rawHTML;$/;"	f	class:PunchesPDFExporter
+readSongFromFile	app/src/main/java/Punches/PunchesFrame.java	/^  private void readSongFromFile(File file) $/;"	m	class:PunchesFrame	file:
+record	app/src/main/java/Punches/PunchesDialog.java	/^  private void record()$/;"	m	class:PunchesDialog	file:
+recorder	app/src/main/java/Punches/PunchesDialog.java	/^  private Recorder recorder;$/;"	f	class:PunchesDialog	file:
+refreshIndices	app/src/main/java/Punches/Song.java	/^  public void refreshIndices()$/;"	m	class:Song
+refreshTable	app/src/main/java/Punches/PunchesFrame.java	/^  private void refreshTable($/;"	m	class:PunchesFrame	file:
+regTone	app/src/main/java/Punches/Metronome.java	/^  private Clip regTone;$/;"	f	class:Metronome	file:
+registerComponentListener	app/src/main/java/Punches/PartPanelCustomizer.java	/^  public void registerComponentListener()$/;"	m	class:PartPanelCustomizer
+registerHit	app/src/main/java/Punches/Recorder.java	/^  public void registerHit(Set<Character> keys)$/;"	m	class:Recorder
+registerPropertyChangeListener	app/src/main/java/Punches/PartPanelCustomizer.java	/^  public void registerPropertyChangeListener()$/;"	m	class:PartPanelCustomizer
+relevantPart	app/src/main/java/Punches/PunchesDialog.java	/^  private Part relevantPart;$/;"	f	class:PunchesDialog	file:
+removeClass	app/build/reports/tests/test/js/report.js	/^    function removeClass(element, classValue) {$/;"	f
+removePart	app/src/main/java/Punches/PunchesFrame.java	/^  public void removePart(int index)$/;"	m	class:PunchesFrame
+renderMarkdown	app/src/main/java/Punches/PartNotePane.java	/^  public void renderMarkdown(String md)$/;"	m	class:PartNotePane
+repositionDividers	app/src/main/java/Punches/PunchesFrame.java	/^  private void repositionDividers(List<Integer> dividerLocations) $/;"	m	class:PunchesFrame	file:
+rhythmKit	app/src/main/java/Punches/Recorder.java	/^  public Map<Character, String> rhythmKit;$/;"	f	class:Recorder
+row	app/src/main/java/Punches/PartPanelCustomizer.java	/^  private int row;$/;"	f	class:PartPanelCustomizer	file:
+rowSpan	app/src/main/java/Punches/PartPanelCustomizer.java	/^  private int rowSpan;$/;"	f	class:PartPanelCustomizer	file:
+run	app/src/main/java/Punches/Metronome.java	/^  public void run()$/;"	m	class:Metronome
+saveSong	app/src/main/java/Punches/PunchesFrame.java	/^  public void saveSong()$/;"	m	class:PunchesFrame
+scroller	app/src/main/java/Punches/PunchesFrame.java	/^  private final JScrollPane scroller;$/;"	f	class:PunchesFrame	file:
+select	app/build/reports/tests/test/js/report.js	/^    function select(i) {$/;"	c
+setBeatsPerBar	app/src/main/java/Punches/TimeSignature.java	/^  public void setBeatsPerBar(int beatsPerBar)$/;"	m	class:TimeSignature
+setBpm	app/src/main/java/Punches/Song.java	/^  public void setBpm(int bpm)$/;"	m	class:Song
+setCellData	app/src/main/java/Punches/PunchesFileHandler.java	/^  public void setCellData(List<CellBounds> cellBounds)$/;"	m	class:PunchesFileHandler
+setDividerLocations	app/src/main/java/Punches/PunchesFileHandler.java	/^  public void setDividerLocations(List<Integer> dividerLocations)$/;"	m	class:PunchesFileHandler
+setIndex	app/src/main/java/Punches/Part.java	/^  public void setIndex(int index)$/;"	m	class:Part
+setLengthInBars	app/src/main/java/Punches/Part.java	/^  public void setLengthInBars(int lengthInBars)$/;"	m	class:Part
+setName	app/src/main/java/Punches/Part.java	/^  public void setName(String name)$/;"	m	class:Part
+setNotes	app/src/main/java/Punches/Part.java	/^  public void setNotes(String notes)$/;"	m	class:Part
+setPart	app/src/main/java/Punches/PartPanel.java	/^  public void setPart(Part part)$/;"	m	class:PartPanel
+setPart	app/src/main/java/Punches/PartPanelWrapper.java	/^  public void setPart(Part part)$/;"	m	class:PartPanelWrapper
+setPartPanel	app/src/main/java/Punches/PartPanelWrapper.java	/^  public void setPartPanel(PartPanel panel)$/;"	m	class:PartPanelWrapper
+setPartPanelCustomizer	app/src/main/java/Punches/PartPanelWrapper.java	/^  public void setPartPanelCustomizer(PartPanelCustomizer customizer)$/;"	m	class:PartPanelWrapper
+setParts	app/src/main/java/Punches/Song.java	/^  public void setParts(List<Part> parts)$/;"	m	class:Song
+setProgressMode	app/src/main/java/Punches/PunchesDialog.java	/^  public static synchronized void setProgressMode(boolean countingIn)$/;"	m	class:PunchesDialog
+setRowSpan	app/src/main/java/Punches/PartPanelCustomizer.java	/^  public void setRowSpan(int rowSpan)$/;"	m	class:PartPanelCustomizer
+setSheetSnippet	app/src/main/java/Punches/Part.java	/^  public void setSheetSnippet(Image sheetSnippet)$/;"	m	class:Part
+setSignature	app/src/main/java/Punches/Song.java	/^  public void setSignature(TimeSignature signature)$/;"	m	class:Song
+setSong	app/src/main/java/Punches/SongPanel.java	/^  public void setSong(Song song)$/;"	m	class:SongPanel
+setSongData	app/src/main/java/Punches/PunchesFileHandler.java	/^  public void setSongData(Song songData)$/;"	m	class:PunchesFileHandler
+setSplitDividerLocation	app/src/main/java/Punches/PartPanel.java	/^  public void setSplitDividerLocation(int dividerLocation)$/;"	m	class:PartPanel
+setStoredHeight	app/src/main/java/Punches/PartPanelCustomizer.java	/^  public void setStoredHeight(int height) $/;"	m	class:PartPanelCustomizer
+setStoredWidth	app/src/main/java/Punches/PartPanelCustomizer.java	/^  public void setStoredWidth(int width) $/;"	m	class:PartPanelCustomizer
+setStoredYPos	app/src/main/java/Punches/PartPanelCustomizer.java	/^  public void setStoredYPos(int yPos) $/;"	m	class:PartPanelCustomizer
+setTabSnippet	app/src/main/java/Punches/Part.java	/^  public void setTabSnippet(String[] tabSnippet)$/;"	m	class:Part
+setTitle	app/src/main/java/Punches/Song.java	/^  public void setTitle(String title)$/;"	m	class:Song
+setValueOfABeat	app/src/main/java/Punches/TimeSignature.java	/^  public void setValueOfABeat(BeatValue valueOfABeat)$/;"	m	class:TimeSignature
+sheetImage	app/src/main/java/Punches/PartPanel.java	/^  protected Image sheetImage;$/;"	f	class:PartPanel
+sheetSnippet	app/src/main/java/Punches/Part.java	/^  private Image sheetSnippet;$/;"	f	class:Part	file:
+showAboutDialog	app/src/main/java/Punches/PunchesFrame.java	/^  private void showAboutDialog()$/;"	m	class:PunchesFrame	file:
+sig	app/src/test/java/Punches/TimeSignatureTest.java	/^  private final TimeSignature sig = new TimeSignature(4, BeatValue.QUARTER);$/;"	f	class:TimeSignatureTest	file:
+signature	app/src/main/java/Punches/Recorder.java	/^  private final TimeSignature signature;$/;"	f	class:Recorder	file:
+signature	app/src/main/java/Punches/Song.java	/^  private TimeSignature signature;$/;"	f	class:Song	file:
+song	app/src/main/java/Punches/PunchesPDFExporter.java	/^  Song song;$/;"	f	class:PunchesPDFExporter
+song	app/src/test/java/Punches/SongTest.java	/^  private final Song song = new Song();$/;"	f	class:SongTest	file:
+songData	app/src/main/java/Punches/PunchesFileHandler.java	/^  private Song songData;$/;"	f	class:PunchesFileHandler	file:
+sound	app/src/main/java/Punches/Metronome.java	/^  public void sound(boolean isAccent) $/;"	m	class:Metronome
+span.code	app/build/reports/tests/test/css/base-style.css	/^span.code {$/;"	c
+span.code pre	app/build/reports/tests/test/css/base-style.css	/^span.code pre {$/;"	s
+span.wrapped pre	app/build/reports/tests/test/css/base-style.css	/^span.wrapped pre {$/;"	s
+split	app/src/main/java/Punches/PartPanel.java	/^  private JSplitPane split;$/;"	f	class:PartPanel	file:
+stop	app/src/main/java/Punches/PunchesDialog.java	/^  private void stop()$/;"	m	class:PunchesDialog	file:
+stopSound	app/src/main/java/Punches/Metronome.java	/^  public void stopSound()$/;"	m	class:Metronome
+storePosition	app/src/main/java/Punches/PartPanelWrapper.java	/^  public void storePosition()$/;"	m	class:PartPanelWrapper
+stringRepresentationShouldBeReturned	app/src/test/java/Punches/TimeSignatureTest.java	/^  void stringRepresentationShouldBeReturned()$/;"	m	class:TimeSignatureTest
+successRate	app/build/reports/tests/test/classes/Punches.PartTest.html	/^<div class="infoBox success" id="successRate">$/;"	I
+successRate	app/build/reports/tests/test/classes/Punches.SongTest.html	/^<div class="infoBox success" id="successRate">$/;"	I
+successRate	app/build/reports/tests/test/classes/Punches.TimeSignatureTest.html	/^<div class="infoBox success" id="successRate">$/;"	I
+successRate	app/build/reports/tests/test/index.html	/^<div class="infoBox success" id="successRate">$/;"	I
+successRate	app/build/reports/tests/test/packages/Punches.html	/^<div class="infoBox success" id="successRate">$/;"	I
+summary	app/build/reports/tests/test/classes/Punches.PartTest.html	/^<div id="summary">$/;"	I
+summary	app/build/reports/tests/test/classes/Punches.SongTest.html	/^<div id="summary">$/;"	I
+summary	app/build/reports/tests/test/classes/Punches.TimeSignatureTest.html	/^<div id="summary">$/;"	I
+summary	app/build/reports/tests/test/index.html	/^<div id="summary">$/;"	I
+summary	app/build/reports/tests/test/packages/Punches.html	/^<div id="summary">$/;"	I
+switchTab	app/build/reports/tests/test/js/report.js	/^    function switchTab() {$/;"	f
+tab0	app/build/reports/tests/test/classes/Punches.PartTest.html	/^<div id="tab0" class="tab">$/;"	I
+tab0	app/build/reports/tests/test/classes/Punches.SongTest.html	/^<div id="tab0" class="tab">$/;"	I
+tab0	app/build/reports/tests/test/classes/Punches.TimeSignatureTest.html	/^<div id="tab0" class="tab">$/;"	I
+tab0	app/build/reports/tests/test/index.html	/^<div id="tab0" class="tab">$/;"	I
+tab0	app/build/reports/tests/test/packages/Punches.html	/^<div id="tab0" class="tab">$/;"	I
+tab1	app/build/reports/tests/test/index.html	/^<div id="tab1" class="tab">$/;"	I
+tabSnippet	app/src/main/java/Punches/Part.java	/^  private String[] tabSnippet;$/;"	f	class:Part	file:
+tabs	app/build/reports/tests/test/classes/Punches.PartTest.html	/^<div id="tabs">$/;"	I
+tabs	app/build/reports/tests/test/classes/Punches.SongTest.html	/^<div id="tabs">$/;"	I
+tabs	app/build/reports/tests/test/classes/Punches.TimeSignatureTest.html	/^<div id="tabs">$/;"	I
+tabs	app/build/reports/tests/test/index.html	/^<div id="tabs">$/;"	I
+tabs	app/build/reports/tests/test/js/report.js	/^    var tabs = {};$/;"	v
+tabs	app/build/reports/tests/test/packages/Punches.html	/^<div id="tabs">$/;"	I
+tempo	app/src/main/java/Punches/Recorder.java	/^  private final int tempo;$/;"	f	class:Recorder	file:
+tests	app/build/reports/tests/test/classes/Punches.PartTest.html	/^<div class="infoBox" id="tests">$/;"	I
+tests	app/build/reports/tests/test/classes/Punches.SongTest.html	/^<div class="infoBox" id="tests">$/;"	I
+tests	app/build/reports/tests/test/classes/Punches.TimeSignatureTest.html	/^<div class="infoBox" id="tests">$/;"	I
+tests	app/build/reports/tests/test/index.html	/^<div class="infoBox" id="tests">$/;"	I
+tests	app/build/reports/tests/test/packages/Punches.html	/^<div class="infoBox" id="tests">$/;"	I
+title	app/src/main/java/Punches/Song.java	/^  private String title;$/;"	f	class:Song	file:
+toString	app/src/main/java/Punches/CellBounds.java	/^  public String toString()$/;"	m	class:CellBounds
+toString	app/src/main/java/Punches/Song.java	/^  public String toString()$/;"	m	class:Song
+toString	app/src/main/java/Punches/TimeSignature.java	/^  public String toString()$/;"	m	class:TimeSignature
+toTab	app/src/main/java/Punches/PunchesDialog.java	/^  private void toTab()$/;"	m	class:PunchesDialog	file:
+toggleLineWrapping	app/build/reports/tests/test/js/report.js	/^    function toggleLineWrapping() {$/;"	f
+totalBeats	app/src/main/java/Punches/Metronome.java	/^  private int totalBeats;$/;"	f	class:Metronome	file:
+txtBeatsPerBar	app/src/main/java/Punches/PunchesFrame.java	/^  private final JTextField txtBeatsPerBar;$/;"	f	class:PunchesFrame	file:
+txtBpm	app/src/main/java/Punches/PunchesFrame.java	/^  private final JTextField txtBpm;$/;"	f	class:PunchesFrame	file:
+txtPartLength	app/src/main/java/Punches/PartPanel.java	/^  private JTextField txtPartLength;$/;"	f	class:PartPanel	file:
+txtPartName	app/src/main/java/Punches/PartPanel.java	/^  private JTextField txtPartName;$/;"	f	class:PartPanel	file:
+txtSongTitle	app/src/main/java/Punches/PunchesFrame.java	/^  private final JTextField txtSongTitle;$/;"	f	class:PunchesFrame	file:
+ul	app/build/reports/tests/test/css/base-style.css	/^ul {$/;"	s
+ul.linkList	app/build/reports/tests/test/css/style.css	/^ul.linkList {$/;"	c
+ul.linkList li	app/build/reports/tests/test/css/style.css	/^ul.linkList li {$/;"	s
+ul.tabLinks	app/build/reports/tests/test/css/base-style.css	/^ul.tabLinks {$/;"	c
+ul.tabLinks a	app/build/reports/tests/test/css/base-style.css	/^ul.tabLinks a {$/;"	s
+ul.tabLinks li	app/build/reports/tests/test/css/base-style.css	/^ul.tabLinks li {$/;"	s
+ul.tabLinks li h2	app/build/reports/tests/test/css/base-style.css	/^ul.tabLinks li h2 {$/;"	s
+ul.tabLinks li.selected	app/build/reports/tests/test/css/base-style.css	/^ul.tabLinks li.selected {$/;"	c
+ul.tabLinks li:hover	app/build/reports/tests/test/css/base-style.css	/^ul.tabLinks li:hover {$/;"	s
+unsavedChanges	app/src/main/java/Punches/PunchesFrame.java	/^  private boolean unsavedChanges;$/;"	f	class:PunchesFrame	file:
+updateIndex	app/src/main/java/Punches/PartPanel.java	/^  public void updateIndex(int index)$/;"	m	class:PartPanel
+updateProgress	app/src/main/java/Punches/PunchesDialog.java	/^  public static synchronized void updateProgress(int progress, int totalBeats)$/;"	m	class:PunchesDialog
+value	app/src/main/java/Punches/BeatValue.java	/^  private double value;$/;"	f	class:BeatValue	file:
+valueOfABeat	app/src/main/java/Punches/TimeSignature.java	/^  private BeatValue valueOfABeat;$/;"	f	class:TimeSignature	file:
+voices	app/src/main/java/Punches/PunchesDialog.java	/^  private final Map<String, VoiceLabel> voices;$/;"	f	class:PunchesDialog	file:
+warn	app/build/scripts/app	/^warn () {$/;"	f
+warn	gradlew	/^warn () {$/;"	f
+width	app/src/main/java/Punches/CellBounds.java	/^  public final int width;$/;"	f	class:CellBounds
+width	app/src/main/java/Punches/PartPanelCustomizer.java	/^  private int width;$/;"	f	class:PartPanelCustomizer	file:
+writeSongToFile	app/src/main/java/Punches/PunchesFrame.java	/^  private void writeSongToFile(File file, PunchesFileHandler handler) $/;"	m	class:PunchesFrame	file:
+writeToPDF	app/src/main/java/Punches/PunchesFrame.java	/^  private void writeToPDF(File pdfFile) $/;"	m	class:PunchesFrame	file:
+x	app/src/main/java/Punches/CellBounds.java	/^  public final int x;$/;"	f	class:CellBounds
+y	app/src/main/java/Punches/CellBounds.java	/^  public final int y;$/;"	f	class:CellBounds
+yPos	app/src/main/java/Punches/PartPanelCustomizer.java	/^  private int yPos;$/;"	f	class:PartPanelCustomizer	file:
+zipStoreBase	gradle/wrapper/gradle-wrapper.properties	/^zipStoreBase=GRADLE_USER_HOME$/;"	k
+zipStorePath	gradle/wrapper/gradle-wrapper.properties	/^zipStorePath=wrapper\/dists$/;"	k

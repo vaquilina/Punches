@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 
 import net.miginfocom.swing.MigLayout;
@@ -15,7 +16,7 @@ import net.miginfocom.swing.MigLayout;
  * A Dialog that displays the project's copyright information and attributions.
  *
  * @author Vince Aquilina
- * @version 04/11/22
+ * @version 04/13/22
  */
 public class AboutDialog extends JDialog
 {
@@ -86,16 +87,18 @@ public class AboutDialog extends JDialog
     });
     getRootPane().setDefaultButton(btnDismiss);
 
-    // lay out components
     add(lblLogo, "center, wrap");
     add(lblCopyright, "center, wrap 20");
     add(lblLibraries, "center, span, wrap 10");
+
+    add(lblJFugue, "center, wrap");
     add(lblAdobe, "center, wrap");
     add(lblLilyPond, "center, wrap");
     add(lblSoftSmithy, "center, wrap");
     add(lblTxtmark, "center, wrap");
     add(lblOpenhtmltopdf, "center, wrap");
     add(lblFamfamfam, "center, wrap 20");
+
     add(btnDismiss, "center, wrap");
 
     pack();
