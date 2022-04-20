@@ -3,13 +3,12 @@ package Punches;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.Image;
-import java.awt.KeyboardFocusManager;
+//import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
+//import java.awt.image.BufferedImage;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -25,6 +24,7 @@ import javax.swing.border.EtchedBorder;
 //import java.io.File;
 //import java.io.IOException;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -38,7 +38,6 @@ import net.miginfocom.swing.MigLayout;
 //import org.jfugue.midi.MidiFileManager;
 import org.jfugue.pattern.Pattern;
 import org.jfugue.player.Player;
-import org.jfugue.rhythm.Rhythm;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,18 +72,12 @@ import org.slf4j.LoggerFactory;
  * <hr />
  *
  * @author Vince Aquilina
- * @version 04/12/22
+ * @version 04/19/22
  */
 public class PunchesDialog extends JDialog implements KeyListener
 {
-  /* TODO: playback ends one 16th too early
-   */
-
   private final static Logger logger =
     LoggerFactory.getLogger(PunchesDialog.class);
-
-  KeyboardFocusManager kfMgr =
-    KeyboardFocusManager.getCurrentKeyboardFocusManager();
 
   /** The Part to which the result will be assigned */
   private Part relevantPart;
@@ -333,7 +326,7 @@ public class PunchesDialog extends JDialog implements KeyListener
    * Generate a tabulature representation of a Rhythm.
    *
    * Tabulature Format
-   *
+   *  -----lines-----
    * 0 - count guide
    * 1 - crash    - CR
    * 2 - ride     - RD
@@ -345,10 +338,13 @@ public class PunchesDialog extends JDialog implements KeyListener
    */
   private void toTab()
   {
-    String[] tabSnippet = new String[8];
+    ArrayList<String> tabSnippet = new ArrayList<String>(8);
+    for (int i = 0; i < 8; i++) {
+      tabSnippet.add("");
+    }
     StringBuilder[] layers = recorder.getLayerBuilders();
 
-    // HACK ------------------------------
+    // HACK --FIXME-----------------------
     // where is the extra beat coming from?
     for (StringBuilder line : layers) {
       line.delete(line.length() - 4, line.length());
@@ -367,8 +363,8 @@ public class PunchesDialog extends JDialog implements KeyListener
         countGuide.append(" ");
       }
     }
-    countGuide.insert(0, "## ");
-    tabSnippet[0] = countGuide.toString();
+    countGuide.insert(0, "### ");
+    tabSnippet.set(0, countGuide.toString());
 
     /* bar lines */
 
@@ -444,13 +440,13 @@ public class PunchesDialog extends JDialog implements KeyListener
     // already uses correct symbol
 
     /* finalize strings */
-    tabSnippet[1] = layers[3].toString(); // crash
-    tabSnippet[2] = layers[4].toString(); // ride
-    tabSnippet[3] = layers[2].toString(); // hihat
-    tabSnippet[4] = layers[5].toString(); // racktom
-    tabSnippet[5] = layers[1].toString(); // snare
-    tabSnippet[6] = layers[6].toString(); // floortom
-    tabSnippet[7] = layers[0].toString(); // kick
+    tabSnippet.set(1, layers[3].toString()); // crash
+    tabSnippet.set(2, layers[4].toString()); // ride
+    tabSnippet.set(3, layers[2].toString()); // hihat
+    tabSnippet.set(4, layers[5].toString()); // racktom
+    tabSnippet.set(5, layers[1].toString()); // snare
+    tabSnippet.set(6, layers[6].toString()); // floortom
+    tabSnippet.set(7, layers[0].toString()); // kick
 
     // DEBUG
     logger.info("Generated tab snippet");
@@ -475,8 +471,9 @@ public class PunchesDialog extends JDialog implements KeyListener
   private void play()
   {
     Pattern pattern = recorder.getModifiedPattern();
-
-    //// DEBUG
+  /* FIXME: playback ends one 16th too early
+   */
+    //// DEBUG {{{
     //try {
     //  File midiFile = new File("/home/vince/punches_output.mid");
     //  if (! midiFile.exists()) {
@@ -486,7 +483,7 @@ public class PunchesDialog extends JDialog implements KeyListener
     //} catch (IOException ex) {
     //  logger.error(ex.getMessage());
     //  ex.printStackTrace();
-    //}
+    //} }}}
     logger.debug(pattern.toString());
 
     Timer timer = new Timer();
@@ -585,6 +582,7 @@ public class PunchesDialog extends JDialog implements KeyListener
   // KeyListener Methods //
   /////////////////////////
 
+  /** Key characters that are mapped to a voice */
   private final String VALID_CHARS = "crhtsf CRHTSF";
 
   @Override

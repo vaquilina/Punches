@@ -21,7 +21,7 @@ public enum BeatValue
   THIRTY_SECOND(0.03125),
   /** Sixty-fourth note */
   SIXTY_FOURTH(0.015625),
-  /** One-twenty-eighth */
+  /** One-twenty-eighth note */
   ONE_TWENTY_EIGHTH(0.0078125);
 
   /** The numeric beat value */

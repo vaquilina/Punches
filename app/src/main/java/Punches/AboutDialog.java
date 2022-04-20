@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 
 import net.miginfocom.swing.MigLayout;
@@ -16,7 +15,7 @@ import net.miginfocom.swing.MigLayout;
  * A Dialog that displays the project's copyright information and attributions.
  *
  * @author Vince Aquilina
- * @version 04/13/22
+ * @version 04/19/22
  */
 public class AboutDialog extends JDialog
 {
@@ -26,11 +25,14 @@ public class AboutDialog extends JDialog
    * TODO: add donate button
    */
 
+  /** logo colour */
   private final Color PUNCHES_RED = new Color(0x710028);
+  /** copyright character */
   private final String COPYRIGHT = Character.toString(169);
 
   /**
    * Construct an AboutDialog
+   * @param owner parent JFrame
    */
   public AboutDialog(Frame owner)
   {
@@ -62,7 +64,7 @@ public class AboutDialog extends JDialog
         "LilyPond " + COPYRIGHT + " lilypond.org");
 
     final JLabel lblJFugue = new JLabel(
-        "JFugue " + COPYRIGHT + " www.jfugue.org");
+        "JFugue " + COPYRIGHT + " David Koelle");
 
     final JLabel lblSoftSmithy = new JLabel(
         "SoftSmithy Utility Library " + COPYRIGHT + " Florian Brunner");
@@ -75,7 +77,7 @@ public class AboutDialog extends JDialog
         "openhtmltopdf " + COPYRIGHT + " Dan Fickle");
 
     final JLabel lblFamfamfam = new JLabel(
-        "Silk Icons " + COPYRIGHT + " famfamfam.com");
+        "Silk Icons " + COPYRIGHT + " Mark James (famfamfam.com)");
 
     // dismiss button
     final JButton btnDismiss = new JButton("Dismiss");

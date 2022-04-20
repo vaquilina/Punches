@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
  * Encapsulates the outline of a song, made up of Parts and metadata.
  *
  * @author Vince Aquilina
- * @version 04/11/22
+ * @version 04/19/22
  */
 public class Song implements Serializable
 {
@@ -76,6 +76,7 @@ public class Song implements Serializable
 
   /**
    * Clears the list of Parts
+   */
   public void clearParts()
   {
     parts.clear();

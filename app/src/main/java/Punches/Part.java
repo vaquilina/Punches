@@ -4,13 +4,15 @@ import java.awt.Image;
 
 import java.io.Serializable;
 
+import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 /**
  * Encapsulates information about sections of a Song.
  *
  * @author Vince Aquilina
- * @version 04/11/22
+ * @version 04/19/22
  */
 public class Part implements Serializable
 {
@@ -26,7 +28,7 @@ public class Part implements Serializable
   private int lengthInBars;
 
   /** Tabulature snippet (line-wise) */
-  private String[] tabSnippet;
+  private ArrayList<String> tabSnippet;
   /** Sheet music snippet */
   private Image sheetSnippet;
 
@@ -36,6 +38,19 @@ public class Part implements Serializable
   public Part()
   {
     this("intro", 4, "");
+  }
+
+  /**
+   * Copy Constructor
+   * @param part the Part object to copy
+   */
+  public Part(Part part) 
+  {
+    this.name = part.name;
+    this.lengthInBars = part.lengthInBars;
+    this.notes = part.notes;
+    this.tabSnippet = part.tabSnippet;
+    this.sheetSnippet = part.sheetSnippet;
   }
 
   /**
@@ -49,8 +64,8 @@ public class Part implements Serializable
     this.name = name;
     this.lengthInBars = lengthInBars;
     this.notes = notes;
-    sheetSnippet = null;
-    tabSnippet = null;
+    this.tabSnippet = new ArrayList<>();
+    this.sheetSnippet = null;
   }
 
   /**
@@ -65,8 +80,8 @@ public class Part implements Serializable
     this.name = name;
     this.lengthInBars = lengthInBars;
     this.notes = notes;
+    this.tabSnippet = new ArrayList<>();
     this.sheetSnippet = sheetSnippet;
-    tabSnippet = null;
   }
 
   /**
@@ -76,13 +91,14 @@ public class Part implements Serializable
    * @param notes sidenotes about the part
    * @param tabSnippet the tabulature snippet
    */
-  public Part(String name, int lengthInBars, String notes, String[] tabSnippet)
+  public Part(String name, int lengthInBars, String notes,
+      ArrayList<String> tabSnippet)
   {
     this.name = name;
     this.lengthInBars = lengthInBars;
     this.notes = notes;
     this.tabSnippet = tabSnippet;
-    sheetSnippet = null;
+    this.sheetSnippet = null;
   }
 
   /**
@@ -94,7 +110,7 @@ public class Part implements Serializable
    * @param sheetSnippet the sheet music snippet
    */
   public Part(String name, int lengthInBars, String notes,
-      String[] tabSnippet, Image sheetSnippet)
+      ArrayList<String>  tabSnippet, Image sheetSnippet)
   {
     this.name = name;
     this.lengthInBars = lengthInBars;
@@ -143,7 +159,7 @@ public class Part implements Serializable
    * Set the tabulature snippet
    * @param tabSnippet the tabulature snippet
    */
-  public void setTabSnippet(String[] tabSnippet)
+  public void setTabSnippet(ArrayList<String> tabSnippet)
   {
     this.tabSnippet = tabSnippet;
   }
@@ -197,7 +213,7 @@ public class Part implements Serializable
    * Get the tabulature snippet
    * @return the tabulature snippet
    */
-  public String[] getTabSnippet()
+  public ArrayList<String> getTabSnippet()
   {
     return tabSnippet;
   }
@@ -209,6 +225,23 @@ public class Part implements Serializable
   public int getIndex()
   {
     return index;
+  }
+
+  /**
+   * Get a string representation of the Part
+   * @return a string representation of the part
+   */
+  @Override
+  public String toString()
+  {
+    String partString = "Index:\t"  + index                   + "\n" +
+                        "Name:\t"   + name                    + "\n" +
+                        "Length:\t" + lengthInBars            + "\n" +
+                        "Notes?:\t" + (notes != null)         + "\n" +
+                        "Tab?:\t"   + (tabSnippet.size() > 0) + "\n" +
+                        "Sheet?:\t" + (sheetSnippet != null);
+
+    return partString;
   }
 }
 

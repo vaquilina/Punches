@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
  * Allows for exporting of Punches data in PDF format.
  *
  * @author Vince Aquilina
- * @version 04/11/22
+ * @version 04/19/22
  */
 public class PunchesPDFExporter
 {
@@ -47,27 +47,27 @@ public class PunchesPDFExporter
    */
   public void prepare() throws IOException
   {
-	
-	String outlinePath = PunchesPDFExporter.class.
-            getResource("/templates/outline.html").
-			getPath();
-			
-	String rowOutlinePath = PunchesPDFExporter.class.
-		    getResource("/templates/row.html").
-			getPath();
-	
-	// remove leading slash from Windows paths
-	logger.debug("OS: " + System.getProperty("os.name"));
-	if (System.getProperty("os.name").
-	                    toLowerCase().
-						contains("win")) {
-		outlinePath = outlinePath.substring(1);
-		rowOutlinePath = rowOutlinePath.substring(1);
-	}
-	
-	logger.debug("outline path: " + outlinePath);
-	logger.debug("row path: " + rowOutlinePath);
-	  
+
+    String outlinePath = PunchesPDFExporter.class.
+      getResource("/templates/outline.html").
+      getPath();
+
+    String rowOutlinePath = PunchesPDFExporter.class.
+      getResource("/templates/row.html").
+      getPath();
+
+    // remove leading slash from Windows paths
+    logger.debug("OS: " + System.getProperty("os.name"));
+    if (System.getProperty("os.name").
+        toLowerCase().
+        contains("win")) {
+      outlinePath = outlinePath.substring(1);
+      rowOutlinePath = rowOutlinePath.substring(1);
+        }
+
+    logger.debug("outline path: " + outlinePath);
+    logger.debug("row path: " + rowOutlinePath);
+
     String outline = Files.readString(Paths.get(outlinePath));
 
     String rowOutline = Files.readString(Paths.get(rowOutlinePath));
@@ -93,9 +93,7 @@ public class PunchesPDFExporter
 
       StringBuilder sbTabSnippet = new StringBuilder("");
       if (part.getTabSnippet() != null) {
-        String[] tabSnippetLines = part.getTabSnippet();
-
-        for (String line : tabSnippetLines) {
+        for (String line : part.getTabSnippet()) {
           sbTabSnippet.append(line + "\n");
         }
       }
@@ -115,7 +113,6 @@ public class PunchesPDFExporter
     }
     String parts = new String(sbParts);
     rawHTML = outline.replace("$parts", parts);
-
   }
 
   /**
@@ -128,25 +125,28 @@ public class PunchesPDFExporter
    */
   public void exportPDF(File file) throws IOException, HTMLNotRenderedException,
          Exception
-  {
-    if (rawHTML == null) {
-      throw new HTMLNotRenderedException("must call prepare() first");
-    }
+         {
+           if (rawHTML == null) {
+             throw new HTMLNotRenderedException("must call prepare() first");
+           }
 
-    try (OutputStream os = new FileOutputStream(file)) {
-      PdfRendererBuilder builder = new PdfRendererBuilder();
-      builder.useFastMode();
-      builder.withHtmlContent(rawHTML, file.getPath());
-      builder.toStream(os);
-      builder.run();
-    }
-  }
+           try (OutputStream os = new FileOutputStream(file)) {
+             PdfRendererBuilder builder = new PdfRendererBuilder();
+             builder.useFastMode();
+             builder.withHtmlContent(rawHTML, file.getPath());
+             builder.toStream(os);
+             builder.run();
+           }
+         }
 
   /**
    * Custom Exception indicating the underlying HTML has not been prepared.
    */
   public class HTMLNotRenderedException extends Exception
   {
+    /** Construct an HTMLNotRenderedException
+     * @param errorMessage the error message
+     */
     public HTMLNotRenderedException(String errorMessage) {
       super(errorMessage);
     }

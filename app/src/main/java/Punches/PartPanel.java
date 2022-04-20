@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
  * A Part component that represents a cell in the Song.
  *
  * @author Vince Aquilina
- * @version 04/12/22
+ * @version 04/19/22
  */
 public class PartPanel extends JPanel
 {
@@ -68,7 +68,8 @@ public class PartPanel extends JPanel
   /** The Punches button */
   private JButton btnPunches;
 
-  private Color panelGray =
+  /** The default background color for panel components, per L&amp;F */
+  private Color defaultBgColor =
     UIManager.getLookAndFeelDefaults().getColor("Panel.background");
 
   /**
@@ -84,12 +85,12 @@ public class PartPanel extends JPanel
 
     /* Panel properties */
     setLayout(new MigLayout("Insets 5, fill"));
-    setBackground(panelGray);
+    setBackground(defaultBgColor);
     setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
 
     /* musicPanel -- left section of split pane */
     musicPanel = new JPanel(new MigLayout("Insets 0"));
-    musicPanel.setBackground(panelGray);
+    musicPanel.setBackground(defaultBgColor);
 
     /* notePane -- right section of split pane */
     notePane = new PartNotePane();
@@ -107,7 +108,7 @@ public class PartPanel extends JPanel
 
     /* Fields section */
     fieldsPanel = new JPanel(new MigLayout("Insets 0"));
-    fieldsPanel.setBackground(panelGray);
+    fieldsPanel.setBackground(defaultBgColor);
     fieldsPanel.setBorder(BorderFactory.createTitledBorder(
           new EtchedBorder(EtchedBorder.LOWERED), "Fields"));
 
@@ -204,7 +205,8 @@ public class PartPanel extends JPanel
         JSplitPane.HORIZONTAL_SPLIT, musicPanel, notePane);
     split.setBorder(BorderFactory.createTitledBorder(
           new EtchedBorder(EtchedBorder.LOWERED), "Notes"));
-    split.setBackground(panelGray);
+    split.setBackground(defaultBgColor);
+    split.setContinuousLayout(true);
 
     // if user re-positions divider, remember new location
     split.addPropertyChangeListener(new PropertyChangeListener() {
@@ -241,6 +243,15 @@ public class PartPanel extends JPanel
   public Integer getSplitDividerLocation()
   {
     return dividerLocation;
+  }
+
+  /**
+   * Get the panel's split pane
+   * @return the panel's split pane
+   */
+  public JSplitPane getSplitPane()
+  {
+    return split;
   }
 
   /**

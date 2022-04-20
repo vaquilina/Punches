@@ -56,7 +56,7 @@ import org.slf4j.LoggerFactory;
  * Punches Desktop GUI.
  *
  * @author Vince Aquilina
- * @version 04/11/22
+ * @version 04/19/22
  *
  * <b>Icons: </b>
  * <a href="https://www.famfamfam.com/lab/icons/silk">famfamfam</a>
@@ -105,13 +105,8 @@ public class PunchesFrame extends JFrame implements ComponentListener
   /** The column in which the panel will be drawn */
   public static final int COLUMN = 0;
 
-  // Colors
-  private Color panelGray =
-    UIManager.getLookAndFeelDefaults().getColor("Panel.background");
-  private Color apricot = new Color(0xFFCCB3);
-
   /**
-   * Construct the main content pane
+   * Construct the main JFrame
    * @param title the window title
    */
   public PunchesFrame(String title)
@@ -646,8 +641,9 @@ public class PunchesFrame extends JFrame implements ComponentListener
    */
   private void addPunchesToPart(PartPanelWrapper cell)
   {
-    // tabulature snippet
-    if (cell.getPart().getTabSnippet() != null) {
+    /* tabulature snippet */
+    if (cell.getPart().getTabSnippet() != null &&
+        cell.getPart().getTabSnippet().size() > 0) {
       StringBuilder tabText = new StringBuilder("<html>");
       for (String line : cell.getPart().getTabSnippet()) {
         tabText.append(line + "<br />");
@@ -655,19 +651,31 @@ public class PunchesFrame extends JFrame implements ComponentListener
       tabText.append("</html>");
 
       JLabel tabSnippet = new JLabel();
-      tabSnippet.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 10));
+      Font tabFont = new Font(Font.MONOSPACED, Font.PLAIN, 11);
+      tabSnippet.setFont(tabFont);
       tabSnippet.setText(tabText.toString());
 
-      cell.getPartPanel().getMusicPanel().removeAll();
-      cell.getPartPanel().getMusicPanel().add(tabSnippet);
+      JPanel musicPanel = cell.getPartPanel().getMusicPanel();
 
-      panSong.revalidate();
-      panSong.repaint();
-      // TODO tab does not appear to be assigned when not on first part!?
+      musicPanel.removeAll();
+
+      int textWidth = musicPanel.getFontMetrics(tabFont).stringWidth(
+                              cell.getPart().getTabSnippet().get(1));
+      int offset = 2;
+      musicPanel.add(tabSnippet);
+      logger.debug("added cell to part: {}", cell.getPart().getName());
+
+      musicPanel.setMinimumSize(
+          new Dimension(textWidth + offset, musicPanel.getHeight()));
+      cell.getPartPanel().getSplitPane().resetToPreferredSizes();
+
+      panSong.updateUI();
+      // FIXME tab does not appear to be assigned when not on first part!?
     }
-
-    // sheet music snippet
-    // TODO
+    /* sheet music snippet */
+    if (cell.getPart().getSheetSnippet() != null) {
+      // TODO
+    }
   }
 
   /**
@@ -709,11 +717,16 @@ public class PunchesFrame extends JFrame implements ComponentListener
     ListIterator<Part> itParts = panSong.getSong().getParts().listIterator();
     ListIterator<CellBounds> itBounds = bounds.listIterator();
 
-	JFrame parent = this;
+    JFrame parent = this;
     int i = 0;
     while (itParts.hasNext()) {
 
       Part part = itParts.next(); 
+
+      // DEBUG {{{
+      logger.debug("loading in part:\n{}", part.toString()); 
+      // }}}
+
       PartPanelWrapper cell = new PartPanelWrapper(part);
       cell.getPartPanel().getDeleteButton().
         addActionListener(new ActionListener() {
@@ -722,14 +735,15 @@ public class PunchesFrame extends JFrame implements ComponentListener
             removePart(cell.getPart().getIndex());
           }
         });
-		
-	  cell.getPartPanel().getPunchesButton().
+
+      cell.getPartPanel().getPunchesButton().
       addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
           PunchesDialog punchesDialog =
             new PunchesDialog(parent, song, cell.getPart());
           punchesDialog.setVisible(true);
+          addPunchesToPart(cell);
         }
       });
 
@@ -740,12 +754,11 @@ public class PunchesFrame extends JFrame implements ComponentListener
       cells.add(cell);
       cell.getPartPanel().updateIndex(cell.getPart().getIndex());
 
-      //cell.getPartPanelCustomizer().reshapeRel(
-      //    cellBounds.x, cellBounds.y, cellBounds.width, cellBounds.height);
-
       PartPanelCustomizer customizer = cell.getPartPanelCustomizer();
       customizer.registerComponentListener();
       customizer.registerPropertyChangeListener();
+
+      addPunchesToPart(cell);
 
       RelativeTableConstraints constraints = 
         new RelativeTableConstraints(customizer, itl);
@@ -858,12 +871,11 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
   /**
    * Check for unsaved changes
-   * TODO implement function
    * @return TRUE if there are unsaved changes; otherwise FALSE
    */
   private boolean hasUnsavedChanges()
   {
-    // TODO compare data
+    // FIXME compare data
     if (unsavedChanges) {
       return true;
     }
@@ -873,7 +885,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
   }
 
   /**
-   * Write Song to selected file
+   * Write Song to selected file on disk
    * @param file the file to write to
    * @param handler the PunchesFileHandler object
    */
@@ -896,7 +908,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
   }
 
   /**
-   * Read Song from File
+   * Read Song from Punches file
    * @param file the file to read from
    */
   private void readSongFromFile(File file) 
@@ -925,7 +937,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
   }
 
   /**
-   * Write Song to PDF file
+   * Write Song data to PDF file
    * @param pdfFile the file to write to
    */
   private void writeToPDF(File pdfFile) 
@@ -972,7 +984,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
   ////////////////////
 
   /**
-   * Create a new Song
+   * Create a new default Song
    */
   public void createSong()
   {
@@ -995,7 +1007,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
   }
 
   /**
-   * Load a Song from a file
+   * Choose a Punches file to load
    */
   public void loadSong()
   {
@@ -1021,7 +1033,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
   }
 
   /**
-   * Save the current Song to a file
+   * Capture Song/layout data to save to file
    */
   public void saveSong()
   {
@@ -1079,7 +1091,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
   }
 
   /**
-   * Export the song as a PDF
+   * Select file in which to export pdf data
    */
   public void exportSong()
   {
@@ -1102,7 +1114,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
   }
 
   /**
-   * Add a new Part to the Song
+   * Add a new default Part to the Song
    */
   public void addPart()
   {
@@ -1129,6 +1141,7 @@ public class PunchesFrame extends JFrame implements ComponentListener
           PunchesDialog punchesDialog =
             new PunchesDialog(parent, song, cell.getPart());
           punchesDialog.setVisible(true);
+          addPunchesToPart(cell);
         }
       });
 
@@ -1142,7 +1155,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
     // calculate row to add cell to
     int row = 0;
-
     int y = 0;
     if (cells.size() > 1) {
       PartPanelCustomizer prevCell =
@@ -1189,7 +1201,6 @@ public class PunchesFrame extends JFrame implements ComponentListener
 
     song.refreshIndices();
 
-
     ListIterator<PartPanelWrapper> itCells = cells.listIterator();
     while (itCells.hasNext()) {
       PartPanelWrapper cell = itCells.next();
@@ -1219,14 +1230,10 @@ public class PunchesFrame extends JFrame implements ComponentListener
   public void componentMoved(ComponentEvent e)  {};
 
   /**
-   * Dynamically resizes Part cells when frame is resized
-   * @param e the resize event
-   */
-  @Override
-  /**
    * Fire a ComponentEvent when the frame is resized
    * @param e - the ComponentEvent
    */
+  @Override
   public  void componentResized(ComponentEvent e) {
     //DEBUG {{{
     logger.debug("!! frame resize event"); 
