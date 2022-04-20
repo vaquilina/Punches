@@ -12,6 +12,8 @@ Songs are assigned basic attributes (title, time signature, tempo) and broken up
 
 The intended purpose of the sheet/tab snippet is to provide a snapshot of the "essence" of the part. This could be the groove played during that part, or perhaps the "punches" in the section.
 
+![Screenshot](screenshot.png)
+
 ## Features
 
 - Import/export Song from file (`.pnc`)
